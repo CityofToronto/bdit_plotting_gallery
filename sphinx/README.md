@@ -8,17 +8,18 @@ Sphinx is a python module that autogenerates python documentation for a python p
 
 ## Installation and Setup
 
-1. Install Sphinx with `pip install sphinx`
+0. Make directory `sphinx` in the root folder (`bdit_plotting_gallery/`)
+1. Install Sphinx with `pip install sphinx` *update: this is now done, no need to re-do*
 2. Run `sphinx-quickstart` on the command line on your root folder. 
 3. Sphinx will give you a bunch of options to setup in the `conf.py` folder. For the most part, the default options will be fine, however you should select the following options, which are different from the default options.
 
 Select `y` to different directory for source and build. This is not as essential as the next options, but it will declutter your project directory.
 
-Select `y` to automatically insert docstring from module.
+Select `y` to automatically insert docstring from module. *update: this note no longer appears*
 
-Select `y` to including links to the source code.
+Select `y` to including links to the source code. *update: this note no longer appears*
 
-Select `n` to creating windows command file only if you're working on linux instead of windows. 
+Select `n` to creating windows command file only if you're working on linux instead of windows.  *update: this note no longer appears*
 
 
 4. Change the settings in `conf.py` file. 
@@ -99,7 +100,8 @@ sphinx_gallery_conf = {
 }
 ```
 
-Create a folder named `examples` in your project directory (i.e. same name as specified in `example_dirs` in `conf.py`), and fill it with python files that generate your examples. In this case, the project directory is `charts/sphinx`. Each python file must start with `plot_xxxxxx.py`.
+Create a folder named `examples` (i.e. same name as specified in `example_dirs` in `conf.py`) in your project directory.
+If you opted for separate directories for source and build in the `conf.py` setup, then create the `examples/` folder in `source/`. Add to `examples/` the python files that generate your examples. **NB**: Each python file must start with `plot_xxxxxx.py`.
 
 To create cells in the downloadable jupyter notebook, or create breaks in the code for the html page, you'll need to format a comment like this
 
@@ -121,7 +123,7 @@ Below is a gallery of example charts for each charting function in rick.charts.
 ```
 
 ### Graph Gallery - Sub-galleries
-You might want to organize the Gallery into sub-sections. In this case, we want to group examples of the same type of chart into its own sub-gallery. To do this, go to the `charts/sphinx/examples` directory, and make a new sub-directory for each sub-gallery you want to have. Here, we have made the directories `bar`, `grouped_bar`, `line` and `map`. Inside each sub-directory, move the python file pertaining to that chart type. For example, in `line/`, we have two types of line charts: `plot_line_rick.py` and `plot_tow_line_rick.py`. These are both from the RICK module.
+You might want to organize the Gallery into sub-sections. In this case, we want to group examples of the same type of chart into its own sub-gallery. To do this, go to the `charts/sphinx/source/examples` directory, and make a new sub-directory for each sub-gallery you want to have. Here, we have made the directories `bar`, `grouped_bar`, `line` and `map`. Inside each sub-directory, move the python file pertaining to that chart type. For example, in `line/`, we have two types of line charts: `plot_line_rick.py` and `plot_tow_line_rick.py`. These are both from the RICK module.
 
 **Important**: There must be a README.txt in **each sub-directory** otherwise `make html` will fail. You can format the README title to be html class `h2` so that they will be displayed as sub-headings of the main Gallery page. For example, the README.txt file in the `line` directory starts like:
 
@@ -134,11 +136,11 @@ Below is a gallery of line charts.
 
 ``` 
 
-An observation: I noticed that the `auto_examples` directory in `bdit_python_utilities/charts/sphinx` that is automatically generated from the `examples` directory will not update perfectly when changes are made in `examples`, like moving files into sub-directories. Just check the `auto_examples` folder manually after any structural changes in the `examples` folder to make sure it is correct. 
+An observation: I noticed that the `auto_examples` directory in `bdit_python_utilities/charts/sphinx/source/` that is automatically generated from the `examples` directory will not update perfectly when changes are made in `examples`, like moving files into sub-directories. Just check the `auto_examples` folder manually after any structural changes in the `examples` folder to make sure it is correct. 
 
 ## Formatting the `rst` File
 
-Sphinx will be looking at the autocreated `index.rst` file (in `bdit_python_utilities/charts/sphinx`) when you're building the html. This file also serves as the homepage for your documentation.
+Sphinx will be looking at the autocreated `index.rst` file (in `bdit_python_utilities/charts/sphinx/source`) when you're building the html. This file also serves as the homepage for your documentation.
 
 You can change the title and body of the file to add more information, and add a link to your autogenerated documentation/graph gallery by including your directory in the file as so:
 
@@ -168,7 +170,9 @@ Indices and tables
 
 ## Building the Code
 
-Make sure your build folder is clean, by navigating to your directory where your sphinx documents are, and then running `make clean` on the command line. You can skip this step if you manually deleted everything, or if this is your first time building the html.
+The code is built from the directory where `Makefile` is. In this case, `bdit_plotting_gallery/sphinx`.  
+
+Make sure your build folder is clean by running `make clean` on the command line. You can skip this step if you manually deleted everything, or if this is your first time building the html.
 
 Then, run `make html`.
 

@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'BDITTO Gallery'
+project = 'BDITTO Chart Gallery'
 copyright = '2021, Rick Liu + BDITTO'
 author = 'Rick Liu + BDITTO'
 

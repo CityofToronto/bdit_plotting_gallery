@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to BDITTO Gallery's documentation!
-==========================================
+The BDITTO Chart Gallery
+========================
 
 .. toctree::
    :maxdepth: 2
