@@ -6,14 +6,14 @@ If you said yes to any of the above, this Gallery is for you!
 
 This repo contains a collection of reusable chart functions that strive to conform to standardized formats and designs based on output the BDITTO team has already created for various projects.  
 
-The gallery collection includes:  
-- a built-in module called Repeatable Information Charts Kit (RICK) that already contains many chart types for use out-of-the-box. Some customization is possible. The source code for all charts is found in `rick.py`.   
+The Gallery collection includes:  
+- a built-in module called Repeatable Information Charts Kit (RICK) that already contains many chart types for use out-of-the-box. Some customization is possible. The source code for all RICK charts is found in `rick.py`.   
 - stand-alone examples beyond the scope of RICK  with source code up-front to allow easy customization as you desire
 
 All charts were developed with proper python documentation to allow the documentation for each chart to be auto-generated using [sphinx](http://www.sphinx-doc.org/en/master/).
 
 ## Contribute to the Gallery
-This is a work in progress and we need YOU to add to the collective knowledge. Please go to the README in the `sphinx` directory for a step-by-step guide to adding your own example to the Gallery.
+This is a work in progress and we need YOU to add to the collective knowledge! Please go to the README in the `sphinx` directory for a step-by-step guide to adding your own example to the Gallery.
 
 ## Browse the Gallery
 Please visit this page (TBD!) to browse the Gallery and associated (auto-generated) documentation. There you can also download the scripts and example notebooks for your own use.
