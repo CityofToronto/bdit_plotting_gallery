@@ -57,6 +57,144 @@ Below is a gallery of bar charts.
 
 
 
+.. _sphx_glr_auto_examples_grouped_bar:
+
+******************
+Grouped Bar Charts
+******************
+
+Below is a gallery of grouped bar charts. 
+
+- RICK Grouped Bar Chart: derives from the RICK package with source code in `rick.py`.
+- activeTO Grouped Bar Chart:  developed for activeTO with source code inside the example. 
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Example of a horizontal grouped bar chart. ">
+
+.. only:: html
+
+ .. figure:: /auto_examples/grouped_bar/images/thumb/sphx_glr_plot_grouped_bar_rick_thumb.png
+     :alt: RICK Grouped Bar Chart
+
+     :ref:`sphx_glr_auto_examples_grouped_bar_plot_grouped_bar_rick.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/grouped_bar/plot_grouped_bar_rick
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+
+
+
+.. _sphx_glr_auto_examples_line:
+
+***********
+Line Charts
+***********
+
+Below is a gallery of line charts. 
+
+- RICK Line Chart: derives from the RICK package with source code in `rick.py`.
+- RICK Time-of-Week Line Chart: derives from the RICK package with source code in `rick.py`.
+- activeTO Line Chart: developed for activeTO with source code inside the example. 
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Example time-of-week line chart. ">
+
+.. only:: html
+
+ .. figure:: /auto_examples/line/images/thumb/sphx_glr_plot_tow_line_rick_thumb.png
+     :alt: RICK Time-of-Week Line Chart
+
+     :ref:`sphx_glr_auto_examples_line_plot_tow_line_rick.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/line/plot_tow_line_rick
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Example line chart from the RICK package, with an additional baseline plot and custom formatted...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/line/images/thumb/sphx_glr_plot_line_rick_thumb.png
+     :alt: RICK Line Chart
+
+     :ref:`sphx_glr_auto_examples_line_plot_line_rick.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/line/plot_line_rick
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+
+
+
+.. _sphx_glr_auto_examples_map:
+
+****
+Maps
+****
+
+Below is a gallery of various types of maps. 
+
+- RICK Choropleth Map: derives from the RICK package with source code in `rick.py`.
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Example chloropleth map. ">
+
+.. only:: html
+
+ .. figure:: /auto_examples/map/images/thumb/sphx_glr_plot_choropleth_rick_thumb.png
+     :alt: RICK Choropleth Map
+
+     :ref:`sphx_glr_auto_examples_map_plot_choropleth_rick.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/map/plot_choropleth_rick
+.. raw:: html
+
+    <div class="sphx-glr-clear"></div>
+
+
+
 .. only :: html
 
  .. container:: sphx-glr-footer
