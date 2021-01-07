@@ -133,27 +133,6 @@ Below is a gallery of line charts.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Examples of multi-line charts using multi_linechart(). The number  of lines to be plotted is au...">
-
-.. only:: html
-
- .. figure:: /auto_examples/line/images/thumb/sphx_glr_plot_multiline_thumb.png
-     :alt: Multi-Line Chart
-
-     :ref:`sphx_glr_auto_examples_line_plot_multiline.py`
-
-.. raw:: html
-
-    </div>
-
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/line/plot_multiline
-
-.. raw:: html
-
     <div class="sphx-glr-thumbcontainer" tooltip="Example line chart from the RICK package, with an additional baseline plot and custom formatted...">
 
 .. only:: html
