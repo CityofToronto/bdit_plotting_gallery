@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auto Generated Documentation &#8212; BDITTO Chart Gallery &#39;2020-01-06&#39; documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-dataframe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/gallery-rendered-html.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Gallery of Charts" href="auto_examples/index.html" />
+    <link rel="prev" title="The BDITTO Chart Gallery" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-rick">
+<span id="auto-generated-documentation"></span><h1>Auto Generated Documentation<a class="headerlink" href="#module-rick" title="Permalink to this headline">¶</a></h1>
+<p>Version 0.8.0</p>
+<dl class="py class">
+<dt id="rick.charts">
+<em class="property">class </em><code class="sig-prename descclassname">rick.</code><code class="sig-name descname">charts</code><a class="reference internal" href="_modules/rick.html#charts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rick.charts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class defining all the charting functions.</p>
+<dl class="py method">
+<dt id="rick.charts.bar_chart">
+<code class="sig-name descname">bar_chart</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xlab</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#charts.bar_chart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rick.charts.bar_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a bar chart</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>dataframe</em>) – Data for the bar chart. The dataframe must have 2 columns, the first representing the y ticks, and the second representing the data</p></li>
+<li><p><strong>xlab</strong> (<em>str</em>) – Label for the x axis.</p></li>
+<li><p><strong>xmax</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is the max s value</em>) – The max value of the y axis</p></li>
+<li><p><strong>xmin</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 0</em>) – The minimum value of the x axis</p></li>
+<li><p><strong>precision</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is -1</em>) – Decimal places in the annotations</p></li>
+<li><p><strong>xinc</strong> (<em>int</em><em>, </em><em>optional</em>) – The increment of ticks on the x axis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>fig</em> – Matplotlib fig object</p></li>
+<li><p><em>ax</em> – Matplotlib ax object</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rick.charts.chloro_map">
+<code class="sig-name descname">chloro_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">lower</span></em>, <em class="sig-param"><span class="n">upper</span></em>, <em class="sig-param"><span class="n">title</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#charts.chloro_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rick.charts.chloro_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a chloropleth map</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>con</strong> (<em>SQL connection object</em>) – Connection object needed to connect to the RDS</p></li>
+<li><p><strong>df</strong> (<em>GeoPandas Dataframe</em>) – Data for the chloropleth map. The data must only contain 2 columns; the first column has to be the geom column and the second has to be the data that needs to be mapped.</p></li>
+<li><p><strong>lower</strong> (<em>int</em>) – Lower bound for colourmap</p></li>
+<li><p><strong>upper</strong> (<em>int</em>) – Upper bound for the colourmap</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – Legend label</p></li>
+<li><p><strong>subway</strong> (<em>boolean</em><em>, </em><em>optional</em><em>, </em><em>default: False</em>) – True to display subway on the map</p></li>
+<li><p><strong>island</strong> (<em>boolean</em><em>, </em><em>optional</em><em>, </em><em>defailt: True</em>) – False to grey out the Toronto island</p></li>
+<li><p><strong>cmap</strong> (<em>str</em><em>, </em><em>optional</em><em>, </em><em>default: YlOrRd</em>) – Matplotlib colourmap to use for the map</p></li>
+<li><p><strong>unit</strong> (<em>str</em><em>, </em><em>optional</em>) – Unit to append to the end of the legend tick</p></li>
+<li><p><strong>nbins</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>defualt: 2</em>) – Number of ticks in the colourmap</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>fig</em> – Matplotlib fig object</p></li>
+<li><p><em>ax</em> – Matplotlib ax object</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rick.charts.line_chart">
+<code class="sig-name descname">line_chart</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ylab</span></em>, <em class="sig-param"><span class="n">xlab</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#charts.line_chart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rick.charts.line_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a line chart. x axis must be modified manually</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>array like</em><em> or </em><em>scalar</em>) – Data for the line chart.</p></li>
+<li><p><strong>ylab</strong> (<em>str</em>) – Label for the y axis.</p></li>
+<li><p><strong>xlab</strong> (<em>str</em>) – Label for the x axis.</p></li>
+<li><p><strong>ymax</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is the max y value</em>) – The max value of the y axis</p></li>
+<li><p><strong>ymin</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 0</em>) – The minimum value of the y axis</p></li>
+<li><p><strong>baseline</strong> (<em>array like</em><em> or </em><em>scalar</em><em>, </em><em>optional</em><em>, </em><em>default is None</em>) – Data for another line representing the baseline.</p></li>
+<li><p><strong>yinc</strong> (<em>int</em><em>, </em><em>optional</em>) – The increment of ticks on the y axis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>fig</em> – Matplotlib fig object</p></li>
+<li><p><em>ax</em> – Matplotlib ax object</p></li>
+<li><p><em>props</em> – Dictionary of the text annotation properties</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rick.charts.stacked_chart">
+<code class="sig-name descname">stacked_chart</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xlab</span></em>, <em class="sig-param"><span class="n">lab1</span></em>, <em class="sig-param"><span class="n">lab2</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#charts.stacked_chart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rick.charts.stacked_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a stacked bar chart comparing 2 sets of data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>dataframe</em>) – Data for the stacked bar chart. The dataframe must have 3 columns, the first representing the y ticks, the second representing the baseline, and the third representing the next series of data.</p></li>
+<li><p><strong>xlab</strong> (<em>str</em>) – Label for the x axis.</p></li>
+<li><p><strong>lab1</strong> (<em>str</em>) – Label in the legend for the baseline</p></li>
+<li><p><strong>lab2</strong> (<em>str</em>) – Label in the legend fot the next data series</p></li>
+<li><p><strong>xmax</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is the max s value</em>) – The max value of the y axis</p></li>
+<li><p><strong>xmin</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 0</em>) – The minimum value of the x axis</p></li>
+<li><p><strong>precision</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is -1</em>) – Decimal places in the annotations</p></li>
+<li><p><strong>percent</strong> (<em>boolean</em><em>, </em><em>optional</em><em>, </em><em>default is False</em>) – Whether the annotations should be formatted as percentages</p></li>
+<li><p><strong>xinc</strong> (<em>int</em><em>, </em><em>optional</em>) – The increment of ticks on the x axis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>fig</em> – Matplotlib fig object</p></li>
+<li><p><em>ax</em> – Matplotlib ax object</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rick.charts.tow_chart">
+<code class="sig-name descname">tow_chart</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ylab</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#charts.tow_chart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rick.charts.tow_chart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a 7 day time of week line chart. Each data point represents 1 hour out of 168 hours.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>array like</em><em> or </em><em>scalar</em>) – Data for the tow chart. Data must only have 168 entries, with row 0 representing Monday at midnight.</p></li>
+<li><p><strong>ylab</strong> (<em>str</em>) – Label for the y axis.</p></li>
+<li><p><strong>ymax</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is the max y value</em>) – The max value of the y axis</p></li>
+<li><p><strong>ymin</strong> (<em>int</em><em>, </em><em>optional</em><em>, </em><em>default is 0</em>) – The minimum value of the y axis</p></li>
+<li><p><strong>yinc</strong> (<em>int</em><em>, </em><em>optional</em>) – The increment of ticks on the y axis.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>fig</em> – Matplotlib fig object</p></li>
+<li><p><em>ax</em> – Matplotlib ax object</p></li>
+<li><p><em>props</em> – Dictionary of the text annotation properties</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="rick.colour">
+<em class="property">class </em><code class="sig-prename descclassname">rick.</code><code class="sig-name descname">colour</code><a class="reference internal" href="_modules/rick.html#colour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rick.colour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class defining the global colour variables for all functions.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="rick.font">
+<em class="property">class </em><code class="sig-prename descclassname">rick.</code><code class="sig-name descname">font</code><a class="reference internal" href="_modules/rick.html#font"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rick.font" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class defining the global font variables for all functions.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="rick.func">
+<code class="sig-prename descclassname">rick.</code><code class="sig-name descname">func</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rick.func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to set global settings for the charts class.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="rick.geo">
+<em class="property">class </em><code class="sig-prename descclassname">rick.</code><code class="sig-name descname">geo</code><a class="reference internal" href="_modules/rick.html#geo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rick.geo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for additional gis layers needed for the cloropleth map.</p>
+<dl class="py method">
+<dt id="rick.geo.island">
+<code class="sig-name descname">island</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#geo.island"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rick.geo.island" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to return a layer of the Toronto island. Since the island is classified in the same neighbourhood as the waterfront, in some cases its not completely accurate to show the island shares the same data as the waterfront.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>con</strong> (<em>SQL connection object</em>) – Connection object needed to connect to the RDS</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Geopandas Dataframe of the Toronto island.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>gdf</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rick.geo.ttc">
+<code class="sig-name descname">ttc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#geo.ttc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rick.geo.ttc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to return the TTC subway layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>con</strong> (<em>SQL connection object</em>) – Connection object needed to connect to the RDS</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Geopandas Dataframe of the Subway Layer</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>gdf</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">The BDITTO Chart Gallery</a></li>
+      <li>Next: <a href="auto_examples/index.html" title="next chapter">Gallery of Charts</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Rick Liu + BDITTO.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/code.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
