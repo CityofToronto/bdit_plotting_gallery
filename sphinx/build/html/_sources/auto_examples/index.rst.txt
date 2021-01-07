@@ -106,7 +106,7 @@ Below is a gallery of line charts.
 
 - RICK Line Chart: derives from the RICK package with source code in `rick.py`.
 - RICK Time-of-Week Line Chart: derives from the RICK package with source code in `rick.py`.
-- activeTO Line Chart: developed for activeTO with source code inside the example. 
+- Mulit-line Chart: developed for activeTO with source code inside the example. 
 
 
 
@@ -130,6 +130,27 @@ Below is a gallery of line charts.
    :hidden:
 
    /auto_examples/line/plot_tow_line_rick
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Examples of multi-line charts using multi_linechart(). The number  of lines to be plotted is au...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/line/images/thumb/sphx_glr_plot_multiline_thumb.png
+     :alt: Multi-Line Chart
+
+     :ref:`sphx_glr_auto_examples_line_plot_multiline.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/line/plot_multiline
 
 .. raw:: html
 
