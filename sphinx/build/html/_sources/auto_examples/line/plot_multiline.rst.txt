@@ -412,18 +412,30 @@ This Section plots dataframe using default settings.
     
     }
 
-    # multi_linechart(df_multi, sett_empty)
+    multi_linechart(df_multi, sett_empty)
 
 
 
+.. image:: /auto_examples/line/images/sphx_glr_plot_multiline_001.png
+    :alt: plot multiline
+    :class: sphx-glr-single-img
 
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f7970c5f6a0>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.199 seconds)
+   **Total running time of the script:** ( 0 minutes  0.433 seconds)
 
 
 .. _sphx_glr_download_auto_examples_line_plot_multiline.py:

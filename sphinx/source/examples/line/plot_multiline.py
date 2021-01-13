@@ -350,4 +350,4 @@ sett_empty={
     
 }
 
-# multi_linechart(df_multi, sett_empty)
+multi_linechart(df_multi, sett_empty)
