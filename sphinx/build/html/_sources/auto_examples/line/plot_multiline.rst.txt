@@ -429,7 +429,7 @@ This Section plots dataframe using default settings.
  .. code-block:: none
 
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7fdffb832eb8>)
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f8278debe48>)
 
 
 
@@ -544,7 +544,7 @@ This Section plots dataframe with legend and one shaded area.
 
     ['sans-serif']
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7fdffb4118d0>)
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f82789cb8d0>)
 
 
 
@@ -556,7 +556,7 @@ Example: two shaded area blocks
 This Section plots dataframe with legend, one shaded 
 block, and shaded blocks for weekends.
 
-.. GENERATED FROM PYTHON SOURCE LINES 450-549
+.. GENERATED FROM PYTHON SOURCE LINES 450-548
 
 .. code-block:: default
 
@@ -661,7 +661,6 @@ block, and shaded blocks for weekends.
 
 
 
-
 .. image:: /auto_examples/line/images/sphx_glr_plot_multiline_003.png
     :alt: plot multiline
     :class: sphx-glr-single-img
@@ -675,28 +674,14 @@ block, and shaded blocks for weekends.
 
     ['sans-serif']
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7fdff8fed4a8>)
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f82765a94e0>)
 
 
-
-.. GENERATED FROM PYTHON SOURCE LINES 550-554
-
-Example: one shaded area with legend 
-------------------------------------
-
-This Section plots dataframe with legend and one shaded area.
-
-.. GENERATED FROM PYTHON SOURCE LINES 556-560
-
-Example: one shaded area with legend 
-------------------------------------
-
-This Section plots dataframe with legend and one shaded area.
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.309 seconds)
+   **Total running time of the script:** ( 0 minutes  1.320 seconds)
 
 
 .. _sphx_glr_download_auto_examples_line_plot_multiline.py:

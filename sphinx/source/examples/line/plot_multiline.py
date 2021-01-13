@@ -545,16 +545,3 @@ if 'body' in sett:
         print(mpl.rcParams['font.family'])
 
 multi_linechart(df_multi, sett)
-
-#####################################
-#Example: one shaded area with legend 
-#------------------------------------
-#
-#This Section plots dataframe with legend and one shaded area.
-
-#####################################
-#Example: one shaded area with legend 
-#------------------------------------
-#
-#This Section plots dataframe with legend and one shaded area.
-
