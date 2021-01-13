@@ -247,9 +247,43 @@
 <dl class="py function">
 <dt id="gallery_lines.lines2">
 <code class="sig-prename descclassname">gallery_lines.</code><code class="sig-name descname">lines2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df_lines</span></em>, <em class="sig-param"><span class="n">sett</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gallery_lines.html#lines2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gallery_lines.lines2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates another line chart.
-:param df_orig: Data for the chloropleth map. The data must only contain 2 columns; the first column has to be the geom column and the second has to be the data that needs to be mapped.
-:type df_orig: pandas dataframe</p>
+<dd><p>Creates another line chart.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="gallery_lines.lines3">
+<code class="sig-prename descclassname">gallery_lines.</code><code class="sig-name descname">lines3</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">big_table</span></em>, <em class="sig-param"><span class="n">keys</span></em>, <em class="sig-param"><span class="n">other_silly_variable</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gallery_lines.html#lines3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gallery_lines.lines3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches rows from a Bigtable.</p>
+<p>Retrieves rows pertaining to the given keys from the Table instance
+represented by big_table.  Silly things may happen if
+other_silly_variable is not None.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>big_table</strong> – An open Bigtable Table instance.</p></li>
+<li><p><strong>keys</strong> – A sequence of strings representing the key of each table row
+to fetch.</p></li>
+<li><p><strong>other_silly_variable</strong> – Another optional variable, that has a much
+longer name than the other args, and which does nothing.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p>A dict mapping keys to the corresponding table row data
+fetched. Each row is represented as a tuple of strings. For
+example:</p>
+<dl class="simple">
+<dt>{‘Serak’: (‘Rigel VII’, ‘Preparer’),</dt><dd><p>’Zim’: (‘Irk’, ‘Invader’),
+‘Lrrr’: (‘Omicron Persei 8’, ‘Emperor’)}</p>
+</dd>
+</dl>
+<p>If a key from the keys argument is missing from the dictionary,
+then that row was not found in the table.</p>
+</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>IOError</strong> – An error occurred accessing the bigtable.Table object.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
