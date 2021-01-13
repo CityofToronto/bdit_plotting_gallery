@@ -20,17 +20,17 @@ import matplotlib.dates as mdates
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
 
-def lines1(df_lines, sett):
-    '''Creates a line chart based on the number of columns in the input.
-    '''
+def multi_linechart(df_lines, sett):
+    """Creates a line chart of one or more lines.
+
+    Number of lines to plot determined from columns in input dataframe.
+
+    Args:
+        df_lines (pandas dataframe):  First column contains x-axis data, subsequent column(s) contain y-axis data.
+    """
     print("Hello world ")
     return
 
-def lines2(df_lines, sett):
-    '''Creates another line chart.
-    '''
-    print("Hello lines2")
-    return
 
 def lines3(big_table, keys, other_silly_variable=None):
     """Fetches rows from a Bigtable.

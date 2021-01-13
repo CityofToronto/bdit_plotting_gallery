@@ -57,17 +57,17 @@
 <span class="kn">from</span> <span class="nn">pandas.plotting</span> <span class="kn">import</span> <span class="n">register_matplotlib_converters</span>
 <span class="n">register_matplotlib_converters</span><span class="p">()</span>
 
-<div class="viewcode-block" id="lines1"><a class="viewcode-back" href="../code.html#gallery_lines.lines1">[docs]</a><span class="k">def</span> <span class="nf">lines1</span><span class="p">(</span><span class="n">df_lines</span><span class="p">,</span> <span class="n">sett</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Creates a line chart based on the number of columns in the input.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+<div class="viewcode-block" id="multi_linechart"><a class="viewcode-back" href="../code.html#gallery_lines.multi_linechart">[docs]</a><span class="k">def</span> <span class="nf">multi_linechart</span><span class="p">(</span><span class="n">df_lines</span><span class="p">,</span> <span class="n">sett</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Creates a line chart of one or more lines.</span>
+
+<span class="sd">    Number of lines to plot determined from columns in input dataframe.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        df_lines (pandas dataframe):  First column contains x-axis data, subsequent column(s) contain y-axis data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello world &quot;</span><span class="p">)</span>
     <span class="k">return</span></div>
 
-<div class="viewcode-block" id="lines2"><a class="viewcode-back" href="../code.html#gallery_lines.lines2">[docs]</a><span class="k">def</span> <span class="nf">lines2</span><span class="p">(</span><span class="n">df_lines</span><span class="p">,</span> <span class="n">sett</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Creates another line chart.</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello lines2&quot;</span><span class="p">)</span>
-    <span class="k">return</span></div>
 
 <div class="viewcode-block" id="lines3"><a class="viewcode-back" href="../code.html#gallery_lines.lines3">[docs]</a><span class="k">def</span> <span class="nf">lines3</span><span class="p">(</span><span class="n">big_table</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">other_silly_variable</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Fetches rows from a Bigtable.</span>
