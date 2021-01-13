@@ -18,8 +18,8 @@
     <script src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="RICK Line Chart" href="plot_line_rick.html" />
-    <link rel="prev" title="RICK Time-of-Week Line Chart" href="plot_tow_line_rick.html" />
+    <link rel="next" title="RICK Choropleth Map" href="../map/plot_choropleth_rick.html" />
+    <link rel="prev" title="RICK Line Chart" href="plot_line_rick.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -46,29 +46,20 @@ to download the full example code</p>
 <p>Examples of multi-line charts using <cite>multi_linechart()</cite>. The number
 of lines to be plotted is automatically determined from the columns
 in the input dataframe.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">configparser</span>
-<span class="kn">from</span> <span class="nn">psycopg2</span> <span class="kn">import</span> <span class="n">connect</span>
-<span class="kn">import</span> <span class="nn">psycopg2.sql</span> <span class="k">as</span> <span class="nn">pg</span>
 <span class="kn">import</span> <span class="nn">pandas.io.sql</span> <span class="k">as</span> <span class="nn">pandasql</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">rick</span>
-<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="nn">gpd</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">shapely</span>
-<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
-<span class="c1"># os.environ[&quot;PROJ_LIB&quot;]=r&quot;C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share&quot;</span>
 <span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">ticker</span>
 <span class="kn">import</span> <span class="nn">matplotlib.font_manager</span> <span class="k">as</span> <span class="nn">font_manager</span>
 <span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="k">as</span> <span class="nn">mdates</span>
 <span class="kn">from</span> <span class="nn">matplotlib.lines</span> <span class="kn">import</span> <span class="n">Line2D</span> <span class="c1"># for legend</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
 <span class="kn">from</span> <span class="nn">pandas.plotting</span> <span class="kn">import</span> <span class="n">register_matplotlib_converters</span>
 <span class="n">register_matplotlib_converters</span><span class="p">()</span>
 </pre></div>
@@ -77,38 +68,12 @@ in the input dataframe.</p>
 <h2>Source Code<a class="headerlink" href="#source-code" title="Permalink to this headline">¶</a></h2>
 <p>Source code for multi-line function.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">multi_linechart</span><span class="p">(</span><span class="n">df_line</span><span class="p">,</span> <span class="n">sett</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Creates a line chart based on the number of columns in the input dataframe.</span>
+    <span class="sd">&#39;&#39;&#39;Creates a line chart of one or more lines.</span>
 
-<span class="sd">    Parameters</span>
-<span class="sd">    -----------</span>
-<span class="sd">    df_orig : pandas dataframe</span>
-<span class="sd">        First column contain the x-values, subsequent column(s) contain y-values.</span>
-<span class="sd">    sett : dict</span>
-<span class="sd">        Contains optional styling and annotation specification for all visual</span>
-<span class="sd">        elements (axes, grid, lines, legend, title, labels). If empty, defaults</span>
-<span class="sd">        will be used.</span>
-<span class="sd">    ymax : int, optional, default is the max y value</span>
-<span class="sd">        The max value of the y axis</span>
-<span class="sd">    sett[&#39;body&#39;] : dict key, optional</span>
-<span class="sd">        The body section contains global style parameters. If empty, defaults</span>
-<span class="sd">        will be used.</span>
-<span class="sd">    sett[&#39;body&#39;][&#39;font-size&#39;] : int, optional</span>
-<span class="sd">        Global font size for plot. Default 12.</span>
-<span class="sd">    sett[&#39;body&#39;][&#39;font-family&#39;] : str, optional</span>
-<span class="sd">        Global font family for plot. Default &#39;sans-serif&#39;.</span>
-<span class="sd">    sett[&#39;body&#39;][&#39;sans-serif-list&#39;] : array, optional</span>
-<span class="sd">        An array of sans-serif fonts. The first font in the array that is installed</span>
-<span class="sd">        in the system will be used. Default &#39;Libre Franklin&#39;.</span>
+<span class="sd">    Number of lines to plot determined from columns in input dataframe.</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    --------</span>
-<span class="sd">    fig</span>
-<span class="sd">        Matplotlib fig object</span>
-<span class="sd">    ax</span>
-<span class="sd">        Matplotlib ax object</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
-
     <span class="n">df</span><span class="o">=</span><span class="n">df_line</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="c1"># ----------------------------------------------</span>
@@ -117,10 +82,312 @@ in the input dataframe.</p>
     <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
 
+    <span class="c1"># ----------------------------------------------</span>
+    <span class="c1"># Default styling params if not defined in sett</span>
+    <span class="k">if</span> <span class="s1">&#39;body&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+        <span class="n">dflt</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;font-size&#39;</span><span class="p">:(</span><span class="mi">12</span> <span class="k">if</span> <span class="s1">&#39;font-size&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                         <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;font-size&#39;</span><span class="p">]),</span>
+            <span class="s1">&#39;font-family&#39;</span><span class="p">:(</span><span class="s1">&#39;sans-serif&#39;</span> <span class="k">if</span> <span class="s1">&#39;font-family&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                         <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;font-family&#39;</span><span class="p">]),</span>
+            <span class="s1">&#39;fontfamily-list&#39;</span><span class="p">:([</span><span class="s1">&#39;Libre Franklin&#39;</span><span class="p">,</span> <span class="s1">&#39;DejaVu Sans&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;fontfamily-list&#39;</span>
+                          <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                          <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;fontfamily-list&#39;</span><span class="p">]),</span>
+            <span class="s1">&#39;stroke&#39;</span><span class="p">:(</span><span class="s1">&#39;#000000&#39;</span> <span class="k">if</span> <span class="s1">&#39;stroke&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                         <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;stroke&#39;</span><span class="p">]),</span>
+            <span class="s1">&#39;stroke-width&#39;</span><span class="p">:(</span><span class="mi">2</span> <span class="k">if</span> <span class="s1">&#39;stroke-width&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                         <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;stroke-width&#39;</span><span class="p">]),</span>
+            <span class="s1">&#39;border&#39;</span><span class="p">:(</span><span class="s1">&#39;solid&#39;</span> <span class="k">if</span> <span class="s1">&#39;border&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                         <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;border&#39;</span><span class="p">])</span>
+        <span class="p">}</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dflt</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;font-size&#39;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;font-family&#39;</span><span class="p">:</span><span class="s1">&#39;sans-serif&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;fontfamily-list&#39;</span><span class="p">:[</span><span class="s1">&#39;Libre Franklin&#39;</span><span class="p">,</span> <span class="s1">&#39;DejaVu Sans&#39;</span><span class="p">],</span>
+            <span class="s1">&#39;stroke&#39;</span><span class="p">:</span><span class="s1">&#39;#000000&#39;</span><span class="p">,</span> <span class="s1">&#39;stroke-width&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;border&#39;</span><span class="p">:</span><span class="s1">&#39;solid&#39;</span>
+        <span class="p">}</span>
+
+    <span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-family&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-family&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;sans-serif&#39;</span><span class="p">:</span>
+        <span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.sans-serif&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;fontfamily-list&#39;</span><span class="p">]</span>
+
+<span class="c1">#     mpl.rcParams.update({</span>
+<span class="c1">#         &#39;font.size&#39;: dflt[&#39;font-size&#39;],</span>
+<span class="c1">#         &#39;font.family&#39;: dflt[&#39;font-family&#39;]</span>
+<span class="c1">#     })</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+    <span class="c1"># WEIRD HACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
+    <span class="c1"># For some reason, mpl.rcParams needs to be run TWICE before it</span>
+    <span class="c1"># actually gets set. So just before calling the function,</span>
+    <span class="c1"># make sure you set it again...</span>
+    <span class="c1"># ----------------------------------------------------------------</span>
+
+    <span class="c1"># ----------------------------------------------</span>
+    <span class="c1"># Define line-number-dependent params</span>
+    <span class="n">num_lines</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="n">col_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;xcol&#39;</span><span class="p">]</span>
+    <span class="n">ymax_array</span><span class="o">=</span><span class="p">[]</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_lines</span><span class="p">):</span>
+        <span class="n">col_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ycol_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+        <span class="n">ymax_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+    <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="n">col_names</span>
+
+    <span class="c1"># ----------------------------------------------</span>
+    <span class="c1"># title</span>
+    <span class="k">if</span> <span class="s1">&#39;title&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;title_params&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="n">title_size</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;font-size&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;title_params&#39;</span><span class="p">]</span>
+                <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;title_params&#39;</span><span class="p">][</span><span class="s1">&#39;font-size&#39;</span><span class="p">])</span>
+            <span class="n">loc</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;center&#39;</span> <span class="k">if</span> <span class="s1">&#39;loc&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;title_params&#39;</span><span class="p">]</span>
+                 <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;title_params&#39;</span><span class="p">][</span><span class="s1">&#39;loc&#39;</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">title_size</span><span class="p">,</span>  <span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
+
+    <span class="c1"># ----------------------------------------------</span>
+    <span class="c1"># grid</span>
+    <span class="k">if</span> <span class="s1">&#39;major_grid_on&#39;</span> <span class="ow">in</span> <span class="n">sett</span> <span class="ow">and</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;major_grid_on&#39;</span><span class="p">]</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;major_grid&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;gray&#39;</span> <span class="k">if</span> <span class="s1">&#39;stroke&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;major_grid&#39;</span><span class="p">]</span>
+               <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;major_grid&#39;</span><span class="p">][</span><span class="s1">&#39;stroke&#39;</span><span class="p">])</span>
+            <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="k">if</span> <span class="s1">&#39;border&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;major_grid&#39;</span><span class="p">]</span>
+               <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;major_grid&#39;</span><span class="p">][</span><span class="s1">&#39;border&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">c</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span>
+            <span class="n">b</span><span class="o">=</span><span class="s1">&#39;-&#39;</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;minor_grid_on&#39;</span> <span class="ow">in</span> <span class="n">sett</span> <span class="ow">and</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;minor_grid_on&#39;</span><span class="p">]</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;minor_grid&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;gray&#39;</span> <span class="k">if</span> <span class="s1">&#39;stroke&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;minor_grid&#39;</span><span class="p">]</span>
+               <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;minor_grid&#39;</span><span class="p">][</span><span class="s1">&#39;stroke&#39;</span><span class="p">])</span>
+            <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="k">if</span> <span class="s1">&#39;border&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;minor_grid&#39;</span><span class="p">]</span>
+               <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;minor_grid&#39;</span><span class="p">][</span><span class="s1">&#39;border&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">c</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span>
+            <span class="n">b</span><span class="o">=</span><span class="s1">&#39;-&#39;</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="c1"># ----------------------------------------------</span>
+    <span class="c1"># axes (both)</span>
+    <span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.3</span>
+    <span class="n">ticklength</span><span class="o">=</span><span class="mi">2</span> <span class="k">if</span> <span class="s1">&#39;ticklength&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span> <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;ticklength&#39;</span><span class="p">]</span>
+    <span class="n">tickwidth</span><span class="o">=</span><span class="mi">1</span> <span class="k">if</span> <span class="s1">&#39;tickwidth&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span> <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;tickwidth&#39;</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">tickwidth</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">ticklength</span><span class="p">)</span>
+
+    <span class="c1"># y-axis</span>
+    <span class="k">if</span> <span class="s1">&#39;yaxis&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+        <span class="n">ymin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="s1">&#39;ymin&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+              <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;ymin&#39;</span><span class="p">])</span>
+        <span class="n">ymax</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ymax_array</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;ymax&#39;</span>
+              <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+              <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;ymax&#39;</span><span class="p">])</span>
+
+        <span class="c1"># y-axis label</span>
+        <span class="n">label</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="s1">&#39;label&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+               <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+        <span class="n">labelsize</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;labelsize&#39;</span>
+                   <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+                   <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;labelsize&#39;</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">labelsize</span><span class="p">)</span>
+
+        <span class="c1"># Format y-axis tick labels</span>
+        <span class="n">ticklabelsize</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;ticklabelsize&#39;</span>
+                  <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+                  <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;ticklabelsize&#39;</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">ticklabelsize</span><span class="p">)</span>
+
+        <span class="c1"># comma format</span>
+        <span class="n">precision</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;.0f&#39;</span> <span class="k">if</span> <span class="s1">&#39;precision&#39;</span>
+                   <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+                   <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;precision&#39;</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
+            <span class="n">mpl</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">StrMethodFormatter</span><span class="p">(</span><span class="s1">&#39;{x:,&#39;</span> <span class="o">+</span> <span class="n">precision</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span>
+        <span class="n">ymax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ymax_array</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">delta</span> <span class="o">/=</span> <span class="mi">10</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">delta</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="s1">&#39;yinc&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+        <span class="n">yinc</span><span class="o">=</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yinc&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">yinc</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">delta</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">i</span><span class="p">))</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">ymax</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">ymin</span><span class="p">)</span>
+
+    <span class="c1"># ----------------------------------------------</span>
+    <span class="c1"># x-axis</span>
+    <span class="k">if</span> <span class="s1">&#39;xaxis&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+        <span class="c1"># x-axis label</span>
+        <span class="n">label</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="s1">&#39;label&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">]</span>
+               <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+        <span class="n">labelsize</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;labelsize&#39;</span>
+                   <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">]</span>
+                   <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">][</span><span class="s1">&#39;labelsize&#39;</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">labelsize</span><span class="p">)</span>
+
+        <span class="c1"># x-axis tick labels</span>
+        <span class="k">if</span> <span class="s1">&#39;major_loc&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">]:</span> <span class="c1"># x-values are dates</span>
+            <span class="n">date_form_mjr</span> <span class="o">=</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">][</span><span class="s1">&#39;major_loc&#39;</span><span class="p">][</span><span class="s1">&#39;date_form&#39;</span><span class="p">]</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">date_form_mjr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;minor_loc&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">]:</span>
+            <span class="n">date_form_mnr</span> <span class="o">=</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">][</span><span class="s1">&#39;minor_loc&#39;</span><span class="p">][</span><span class="s1">&#39;date_form&#39;</span><span class="p">]</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">date_form_mnr</span><span class="p">)</span>
+
+        <span class="c1"># x-axis tick label size</span>
+        <span class="n">ticklabelsize</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;ticklabelsize&#39;</span>
+                  <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">]</span>
+                  <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">][</span><span class="s1">&#39;ticklabelsize&#39;</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">ticklabelsize</span><span class="p">,</span>
+                       <span class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Default x-axis tick lines</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">],</span>
+                       <span class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># ----------------------------------------------</span>
+    <span class="c1"># Plot data and legend</span>
+    <span class="k">if</span> <span class="s1">&#39;legend&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+        <span class="n">legend_loc</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;upper left&#39;</span> <span class="k">if</span> <span class="s1">&#39;loc&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;legend&#39;</span><span class="p">]</span>
+                    <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;legend&#39;</span><span class="p">][</span><span class="s1">&#39;loc&#39;</span><span class="p">])</span>
+        <span class="n">leg_array</span><span class="o">=</span><span class="p">[]</span>
+        <span class="n">custom_lines</span><span class="o">=</span><span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_lines</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;lines&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="n">line_colour</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;stroke&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;stroke&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                         <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">]</span>
+                         <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="s1">&#39;stroke&#39;</span><span class="p">])</span>
+            <span class="n">line_width</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;stroke-width&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;stroke-width&#39;</span>
+                        <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">]</span>
+                        <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="s1">&#39;stroke-width&#39;</span><span class="p">])</span>
+            <span class="n">border_style</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;border-style&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                          <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">]</span>
+                          <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="s1">&#39;border-style&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">line_colour</span><span class="o">=</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;stroke&#39;</span><span class="p">]</span>
+            <span class="n">line_width</span><span class="o">=</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;stroke-width&#39;</span><span class="p">]</span>
+            <span class="n">border_style</span><span class="o">=</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;xcol&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ycol_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)],</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">line_width</span><span class="p">,</span>
+                <span class="n">color</span> <span class="o">=</span> <span class="n">line_colour</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">border_style</span><span class="p">)</span>
+
+        <span class="c1"># Legend</span>
+        <span class="k">if</span> <span class="s1">&#39;legend&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="n">leg_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+            <span class="n">custom_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                       <span class="n">color</span><span class="o">=</span><span class="n">line_colour</span><span class="p">,</span>
+                                       <span class="n">lw</span><span class="o">=</span><span class="n">line_width</span><span class="p">,</span>
+                                       <span class="n">linestyle</span><span class="o">=</span><span class="n">border_style</span><span class="p">)</span>
+                               <span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;legend&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">custom_lines</span><span class="p">,</span> <span class="n">leg_array</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">legend_loc</span><span class="p">,</span>
+                  <span class="n">prop</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]},</span>
+                  <span class="n">ncol</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+
+    <span class="c1"># ----------------------------------------------</span>
+    <span class="c1"># Plot shaded areas</span>
+    <span class="k">if</span> <span class="s1">&#39;shaded&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+        <span class="n">num_a</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="k">for</span> <span class="n">area</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_a</span><span class="p">):</span>
+            <span class="n">idx</span><span class="o">=</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;lims&#39;</span><span class="p">]</span>
+            <span class="n">facecolour</span><span class="o">=</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;fill&#39;</span><span class="p">]</span>
+            <span class="n">zorder</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="s1">&#39;zorder&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">]</span>
+                    <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;zorder&#39;</span><span class="p">])</span>
+            <span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="s1">&#39;alpha&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">]</span>
+                   <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;alpha&#39;</span><span class="p">])</span>
+
+            <span class="c1"># Shaded area left and right bds</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)):</span>
+                <span class="n">bd1</span><span class="o">=</span><span class="n">idx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">bd2</span><span class="o">=</span><span class="n">idx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">bd1</span><span class="p">,</span> <span class="n">bd2</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">facecolour</span><span class="p">,</span>
+                           <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+                           <span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">)</span>
+
+            <span class="c1"># Shaded area label</span>
+            <span class="k">if</span> <span class="s1">&#39;label&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">]:</span>
+                <span class="n">rot</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="s1">&#39;rotation&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                     <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+                     <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;rotation&#39;</span><span class="p">])</span>
+                <span class="n">label_colour</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;stroke&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;colour&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                              <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+                              <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;colour&#39;</span><span class="p">])</span>
+                <span class="n">label_size</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;font-size&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                            <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+                            <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;font-size&#39;</span><span class="p">])</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                    <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="c1"># x posn of label</span>
+                    <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="c1"># y posn of label</span>
+                    <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">],</span>
+                    <span class="n">rotation</span><span class="o">=</span><span class="n">rot</span><span class="p">,</span>
+                    <span class="n">color</span><span class="o">=</span><span class="n">label_colour</span><span class="p">,</span>
+                    <span class="n">fontsize</span><span class="o">=</span><span class="n">label_size</span>
+                <span class="p">)</span>
+
     <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.074 seconds)</p>
+</div>
+<div class="section" id="data-collection">
+<h2>Data Collection<a class="headerlink" href="#data-collection" title="Permalink to this headline">¶</a></h2>
+<p>This Section creates example data.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># x-axis</span>
+<span class="n">dt</span><span class="o">=</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">27</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">29</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">17</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">22</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">23</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">26</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">27</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">29</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">)]</span>
+
+<span class="c1"># y-axis</span>
+<span class="c1"># line 1</span>
+<span class="n">y1</span><span class="o">=</span><span class="p">[</span><span class="mf">32512.0</span><span class="p">,</span> <span class="mf">34852.0</span><span class="p">,</span> <span class="mf">35136.0</span><span class="p">,</span> <span class="mf">38154.0</span><span class="p">,</span> <span class="mf">35551.0</span><span class="p">,</span> <span class="mf">27617.0</span><span class="p">,</span> <span class="mf">33677.0</span><span class="p">,</span> <span class="mf">34163.0</span><span class="p">,</span> <span class="mf">34606.0</span><span class="p">,</span> <span class="mf">35106.0</span><span class="p">,</span> <span class="mf">38034.0</span><span class="p">,</span> <span class="mf">36077.0</span><span class="p">,</span> <span class="mf">30372.0</span><span class="p">,</span> <span class="mf">34616.0</span><span class="p">,</span> <span class="mf">34264.0</span><span class="p">,</span> <span class="mf">34162.0</span><span class="p">,</span> <span class="mf">34891.0</span><span class="p">,</span> <span class="mf">36871.0</span><span class="p">,</span> <span class="mf">34465.0</span><span class="p">,</span> <span class="mf">25836.0</span><span class="p">,</span> <span class="mf">41818.0</span><span class="p">,</span> <span class="mf">42943.0</span><span class="p">,</span> <span class="mf">42199.0</span><span class="p">,</span> <span class="mf">44307.0</span><span class="p">,</span> <span class="mf">49460.0</span><span class="p">,</span> <span class="mf">47071.0</span><span class="p">,</span> <span class="mf">31263.0</span><span class="p">,</span> <span class="mf">38039.0</span><span class="p">,</span> <span class="mf">39162.0</span><span class="p">,</span> <span class="mf">29431.0</span><span class="p">,</span> <span class="mf">42445.0</span><span class="p">,</span> <span class="mf">45586.0</span><span class="p">,</span> <span class="mf">42333.0</span><span class="p">,</span> <span class="mf">35198.0</span><span class="p">,</span> <span class="mf">39244.0</span><span class="p">,</span> <span class="mf">38740.0</span><span class="p">,</span> <span class="mf">41345.0</span><span class="p">,</span> <span class="mf">43083.0</span><span class="p">,</span> <span class="mf">43299.0</span><span class="p">,</span> <span class="mf">41210.0</span><span class="p">,</span> <span class="mf">32797.0</span><span class="p">,</span> <span class="mf">40363.0</span><span class="p">,</span> <span class="mf">41577.0</span><span class="p">,</span> <span class="mf">38094.0</span><span class="p">,</span> <span class="mf">43813.0</span><span class="p">,</span> <span class="mf">46515.0</span><span class="p">,</span> <span class="mf">38156.0</span><span class="p">,</span> <span class="mf">28232.0</span><span class="p">]</span>
+
+<span class="c1"># line 2</span>
+<span class="n">y2</span><span class="o">=</span><span class="p">[</span><span class="mf">38781.0</span><span class="p">,</span> <span class="mf">41387.0</span><span class="p">,</span> <span class="mf">40545.0</span><span class="p">,</span> <span class="mf">42473.0</span><span class="p">,</span> <span class="mf">35726.0</span><span class="p">,</span> <span class="mf">28066.0</span><span class="p">,</span> <span class="mf">36873.0</span><span class="p">,</span> <span class="mf">38191.0</span><span class="p">,</span> <span class="mf">39432.0</span><span class="p">,</span> <span class="mf">40123.0</span><span class="p">,</span> <span class="mf">42199.0</span><span class="p">,</span> <span class="mf">37404.0</span><span class="p">,</span> <span class="mf">32564.0</span><span class="p">,</span> <span class="mf">38425.0</span><span class="p">,</span> <span class="mf">40460.0</span><span class="p">,</span> <span class="mf">39506.0</span><span class="p">,</span> <span class="mf">39780.0</span><span class="p">,</span> <span class="mf">40666.0</span><span class="p">,</span> <span class="mf">34904.0</span><span class="p">,</span> <span class="mf">25290.0</span><span class="p">,</span> <span class="mf">35852.0</span><span class="p">,</span> <span class="mf">37037.0</span><span class="p">,</span> <span class="mf">36880.0</span><span class="p">,</span> <span class="mf">38007.0</span><span class="p">,</span> <span class="mf">40274.0</span><span class="p">,</span> <span class="mf">35163.0</span><span class="p">,</span> <span class="mf">23323.0</span><span class="p">,</span> <span class="mf">33689.0</span><span class="p">,</span> <span class="mf">35129.0</span><span class="p">,</span> <span class="mf">12352.0</span><span class="p">,</span> <span class="mf">36524.0</span><span class="p">,</span> <span class="mf">38759.0</span><span class="p">,</span> <span class="mf">32995.0</span><span class="p">,</span> <span class="mf">29132.0</span><span class="p">,</span> <span class="mf">33974.0</span><span class="p">,</span> <span class="mf">32964.0</span><span class="p">,</span> <span class="mf">35851.0</span><span class="p">,</span> <span class="mf">37296.0</span><span class="p">,</span> <span class="mf">36458.0</span><span class="p">,</span> <span class="mf">31332.0</span><span class="p">,</span> <span class="mf">26148.0</span><span class="p">,</span> <span class="mf">34649.0</span><span class="p">,</span> <span class="mf">35588.0</span><span class="p">,</span> <span class="mf">34950.0</span><span class="p">,</span> <span class="mf">36615.0</span><span class="p">,</span> <span class="mf">38317.0</span><span class="p">,</span> <span class="mf">29245.0</span><span class="p">,</span> <span class="mf">21929.0</span><span class="p">]</span>
+
+<span class="c1"># line 3</span>
+<span class="n">y3</span><span class="o">=</span><span class="p">[</span><span class="mf">21713.0</span><span class="p">,</span> <span class="mf">23644.0</span><span class="p">,</span> <span class="mf">22949.0</span><span class="p">,</span> <span class="mf">24473.0</span><span class="p">,</span> <span class="mf">21201.0</span><span class="p">,</span> <span class="mf">16189.0</span><span class="p">,</span> <span class="mf">21592.0</span><span class="p">,</span> <span class="mf">21946.0</span><span class="p">,</span> <span class="mf">23200.0</span><span class="p">,</span> <span class="mf">23324.0</span><span class="p">,</span> <span class="mf">25188.0</span><span class="p">,</span> <span class="mf">23107.0</span><span class="p">,</span> <span class="mf">20544.0</span><span class="p">,</span> <span class="mf">23035.0</span><span class="p">,</span> <span class="mf">24334.0</span><span class="p">,</span> <span class="mf">23354.0</span><span class="p">,</span> <span class="mf">23144.0</span><span class="p">,</span> <span class="mf">23411.0</span><span class="p">,</span> <span class="mf">20691.0</span><span class="p">,</span> <span class="mf">14232.0</span><span class="p">,</span> <span class="mf">20965.0</span><span class="p">,</span> <span class="mf">21615.0</span><span class="p">,</span> <span class="mf">20784.0</span><span class="p">,</span> <span class="mf">21851.0</span><span class="p">,</span> <span class="mf">24003.0</span><span class="p">,</span> <span class="mf">20617.0</span><span class="p">,</span> <span class="mf">13727.0</span><span class="p">,</span> <span class="mf">19809.0</span><span class="p">,</span> <span class="mf">20124.0</span><span class="p">,</span> <span class="mf">8755.0</span><span class="p">,</span> <span class="mf">20952.0</span><span class="p">,</span> <span class="mf">22788.0</span><span class="p">,</span> <span class="mf">20327.0</span><span class="p">,</span> <span class="mf">17183.0</span><span class="p">,</span> <span class="mf">19609.0</span><span class="p">,</span> <span class="mf">19223.0</span><span class="p">,</span> <span class="mf">20557.0</span><span class="p">,</span> <span class="mf">21295.0</span><span class="p">,</span> <span class="mf">20377.0</span><span class="p">,</span> <span class="mf">17362.0</span><span class="p">,</span> <span class="mf">14867.0</span><span class="p">,</span> <span class="mf">19576.0</span><span class="p">,</span> <span class="mf">20172.0</span><span class="p">,</span> <span class="mf">19520.0</span><span class="p">,</span> <span class="mf">20884.0</span><span class="p">,</span> <span class="mf">22209.0</span><span class="p">,</span> <span class="mf">16241.0</span><span class="p">,</span> <span class="mf">12449.0</span><span class="p">]</span>
+
+<span class="c1"># Create dataframe to be plotted</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;dt&#39;</span><span class="p">:</span><span class="n">dt</span><span class="p">,</span> <span class="s1">&#39;y1&#39;</span><span class="p">:</span><span class="n">y1</span><span class="p">,</span> <span class="s1">&#39;y2&#39;</span><span class="p">:</span><span class="n">y2</span><span class="p">,</span> <span class="s1">&#39;y3&#39;</span><span class="p">:</span><span class="n">y3</span><span class="p">}</span>
+<span class="n">df_multi</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="example-plot-data-with-no-options">
+<h2>Example: plot data with no options<a class="headerlink" href="#example-plot-data-with-no-options" title="Permalink to this headline">¶</a></h2>
+<p>This Section plots dataframe using default settings.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sett_empty</span><span class="o">=</span><span class="p">{</span>
+
+<span class="p">}</span>
+
+<span class="c1"># multi_linechart(df_multi, sett_empty)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.199 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-line-plot-multiline-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/ca8f8e3238399ea4bad22182e2bf11f4/plot_multiline.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_multiline.py</span></code></a></p>
@@ -144,8 +411,8 @@ in the input dataframe.</p>
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
   <li><a href="../index.html">Gallery of Charts</a><ul>
-      <li>Previous: <a href="plot_tow_line_rick.html" title="previous chapter">RICK Time-of-Week Line Chart</a></li>
-      <li>Next: <a href="plot_line_rick.html" title="next chapter">RICK Line Chart</a></li>
+      <li>Previous: <a href="plot_line_rick.html" title="previous chapter">RICK Line Chart</a></li>
+      <li>Next: <a href="../map/plot_choropleth_rick.html" title="next chapter">RICK Choropleth Map</a></li>
   </ul></li>
   </ul></li>
 </ul>

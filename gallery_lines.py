@@ -38,6 +38,7 @@ def multi_linechart(df_lines, sett):
 
     Returns:
         fig (Matplotlib fig object)
+
         ax (Matplotlib ax object)
     """
     print("Hello world ")
