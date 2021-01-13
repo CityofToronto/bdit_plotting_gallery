@@ -254,7 +254,7 @@ sys.path.insert(0, os.path.abspath('../../'))
 
 5. Build the script. Go to the `sphinx` directory (i.e. the directory containing the `Makefile`), clean and build the code:
 
-``make clean && make html`
+`make clean && make html`
 
 On the webpage, you should now see the functions defined in `gallery_lines` listed in Index, Module Index, and also that they can be searched for in the search bar.
 
