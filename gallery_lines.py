@@ -27,6 +27,7 @@ def multi_linechart(df_lines, sett):
 
     Args:
         df_lines (pandas dataframe):  First column contains x-axis data, subsequent column(s) contain y-axis data.
+        sett (dict): styling and annotation specification for all visual elements (e.g. axes, grid, lines, legend, title, labels). If empty, defaults are used.
     """
     print("Hello world ")
     return
