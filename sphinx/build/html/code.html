@@ -285,13 +285,17 @@ then that row was not found in the table.</p>
 <li><p><strong>df_lines</strong> (<em>pandas dataframe</em>) – First column contains x-axis data, subsequent column(s) contain y-axis data.</p></li>
 <li><p><strong>sett</strong> (<em>dict</em>) – Styling and annotation specification for all visual elements (e.g. axes, grid, lines, legend, title, labels). If empty, defaults are used.</p></li>
 <li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong> (<em>dict key</em><em>, </em><em>optional</em>) – Global style parameters for ‘font-size’, ‘font-family’, and ‘fontfamily-list’. If empty, defaults are used.</p></li>
-<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'font-size'</strong><strong>]</strong> (<em>int</em><em>, </em><em>optional</em>) – Global font size for plot. Default 12.</p></li>
-<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'font-family'</strong><strong>]</strong> (<em>str</em><em>, </em><em>optional</em>) – Global font family for plot. Default ‘sans-serif’.</p></li>
-<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'fontfamily-list'</strong><strong>]</strong> (<em>array</em><em>, </em><em>optional</em>) – Array of fonts in font-family. The first font in the array that is installed in the system will be used. Default ‘Libre Franklin’.</p></li>
-<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'stroke'</strong><strong>]</strong> (<em>hex str</em><em>, </em><em>optional</em>) – Global colour for lines and text. Default ‘#000000’.</p></li>
-<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'stroke-width'</strong><strong>]</strong> (<em>num</em><em>, </em><em>optional</em>) – Global linewidth. Default 2.</p></li>
-<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'border'</strong><strong>]</strong> (<em>str</em><em>, </em><em>optional</em>) – Global border style for lines. Default ‘solid’.</p></li>
+<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'font-size'</strong><strong>]</strong> (<em>int</em><em>, </em><em>optional dict key</em>) – Global font size for plot. Default 12.</p></li>
+<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'font-family'</strong><strong>]</strong> (<em>str</em><em>, </em><em>optional dict key</em>) – Global font family for plot. Default ‘sans-serif’.</p></li>
+<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'fontfamily-list'</strong><strong>]</strong> (<em>array</em><em>, </em><em>optional dict key</em>) – Array of fonts in font-family. The first font in the array that is installed in the system will be used. Default ‘Libre Franklin’.</p></li>
+<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'stroke'</strong><strong>]</strong> (<em>hex str</em><em>, </em><em>optional dict key</em>) – Global colour for lines and text. Default ‘#000000’.</p></li>
+<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'stroke-width'</strong><strong>]</strong> (<em>num</em><em>, </em><em>optional dict key</em>) – Global linewidth. Default 2.</p></li>
+<li><p><strong>sett</strong><strong>[</strong><strong>'body'</strong><strong>]</strong><strong>[</strong><strong>'border'</strong><strong>]</strong> (<em>str</em><em>, </em><em>optional dict key</em>) – Global border style for lines. Default ‘solid’.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>fig (Matplotlib fig object)
+ax (Matplotlib ax object)</p>
 </dd>
 </dl>
 </dd></dl>

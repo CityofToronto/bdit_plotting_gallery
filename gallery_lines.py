@@ -29,12 +29,16 @@ def multi_linechart(df_lines, sett):
         df_lines (pandas dataframe): First column contains x-axis data, subsequent column(s) contain y-axis data.
         sett (dict): Styling and annotation specification for all visual elements (e.g. axes, grid, lines, legend, title, labels). If empty, defaults are used.
         sett['body'] (dict key, optional): Global style parameters for 'font-size', 'font-family', and 'fontfamily-list'. If empty, defaults are used.
-        sett['body']['font-size'] (int, optional): Global font size for plot. Default 12.
-        sett['body']['font-family'] (str, optional): Global font family for plot. Default 'sans-serif'.
-        sett['body']['fontfamily-list'] (array, optional): Array of fonts in font-family. The first font in the array that is installed in the system will be used. Default 'Libre Franklin'.
-        sett['body']['stroke'] (hex str, optional): Global colour for lines and text. Default '#000000'.
-        sett['body']['stroke-width'] (num, optional): Global linewidth. Default 2.
-        sett['body']['border'] (str, optional): Global border style for lines. Default 'solid'.
+        sett['body']['font-size'] (int, optional dict key): Global font size for plot. Default 12.
+        sett['body']['font-family'] (str, optional dict key): Global font family for plot. Default 'sans-serif'.
+        sett['body']['fontfamily-list'] (array, optional dict key): Array of fonts in font-family. The first font in the array that is installed in the system will be used. Default 'Libre Franklin'.
+        sett['body']['stroke'] (hex str, optional dict key): Global colour for lines and text. Default '#000000'.
+        sett['body']['stroke-width'] (num, optional dict key): Global linewidth. Default 2.
+        sett['body']['border'] (str, optional dict key): Global border style for lines. Default 'solid'.
+
+    Returns:
+        fig (Matplotlib fig object)
+        ax (Matplotlib ax object)
     """
     print("Hello world ")
     return

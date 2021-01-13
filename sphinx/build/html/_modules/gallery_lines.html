@@ -66,12 +66,16 @@
 <span class="sd">        df_lines (pandas dataframe): First column contains x-axis data, subsequent column(s) contain y-axis data.</span>
 <span class="sd">        sett (dict): Styling and annotation specification for all visual elements (e.g. axes, grid, lines, legend, title, labels). If empty, defaults are used.</span>
 <span class="sd">        sett[&#39;body&#39;] (dict key, optional): Global style parameters for &#39;font-size&#39;, &#39;font-family&#39;, and &#39;fontfamily-list&#39;. If empty, defaults are used.</span>
-<span class="sd">        sett[&#39;body&#39;][&#39;font-size&#39;] (int, optional): Global font size for plot. Default 12.</span>
-<span class="sd">        sett[&#39;body&#39;][&#39;font-family&#39;] (str, optional): Global font family for plot. Default &#39;sans-serif&#39;.</span>
-<span class="sd">        sett[&#39;body&#39;][&#39;fontfamily-list&#39;] (array, optional): Array of fonts in font-family. The first font in the array that is installed in the system will be used. Default &#39;Libre Franklin&#39;.</span>
-<span class="sd">        sett[&#39;body&#39;][&#39;stroke&#39;] (hex str, optional): Global colour for lines and text. Default &#39;#000000&#39;.</span>
-<span class="sd">        sett[&#39;body&#39;][&#39;stroke-width&#39;] (num, optional): Global linewidth. Default 2.</span>
-<span class="sd">        sett[&#39;body&#39;][&#39;border&#39;] (str, optional): Global border style for lines. Default &#39;solid&#39;.</span>
+<span class="sd">        sett[&#39;body&#39;][&#39;font-size&#39;] (int, optional dict key): Global font size for plot. Default 12.</span>
+<span class="sd">        sett[&#39;body&#39;][&#39;font-family&#39;] (str, optional dict key): Global font family for plot. Default &#39;sans-serif&#39;.</span>
+<span class="sd">        sett[&#39;body&#39;][&#39;fontfamily-list&#39;] (array, optional dict key): Array of fonts in font-family. The first font in the array that is installed in the system will be used. Default &#39;Libre Franklin&#39;.</span>
+<span class="sd">        sett[&#39;body&#39;][&#39;stroke&#39;] (hex str, optional dict key): Global colour for lines and text. Default &#39;#000000&#39;.</span>
+<span class="sd">        sett[&#39;body&#39;][&#39;stroke-width&#39;] (num, optional dict key): Global linewidth. Default 2.</span>
+<span class="sd">        sett[&#39;body&#39;][&#39;border&#39;] (str, optional dict key): Global border style for lines. Default &#39;solid&#39;.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        fig (Matplotlib fig object)</span>
+<span class="sd">        ax (Matplotlib ax object)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello world &quot;</span><span class="p">)</span>
     <span class="k">return</span></div>
