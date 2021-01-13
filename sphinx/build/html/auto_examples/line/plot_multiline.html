@@ -389,7 +389,7 @@ in the input dataframe.</p>
 </div>
 <img alt="plot multiline" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_multiline_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x500 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f82f6e8c1d0&gt;)
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x500 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7fdffb832eb8&gt;)
 </pre></div>
 </div>
 </div>
@@ -484,10 +484,129 @@ in the input dataframe.</p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;sans-serif&#39;]
 
-(&lt;Figure size 1800x500 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f82f4a6ec50&gt;)
+(&lt;Figure size 1800x500 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7fdffb4118d0&gt;)
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  0.835 seconds)</p>
+</div>
+<div class="section" id="example-two-shaded-area-blocks">
+<h2>Example: two shaded area blocks<a class="headerlink" href="#example-two-shaded-area-blocks" title="Permalink to this headline">¶</a></h2>
+<p>This Section plots dataframe with legend, one shaded
+block, and shaded blocks for weekends.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">find_weekend_indices</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Outputs a 2D list of weekend date pairs given date column</span>
+<span class="sd">    in df. Assumes first column of df is the date column.</span>
+<span class="sd">    Datetime pairs output in `datetime.date()` format.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">xcol</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">datetime_array</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="n">xcol</span><span class="p">]</span>
+
+    <span class="n">s</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">datetime_array</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">datetime_array</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">df</span><span class="p">[</span><span class="n">xcol</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="n">xcol</span><span class="p">][</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]])</span>
+
+    <span class="k">return</span> <span class="n">s</span>
+
+<span class="n">sett</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;body&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;font-size&#39;</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span>
+        <span class="s1">&#39;font-family&#39;</span><span class="p">:</span> <span class="s1">&#39;sans-serif&#39;</span>
+<span class="c1">#         &#39;font-family&#39;: &#39;monospace&#39;</span>
+<span class="c1">#         &#39;fontfamily-list&#39;: [&#39;Libre Franklin&#39;, &#39;DejaVu Sans&#39;],</span>
+    <span class="p">},</span>
+
+    <span class="c1"># Axes labels and limits</span>
+    <span class="s1">&#39;yaxis&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Daily Volume&#39;</span>
+    <span class="p">},</span>
+   <span class="s1">&#39;xaxis&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;major_loc&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="n">mdates</span><span class="o">.</span><span class="n">DayLocator</span><span class="p">(),</span>
+            <span class="s1">&#39;date_form&#39;</span><span class="p">:</span> <span class="n">mdates</span><span class="o">.</span><span class="n">DateFormatter</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;minor_loc&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;date_form&#39;</span><span class="p">:</span> <span class="n">mdates</span><span class="o">.</span><span class="n">DayLocator</span><span class="p">(</span><span class="n">interval</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>  <span class="c1"># every other day</span>
+        <span class="p">}</span>
+   <span class="p">},</span>
+
+    <span class="c1"># grid</span>
+    <span class="s1">&#39;major_grid_on&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;minor_grid_on&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;minor_grid&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;stroke&#39;</span><span class="p">:</span> <span class="s1">&#39;#D3D3D3&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;border&#39;</span><span class="p">:</span> <span class="s1">&#39;--&#39;</span>
+    <span class="p">},</span>
+
+    <span class="c1"># legend</span>
+    <span class="s1">&#39;legend&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;loc&#39;</span><span class="p">:</span> <span class="s1">&#39;lower left&#39;</span>
+    <span class="p">},</span>
+
+    <span class="s1">&#39;lines&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;stroke&#39;</span><span class="p">:</span> <span class="s1">&#39;#1A75B5&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;border-style&#39;</span><span class="p">:</span> <span class="s1">&#39;solid&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Vol 1&#39;</span>
+            <span class="p">},</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;stroke&#39;</span><span class="p">:</span> <span class="s1">&#39;#FF7F00&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;border-style&#39;</span><span class="p">:</span> <span class="s1">&#39;solid&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Vol 2&#39;</span>
+            <span class="p">},</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;stroke&#39;</span><span class="p">:</span> <span class="s1">&#39;#28A026&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;border-style&#39;</span><span class="p">:</span> <span class="s1">&#39;dashed&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Vol 3&#39;</span>
+            <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="s1">&#39;shaded&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="mi">0</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;lims&#39;</span><span class="p">:[[</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s1">&#39;2020-11-23&#39;</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s1">&#39;2020-12-22&#39;</span><span class="p">)]],</span>
+            <span class="s1">&#39;fill&#39;</span><span class="p">:</span> <span class="s1">&#39;magenta&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;zorder&#39;</span><span class="p">:</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span>
+            <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+            <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s1">&#39;2020-11-23&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=.</span><span class="mi">5</span><span class="p">),</span>
+                <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">51000</span><span class="p">,</span>
+                <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;Lockdown 2&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;font-size&#39;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+                <span class="s1">&#39;colour&#39;</span><span class="p">:</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;rotation&#39;</span><span class="p">:</span> <span class="mi">0</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="mi">1</span><span class="p">:{</span>
+            <span class="s1">&#39;lims&#39;</span><span class="p">:</span><span class="n">find_weekend_indices</span><span class="p">(</span><span class="n">df_multi</span><span class="p">),</span>
+            <span class="s1">&#39;fill&#39;</span><span class="p">:</span> <span class="s1">&#39;#ccffff&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">0.9</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="s1">&#39;body&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">&#39;font-family&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]:</span>
+        <span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;font-family&#39;</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">])</span>
+
+<span class="n">multi_linechart</span><span class="p">(</span><span class="n">df_multi</span><span class="p">,</span> <span class="n">sett</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="plot multiline" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_multiline_003.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;sans-serif&#39;]
+
+(&lt;Figure size 1800x500 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7fdff8fed4a8&gt;)
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>Example: one shaded area with legend<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>This Section plots dataframe with legend and one shaded area.</p>
+</div>
+<div class="section" id="id2">
+<h2>Example: one shaded area with legend<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>This Section plots dataframe with legend and one shaded area.</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.309 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-line-plot-multiline-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/ca8f8e3238399ea4bad22182e2bf11f4/plot_multiline.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_multiline.py</span></code></a></p>

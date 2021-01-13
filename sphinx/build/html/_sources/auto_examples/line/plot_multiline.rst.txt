@@ -429,7 +429,7 @@ This Section plots dataframe using default settings.
  .. code-block:: none
 
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f82f6e8c1d0>)
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7fdffb832eb8>)
 
 
 
@@ -440,7 +440,7 @@ Example: one shaded area with legend
 
 This Section plots dataframe with legend and one shaded area.
 
-.. GENERATED FROM PYTHON SOURCE LINES 360-443
+.. GENERATED FROM PYTHON SOURCE LINES 360-444
 
 .. code-block:: default
 
@@ -530,6 +530,7 @@ This Section plots dataframe with legend and one shaded area.
 
 
 
+
 .. image:: /auto_examples/line/images/sphx_glr_plot_multiline_002.png
     :alt: plot multiline
     :class: sphx-glr-single-img
@@ -543,14 +544,159 @@ This Section plots dataframe with legend and one shaded area.
 
     ['sans-serif']
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f82f4a6ec50>)
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7fdffb4118d0>)
 
 
+
+.. GENERATED FROM PYTHON SOURCE LINES 445-450
+
+Example: two shaded area blocks  
+------------------------------------
+
+This Section plots dataframe with legend, one shaded 
+block, and shaded blocks for weekends.
+
+.. GENERATED FROM PYTHON SOURCE LINES 450-549
+
+.. code-block:: default
+
+
+    def find_weekend_indices(df):
+        '''Outputs a 2D list of weekend date pairs given date column
+        in df. Assumes first column of df is the date column. 
+        Datetime pairs output in `datetime.date()` format.
+        '''
+        xcol=list(df)[0]
+        datetime_array=df[xcol]
+    
+        s = []
+        for i in range(len(datetime_array) - 1):
+            if datetime_array[i].weekday() >= 5:
+                s.append([df[xcol][i], df[xcol][i + 1]])
+
+        return s
+
+    sett = {
+        'body': {
+            'font-size': 16,
+            'font-family': 'sans-serif'
+    #         'font-family': 'monospace'
+    #         'fontfamily-list': ['Libre Franklin', 'DejaVu Sans'],
+        },
+    
+        # Axes labels and limits
+        'yaxis': {
+            'label': 'Daily Volume'
+        },
+       'xaxis': {
+            'major_loc': {
+                'loc': mdates.DayLocator(),
+                'date_form': mdates.DateFormatter('%Y-%m-%d')
+            },
+            'minor_loc': {
+                'date_form': mdates.DayLocator(interval=1),  # every other day
+            }
+       },
+    
+        # grid
+        'major_grid_on': True,
+        'minor_grid_on': True,
+        'minor_grid': {
+            'stroke': '#D3D3D3',
+            'border': '--'
+        },
+    
+        # legend
+        'legend': {
+            'loc': 'lower left'
+        },
+
+        'lines': {
+            0: {
+                'stroke': '#1A75B5',
+                'border-style': 'solid',
+                'label': 'Vol 1'
+                },
+            1: {
+                'stroke': '#FF7F00',
+                'border-style': 'solid',
+                'label': 'Vol 2'
+                },
+            2: {
+                'stroke': '#28A026',
+                'border-style': 'dashed',
+                'label': 'Vol 3'
+                }
+        },
+    
+        'shaded': {
+            0: {
+                'lims':[[pd.to_datetime('2020-11-23'), pd.to_datetime('2020-12-22')]],
+                'fill': 'magenta',
+                'zorder':-100,
+                'alpha': 0.3,
+                'label': {
+                    'x': pd.to_datetime('2020-11-23') + datetime.timedelta(days=.5),
+                    'y': 51000,
+                    'text': 'Lockdown 2',
+                    'font-size': 12, 
+                    'colour': 'k',
+                    'rotation': 0
+                }
+            },
+            1:{
+                'lims':find_weekend_indices(df_multi),
+                'fill': '#ccffff',
+                'alpha': 0.9 
+            }
+        }
+    }
+
+    if 'body' in sett:
+        if 'font-family' in sett['body']:
+            mpl.rcParams['font.family'] = sett['body']['font-family']
+            print(mpl.rcParams['font.family'])
+
+    multi_linechart(df_multi, sett)
+
+
+
+
+.. image:: /auto_examples/line/images/sphx_glr_plot_multiline_003.png
+    :alt: plot multiline
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    ['sans-serif']
+
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7fdff8fed4a8>)
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 550-554
+
+Example: one shaded area with legend 
+------------------------------------
+
+This Section plots dataframe with legend and one shaded area.
+
+.. GENERATED FROM PYTHON SOURCE LINES 556-560
+
+Example: one shaded area with legend 
+------------------------------------
+
+This Section plots dataframe with legend and one shaded area.
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.835 seconds)
+   **Total running time of the script:** ( 0 minutes  1.309 seconds)
 
 
 .. _sphx_glr_download_auto_examples_line_plot_multiline.py:
