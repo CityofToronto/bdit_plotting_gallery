@@ -103,11 +103,15 @@
 <span class="s1">        </span>
 <span class="s1">        &#39;&#39;&#39;</span>
         <span class="n">ttc</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_postgis</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">geom_col</span><span class="o">=</span><span class="s1">&#39;geom&#39;</span><span class="p">)</span>
-        <span class="n">ttc</span> <span class="o">=</span> <span class="n">ttc</span><span class="o">.</span><span class="n">to_crs</span><span class="p">({</span><span class="s1">&#39;init&#39;</span> <span class="p">:</span><span class="s1">&#39;epsg:3857&#39;</span><span class="p">})</span>
+        <span class="c1"># ttc = ttc.to_crs({&#39;init&#39; :&#39;epsg:3857&#39;})</span>
+        <span class="n">ttc</span> <span class="o">=</span> <span class="n">ttc</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">3857</span><span class="p">)</span>
         
-        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">ttc</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-            <span class="n">rotated</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">affinity</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;geom&#39;</span><span class="p">],</span> <span class="n">angle</span><span class="o">=-</span><span class="mi">17</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-            <span class="n">ttc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;geom&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rotated</span>  
+        <span class="c1"># Below can be replaced by an apply lambda</span>
+        <span class="c1"># in case one row is of a different type (e.g. MULTIPOLYGON vs POLYGON)</span>
+        <span class="c1">#for index, row in ttc.iterrows():</span>
+        <span class="c1">#    rotated = shapely.affinity.rotate(row[&#39;geom&#39;], angle=-17, origin = Point(0, 0))</span>
+        <span class="c1">#    ttc.loc[index, &#39;geom&#39;] = rotated  </span>
+        <span class="n">ttc</span><span class="p">[</span><span class="s1">&#39;geom&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ttc</span><span class="p">[</span><span class="s1">&#39;geom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">affinity</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">angle</span><span class="o">=-</span><span class="mi">17</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
         
         <span class="k">return</span> <span class="n">ttc</span></div>
     
@@ -137,11 +141,15 @@
 <span class="s1">        &#39;&#39;&#39;</span>
 
         <span class="n">island</span> <span class="o">=</span>  <span class="n">gpd</span><span class="o">.</span><span class="n">GeoDataFrame</span><span class="o">.</span><span class="n">from_postgis</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">geom_col</span><span class="o">=</span><span class="s1">&#39;geom&#39;</span><span class="p">)</span>
-        <span class="n">island</span>  <span class="o">=</span> <span class="n">island</span><span class="o">.</span><span class="n">to_crs</span><span class="p">({</span><span class="s1">&#39;init&#39;</span> <span class="p">:</span><span class="s1">&#39;epsg:3857&#39;</span><span class="p">})</span>
+        <span class="c1"># island  = island.to_crs({&#39;init&#39; :&#39;epsg:3857&#39;})</span>
+        <span class="n">island</span>  <span class="o">=</span> <span class="n">island</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">epsg</span><span class="o">=</span><span class="mi">3857</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">island</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-            <span class="n">rotated</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">affinity</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;geom&#39;</span><span class="p">],</span> <span class="n">angle</span><span class="o">=-</span><span class="mi">17</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> 
-            <span class="n">island</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;geom&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rotated</span>
+        <span class="c1"># Below can be replaced by an apply lambda</span>
+        <span class="c1"># in case one row is of a different type (e.g. MULTIPOLYGON vs POLYGON)</span>
+        <span class="c1">#for index, row in island.iterrows():</span>
+        <span class="c1">#    rotated = shapely.affinity.rotate(row[&#39;geom&#39;], angle=-17, origin = Point(0, 0)) </span>
+        <span class="c1">#    island.loc[index, &#39;geom&#39;] = rotated</span>
+        <span class="n">island</span><span class="p">[</span><span class="s1">&#39;geom&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">island</span><span class="p">[</span><span class="s1">&#39;geom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">affinity</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">angle</span><span class="o">=-</span><span class="mi">17</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
 
         <span class="k">return</span> <span class="n">island</span></div></div>
     
