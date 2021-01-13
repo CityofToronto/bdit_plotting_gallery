@@ -351,3 +351,92 @@ sett_empty={
 }
 
 multi_linechart(df_multi, sett_empty)
+
+#####################################
+#Example: one shaded area with legend 
+#------------------------------------
+#
+#This Section plots dataframe with legend and one shaded area.
+
+sett = {
+    'body': {
+        'font-size': 16,
+        'font-family': 'sans-serif'
+    },
+    
+    # Axes labels and limits
+    'yaxis': {
+        'label': 'Daily Volume',
+        'labelsize': 18
+    },
+    'xaxis': {
+        'major_loc': {
+            'loc': mdates.DayLocator(),
+            'date_form': mdates.DateFormatter('%Y-%m-%d')
+        },
+        'minor_loc': {
+            'date_form': mdates.DayLocator(interval=1),  # every other day
+        }
+    },
+    
+    # grid
+    'major_grid_on': True,
+    'minor_grid_on': True,
+    'minor_grid': {
+        'stroke': '#D3D3D3',
+        'border': '--'
+    },
+    
+    # legend
+    'legend': {
+        'loc': 'lower left'
+    },
+
+    'lines': {
+        0: {
+            'stroke': '#1A75B5',
+            'border-style': 'solid',
+            'label': 'Vol 1'
+            },
+        1: {
+            'stroke': '#FF7F00',
+            'border-style': 'solid',
+            'label': 'Vol 2'
+            },
+        2: {
+            'stroke': '#28A026',
+            'border-style': 'dashed',
+            'label': 'Vol 3'
+            }
+    },
+    
+    'shaded': {
+        0: {
+            'lims':[[pd.to_datetime('2020-11-23'), pd.to_datetime('2020-12-22')]],
+            'fill': 'magenta',
+            'zorder':-100,
+            'alpha': 0.3,
+            'label': {
+                'x': pd.to_datetime('2020-11-23') + datetime.timedelta(days=.5),
+                'y': 51000,
+                'text': 'Lockdown 2',
+                'font-size': 14, 
+                'colour': 'k',
+                'rotation': 0
+            }
+        }
+    }
+}
+
+# ----------------------------------------------------------------
+# WEIRD HACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# For some reason, you need to run mpl.rcParams TWICE before it 
+# actually gets set. The mpl.rcParams is already specified in 
+# multi_linechart() but here we run it for the second time otherwise
+# the font.family will not be updated
+if 'body' in sett:
+    if 'font-family' in sett['body']:
+        mpl.rcParams['font.family'] = sett['body']['font-family']
+        print(mpl.rcParams['font.family'])
+
+multi_linechart(df_multi, sett)

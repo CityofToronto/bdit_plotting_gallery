@@ -403,7 +403,7 @@ Example: plot data with no options
 
 This Section plots dataframe using default settings.
 
-.. GENERATED FROM PYTHON SOURCE LINES 348-354
+.. GENERATED FROM PYTHON SOURCE LINES 348-355
 
 .. code-block:: default
 
@@ -413,6 +413,7 @@ This Section plots dataframe using default settings.
     }
 
     multi_linechart(df_multi, sett_empty)
+
 
 
 
@@ -428,14 +429,128 @@ This Section plots dataframe using default settings.
  .. code-block:: none
 
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f7970c5f6a0>)
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f82f6e8c1d0>)
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 356-360
+
+Example: one shaded area with legend 
+------------------------------------
+
+This Section plots dataframe with legend and one shaded area.
+
+.. GENERATED FROM PYTHON SOURCE LINES 360-443
+
+.. code-block:: default
+
+
+    sett = {
+        'body': {
+            'font-size': 16,
+            'font-family': 'sans-serif'
+        },
+    
+        # Axes labels and limits
+        'yaxis': {
+            'label': 'Daily Volume',
+            'labelsize': 18
+        },
+        'xaxis': {
+            'major_loc': {
+                'loc': mdates.DayLocator(),
+                'date_form': mdates.DateFormatter('%Y-%m-%d')
+            },
+            'minor_loc': {
+                'date_form': mdates.DayLocator(interval=1),  # every other day
+            }
+        },
+    
+        # grid
+        'major_grid_on': True,
+        'minor_grid_on': True,
+        'minor_grid': {
+            'stroke': '#D3D3D3',
+            'border': '--'
+        },
+    
+        # legend
+        'legend': {
+            'loc': 'lower left'
+        },
+
+        'lines': {
+            0: {
+                'stroke': '#1A75B5',
+                'border-style': 'solid',
+                'label': 'Vol 1'
+                },
+            1: {
+                'stroke': '#FF7F00',
+                'border-style': 'solid',
+                'label': 'Vol 2'
+                },
+            2: {
+                'stroke': '#28A026',
+                'border-style': 'dashed',
+                'label': 'Vol 3'
+                }
+        },
+    
+        'shaded': {
+            0: {
+                'lims':[[pd.to_datetime('2020-11-23'), pd.to_datetime('2020-12-22')]],
+                'fill': 'magenta',
+                'zorder':-100,
+                'alpha': 0.3,
+                'label': {
+                    'x': pd.to_datetime('2020-11-23') + datetime.timedelta(days=.5),
+                    'y': 51000,
+                    'text': 'Lockdown 2',
+                    'font-size': 14, 
+                    'colour': 'k',
+                    'rotation': 0
+                }
+            }
+        }
+    }
+
+    # ----------------------------------------------------------------
+    # WEIRD HACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # For some reason, you need to run mpl.rcParams TWICE before it 
+    # actually gets set. The mpl.rcParams is already specified in 
+    # multi_linechart() but here we run it for the second time otherwise
+    # the font.family will not be updated
+    if 'body' in sett:
+        if 'font-family' in sett['body']:
+            mpl.rcParams['font.family'] = sett['body']['font-family']
+            print(mpl.rcParams['font.family'])
+
+    multi_linechart(df_multi, sett)
+
+
+
+.. image:: /auto_examples/line/images/sphx_glr_plot_multiline_002.png
+    :alt: plot multiline
+    :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ Out:
+
+ .. code-block:: none
+
+    ['sans-serif']
+
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f82f4a6ec50>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.433 seconds)
+   **Total running time of the script:** ( 0 minutes  0.835 seconds)
 
 
 .. _sphx_glr_download_auto_examples_line_plot_multiline.py:
