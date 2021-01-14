@@ -21,24 +21,21 @@
 Multi-Line Chart
 ================
 
-Examples of multi-line charts using `multi_linechart()`. The number 
+Examples of multi-line chart function `multi_linechart()`. The number
 of lines to be plotted is automatically determined from the columns
-in the input dataframe. 
+in the input dataframe. Also includes the option to display one or
+more shaded regions with labels.
 
-.. GENERATED FROM PYTHON SOURCE LINES 9-27
+.. GENERATED FROM PYTHON SOURCE LINES 10-24
 
 .. code-block:: default
 
 
     import matplotlib.pyplot as plt
     import matplotlib as mpl
-    import pandas as pd 
-    import pandas.io.sql as pandasql
-    import numpy as np 
+    import pandas as pd
+    import numpy as np
     import datetime
-    import math
-    import os
-    import importlib
     import matplotlib.ticker as ticker
     import matplotlib.font_manager as font_manager
     import matplotlib.dates as mdates
@@ -54,14 +51,14 @@ in the input dataframe.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 28-32
+.. GENERATED FROM PYTHON SOURCE LINES 25-29
 
 Source Code
 -----------
 
 Source code for multi-line function.
 
-.. GENERATED FROM PYTHON SOURCE LINES 32-304
+.. GENERATED FROM PYTHON SOURCE LINES 29-301
 
 .. code-block:: default
 
@@ -344,14 +341,14 @@ Source code for multi-line function.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 305-309
+.. GENERATED FROM PYTHON SOURCE LINES 302-306
 
 Data Collection
 ----------------
 
 This Section creates example data.
 
-.. GENERATED FROM PYTHON SOURCE LINES 309-343
+.. GENERATED FROM PYTHON SOURCE LINES 306-340
 
 .. code-block:: default
 
@@ -396,14 +393,14 @@ This Section creates example data.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 344-348
+.. GENERATED FROM PYTHON SOURCE LINES 341-345
 
 Example: plot data with no options
 ----------------------------------
 
 This Section plots dataframe using default settings.
 
-.. GENERATED FROM PYTHON SOURCE LINES 348-355
+.. GENERATED FROM PYTHON SOURCE LINES 345-352
 
 .. code-block:: default
 
@@ -429,18 +426,18 @@ This Section plots dataframe using default settings.
  .. code-block:: none
 
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f8278debe48>)
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f11d76df5c0>)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 356-360
+.. GENERATED FROM PYTHON SOURCE LINES 353-357
 
 Example: one shaded area with legend 
 ------------------------------------
 
 This Section plots dataframe with legend and one shaded area.
 
-.. GENERATED FROM PYTHON SOURCE LINES 360-444
+.. GENERATED FROM PYTHON SOURCE LINES 357-441
 
 .. code-block:: default
 
@@ -544,11 +541,11 @@ This Section plots dataframe with legend and one shaded area.
 
     ['sans-serif']
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f82789cb8d0>)
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f11d6ad29e8>)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 445-450
+.. GENERATED FROM PYTHON SOURCE LINES 442-447
 
 Example: two shaded area blocks  
 ------------------------------------
@@ -556,7 +553,7 @@ Example: two shaded area blocks
 This Section plots dataframe with legend, one shaded 
 block, and shaded blocks for weekends.
 
-.. GENERATED FROM PYTHON SOURCE LINES 450-548
+.. GENERATED FROM PYTHON SOURCE LINES 447-545
 
 .. code-block:: default
 
@@ -674,14 +671,14 @@ block, and shaded blocks for weekends.
 
     ['sans-serif']
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f82765a94e0>)
+    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f11d7672080>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.320 seconds)
+   **Total running time of the script:** ( 0 minutes  1.422 seconds)
 
 
 .. _sphx_glr_download_auto_examples_line_plot_multiline.py:

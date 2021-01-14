@@ -2,20 +2,17 @@
 Multi-Line Chart
 ================
 
-Examples of multi-line charts using `multi_linechart()`. The number 
+Examples of multi-line chart function `multi_linechart()`. The number
 of lines to be plotted is automatically determined from the columns
-in the input dataframe. 
+in the input dataframe. Also includes the option to display one or
+more shaded regions with labels.
 """
 
 import matplotlib.pyplot as plt
 import matplotlib as mpl
-import pandas as pd 
-import pandas.io.sql as pandasql
-import numpy as np 
+import pandas as pd
+import numpy as np
 import datetime
-import math
-import os
-import importlib
 import matplotlib.ticker as ticker
 import matplotlib.font_manager as font_manager
 import matplotlib.dates as mdates

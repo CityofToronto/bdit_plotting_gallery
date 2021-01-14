@@ -48,7 +48,6 @@
 <span class="kn">import</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="c1">#os.environ[&quot;PROJ_LIB&quot;]=r&quot;C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share&quot;</span>
 <span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">ticker</span>
 <span class="kn">import</span> <span class="nn">matplotlib.font_manager</span> <span class="k">as</span> <span class="nn">font_manager</span>
@@ -60,7 +59,9 @@
 <div class="viewcode-block" id="multi_linechart"><a class="viewcode-back" href="../code.html#gallery_lines.multi_linechart">[docs]</a><span class="k">def</span> <span class="nf">multi_linechart</span><span class="p">(</span><span class="n">df_lines</span><span class="p">,</span> <span class="n">sett</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Creates a line chart of one or more lines.</span>
 
-<span class="sd">    Number of lines to plot determined from columns in input dataframe.</span>
+<span class="sd">    The number of lines to be plotted is automatically determined</span>
+<span class="sd">    from the columns in the input dataframe. Also includes the option</span>
+<span class="sd">    to display one or more shaded regions with labels.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        df_lines (pandas dataframe): First column contains x-axis data, subsequent column(s) contain y-axis data.</span>
@@ -78,12 +79,14 @@
 
 <span class="sd">        ax (Matplotlib ax object)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello world &quot;</span><span class="p">)</span>
+
     <span class="k">return</span></div>
 
 
 <div class="viewcode-block" id="lines3"><a class="viewcode-back" href="../code.html#gallery_lines.lines3">[docs]</a><span class="k">def</span> <span class="nf">lines3</span><span class="p">(</span><span class="n">big_table</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">other_silly_variable</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Fetches rows from a Bigtable.</span>
+    <span class="sd">&quot;&quot;&quot;Fetches rows from a Bigtable. See</span>
+<span class="sd">    https://pythonhosted.org/an_example_pypi_project/sphinx.html</span>
+<span class="sd">    (fetch_bigtable_rows(big_table, keys, other_silly_variable=None))</span>
 
 <span class="sd">    Retrieves rows pertaining to the given keys from the Table instance</span>
 <span class="sd">    represented by big_table.  Silly things may happen if</span>

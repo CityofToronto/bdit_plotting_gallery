@@ -11,7 +11,6 @@ import numpy as np
 import datetime
 import math
 import os
-#os.environ["PROJ_LIB"]=r"C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share"
 import importlib
 import matplotlib.ticker as ticker
 import matplotlib.font_manager as font_manager
@@ -23,7 +22,9 @@ register_matplotlib_converters()
 def multi_linechart(df_lines, sett):
     """Creates a line chart of one or more lines.
 
-    Number of lines to plot determined from columns in input dataframe.
+    The number of lines to be plotted is automatically determined
+    from the columns in the input dataframe. Also includes the option
+    to display one or more shaded regions with labels.
 
     Args:
         df_lines (pandas dataframe): First column contains x-axis data, subsequent column(s) contain y-axis data.
@@ -41,12 +42,14 @@ def multi_linechart(df_lines, sett):
 
         ax (Matplotlib ax object)
     """
-    print("Hello world ")
+
     return
 
 
 def lines3(big_table, keys, other_silly_variable=None):
-    """Fetches rows from a Bigtable.
+    """Fetches rows from a Bigtable. See
+    https://pythonhosted.org/an_example_pypi_project/sphinx.html
+    (fetch_bigtable_rows(big_table, keys, other_silly_variable=None))
 
     Retrieves rows pertaining to the given keys from the Table instance
     represented by big_table.  Silly things may happen if

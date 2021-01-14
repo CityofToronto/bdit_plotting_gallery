@@ -154,7 +154,7 @@ Below is a gallery of line charts.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Examples of multi-line charts using multi_linechart(). The number  of lines to be plotted is au...">
+    <div class="sphx-glr-thumbcontainer" tooltip="Examples of multi-line chart function multi_linechart(). The number of lines to be plotted is a...">
 
 .. only:: html
 

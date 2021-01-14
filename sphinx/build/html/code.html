@@ -241,7 +241,9 @@
 <dl class="function">
 <dt id="gallery_lines.lines3">
 <code class="sig-prename descclassname">gallery_lines.</code><code class="sig-name descname">lines3</code><span class="sig-paren">(</span><em class="sig-param">big_table</em>, <em class="sig-param">keys</em>, <em class="sig-param">other_silly_variable=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gallery_lines.html#lines3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gallery_lines.lines3" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fetches rows from a Bigtable.</p>
+<dd><p>Fetches rows from a Bigtable. See
+<a class="reference external" href="https://pythonhosted.org/an_example_pypi_project/sphinx.html">https://pythonhosted.org/an_example_pypi_project/sphinx.html</a>
+(fetch_bigtable_rows(big_table, keys, other_silly_variable=None))</p>
 <p>Retrieves rows pertaining to the given keys from the Table instance
 represented by big_table.  Silly things may happen if
 other_silly_variable is not None.</p>
@@ -278,7 +280,9 @@ then that row was not found in the table.</p>
 <dt id="gallery_lines.multi_linechart">
 <code class="sig-prename descclassname">gallery_lines.</code><code class="sig-name descname">multi_linechart</code><span class="sig-paren">(</span><em class="sig-param">df_lines</em>, <em class="sig-param">sett</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gallery_lines.html#multi_linechart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gallery_lines.multi_linechart" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a line chart of one or more lines.</p>
-<p>Number of lines to plot determined from columns in input dataframe.</p>
+<p>The number of lines to be plotted is automatically determined
+from the columns in the input dataframe. Also includes the option
+to display one or more shaded regions with labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">

@@ -43,18 +43,15 @@ to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="multi-line-chart">
 <span id="sphx-glr-auto-examples-line-plot-multiline-py"></span><h1>Multi-Line Chart<a class="headerlink" href="#multi-line-chart" title="Permalink to this headline">¶</a></h1>
-<p>Examples of multi-line charts using <cite>multi_linechart()</cite>. The number
+<p>Examples of multi-line chart function <cite>multi_linechart()</cite>. The number
 of lines to be plotted is automatically determined from the columns
-in the input dataframe.</p>
+in the input dataframe. Also includes the option to display one or
+more shaded regions with labels.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">pandas.io.sql</span> <span class="k">as</span> <span class="nn">pandasql</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">ticker</span>
 <span class="kn">import</span> <span class="nn">matplotlib.font_manager</span> <span class="k">as</span> <span class="nn">font_manager</span>
 <span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="k">as</span> <span class="nn">mdates</span>
@@ -389,7 +386,7 @@ in the input dataframe.</p>
 </div>
 <img alt="plot multiline" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_multiline_001.png" />
 <p class="sphx-glr-script-out">Out:</p>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x500 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f8278debe48&gt;)
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 1800x500 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f11d76df5c0&gt;)
 </pre></div>
 </div>
 </div>
@@ -484,7 +481,7 @@ in the input dataframe.</p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;sans-serif&#39;]
 
-(&lt;Figure size 1800x500 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f82789cb8d0&gt;)
+(&lt;Figure size 1800x500 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f11d6ad29e8&gt;)
 </pre></div>
 </div>
 </div>
@@ -595,10 +592,10 @@ block, and shaded blocks for weekends.</p>
 <p class="sphx-glr-script-out">Out:</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;sans-serif&#39;]
 
-(&lt;Figure size 1800x500 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f82765a94e0&gt;)
+(&lt;Figure size 1800x500 with 1 Axes&gt;, &lt;matplotlib.axes._subplots.AxesSubplot object at 0x7f11d7672080&gt;)
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.320 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.422 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-line-plot-multiline-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/e45e71ea587dcc24ed414f1cb7fb51bb/plot_multiline.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_multiline.py</span></code></a></p>
