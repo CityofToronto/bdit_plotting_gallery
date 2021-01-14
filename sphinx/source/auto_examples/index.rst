@@ -33,7 +33,7 @@ Below is a gallery of bar charts.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Example bar chart from the RICK module. ">
+    <div class="sphx-glr-thumbcontainer" tooltip="Example bar chart from the RICK module.">
 
 .. only:: html
 
@@ -72,7 +72,7 @@ Below is a gallery of grouped bar charts.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Example of a horizontal grouped bar chart. ">
+    <div class="sphx-glr-thumbcontainer" tooltip="Example of a horizontal grouped bar chart.">
 
 .. only:: html
 
@@ -112,7 +112,7 @@ Below is a gallery of line charts.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Example time-of-week line chart. ">
+    <div class="sphx-glr-thumbcontainer" tooltip="Example time-of-week line chart.">
 
 .. only:: html
 
@@ -192,7 +192,7 @@ Below is a gallery of various types of maps.
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Example chloropleth map. ">
+    <div class="sphx-glr-thumbcontainer" tooltip="Example chloropleth map.">
 
 .. only:: html
 
