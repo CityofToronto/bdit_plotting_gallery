@@ -16,7 +16,7 @@ All charts were developed with proper python documentation to allow the document
 This is a work in progress and we need YOU to add to the collective knowledge! Please go to the README in the `sphinx` directory for a step-by-step guide to adding your own example to the Gallery.
 
 ## Browse the Gallery
-Please visit [this page](cityoftoronto.github.io/bdit_plotting_gallery) to browse the Gallery and associated (auto-generated) documentation. There you can also download the scripts and example notebooks for your own use.
+Please visit [this page](https://cityoftoronto.github.io/bdit_plotting_gallery) to browse the Gallery and associated (auto-generated) documentation. There you can also download the scripts and example notebooks for your own use.
 
 A quick summary of the charts currently available in the Gallery is listed below:
 
