@@ -598,3 +598,115 @@ class charts:
         plt.yticks( fontname = font.normal, fontsize =10)
         
         return fig, ax
+
+    def multi_linechart(data, ylab, xlab, **kwargs):
+        '''
+        Creates a line chart of one or more lines.
+        Number of lines to plot determined from columns in input dataframe.
+        Parameters
+        -----------
+        data : array like or scalar
+            Data for the line chart.
+        ylab : str
+            Label for the y axis.
+        xlab : str
+            Label for the x axis.
+        ymax : int, optional, default is the max y value
+            The max value of the y axis.
+        ymin : int, optional, default is 0
+            The minimum value of the y axis
+            Should include this if ymin < 0.
+        yinc : int, optional
+            The increment of ticks on the y axis.
+
+        Returns 
+        --------
+        fig
+            Matplotlib fig object
+        ax 
+            Matplotlib ax object
+        ''' 
+        
+        func() 
+
+        ymin, ymax, yinc = calculate_y_params(data, **kwargs)
+
+        fig, ax = plot_line_data(data)
+        
+        fig, ax = set_plot_style(fig, ax, ymin, ymax)
+
+        fig, ax = set_ticks(fig, ax, ymin, ymax, yinc)
+
+        fig, ax = set_labels(fig, ax, xlab, ylab)
+
+        return fig, ax
+
+def calculate_y_params(df, **kwargs): 
+    '''
+    Checks if minimum, maximum and increment values are passed into the plotting function 
+    for the y axis, and returns these. Otherwise, calculates them.
+    '''
+    ymax = kwargs.get('ymax', int(df.max(axis=1).max(axis=0)))
+    ymin = kwargs.get('ymin', 0)
+    delta, i = calculate_delta(ymax, ymin)
+    yinc = kwargs.get('yinc', int(round(delta+1)*pow(10,i)))
+
+    return ymin, ymax, yinc
+
+def calculate_delta(ymax, ymin):
+    '''
+    Returns parameters used to find the size of the y axis increments.
+    '''
+    delta = (ymax - ymin)/4
+    i = 0
+    while True:
+        delta /= 10
+        i += 1
+        if delta < 10:
+            break
+    return delta, i
+
+def plot_line_data(df):
+    '''
+    Plots all columns in the input dataframe as lines in one graph.
+    '''
+    fig, ax = plt.subplots()
+    colour_instance = colour()
+    for i, col in enumerate(df.columns):
+        hex_code = colour_instance.get_colour_from_index(i+1)
+        ax.plot(df[col] ,linewidth=3, color = hex_code)
+        
+    return fig, ax 
+
+def set_plot_style(fig, ax, ymin, ymax):
+    '''
+    Sets background and grid colour for plot.
+    '''
+    fig.set_size_inches(6.1, 4.1)
+    ax.set_facecolor('xkcd:white')
+    ax.set_ylim([ymin, ymax])
+    ax.grid(color='k', linestyle='-', linewidth=0.2)
+    return fig, ax
+
+def set_ticks(fig, ax, ymin, ymax, yinc): 
+    '''
+    Sets x and y axis tick locations and tick labels.
+    '''
+    ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
+    ax.xaxis.set_major_locator(mpl.ticker.FixedLocator(range(len(ax.get_xticklabels()))))
+    ax.set_xticklabels(labels=ax.get_xticklabels(), fontsize = 9, fontname=font.normal)
+    ax.set_yticks(range(ymin, ymax + yinc, yinc), labels=range(ymin, ymax + yinc, yinc), fontsize = 9, fontname = font.normal)
+    
+    return fig, ax 
+
+def set_labels(fig, ax, xlab, ylab):
+    '''
+    Set the labels of the y and x axes.
+    '''
+    ax.set_xlabel(xlab, fontsize=9, fontweight = 'bold', horizontalalignment='right', x=0, labelpad=10, 
+                fontname = font.normal)
+    ax.set_ylabel(ylab, fontsize=9, fontweight = 'bold',
+                horizontalalignment='right', y=1.0, 
+                labelpad=10, fontname = font.normal)
+
+    return fig, ax 
