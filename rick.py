@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+#!/usr/bin/env python
 """
 Version 0.8.0 
+
 """
 
 from psycopg2 import connect
@@ -88,10 +91,12 @@ class geo:
         """
         
         query = '''
+
         SELECT 
         geom
         FROM gis.zones_tts06
         WHERE gta06 = 81
+
         '''
 
         island =  gpd.GeoDataFrame.from_postgis(query, con, geom_col='geom')
@@ -122,6 +127,7 @@ class charts:
     
     def chloro_map(con, df, subway, island, lower, upper, title, **kwargs):
         """Creates a chloropleth map
+
         Parameters
         -----------
         con : SQL connection object
@@ -140,12 +146,14 @@ class charts:
                 Unit to append to the end of the legend tick
         nbins : int, optional, defualt: 2
                 Number of ticks in the colourmap
+
         Returns 
         --------
         fig
             Matplotlib fig object
         ax 
             Matplotlib ax object
+
         """ 
 
         cmap = kwargs.get('cmap', colour.cmap)
@@ -155,7 +163,7 @@ class charts:
         df.columns = ['geom', 'values']
         light = '#d9d9d9'
 
-        fig, ax = plt.subplots(dpi=450.0, figsize=(12,12))
+        fig, ax = plt.subplots(dpi=450.0)
         fig.set_size_inches(6.69,3.345)
 
         ax.set_yticklabels([])
@@ -177,14 +185,14 @@ class charts:
 
 
         props = dict(boxstyle='round', facecolor='w', alpha=0)
-        plt.text(0.775, 0.37, title, transform=ax.transAxes, wrap = True, fontsize=7, fontname = font.normal,
-                verticalalignment='bottom', bbox=props, fontweight = 'semibold') # Adding the Legend Title
+        plt.text(0.775, 0.37, title, transform=ax.transAxes, wrap = True, fontsize=7, fontname = font.semibold,
+                verticalalignment='bottom', bbox=props, fontweight = 'bold') # Adding the Legend Title
 
 
         cax = fig.add_axes([0.718, 0.16, 0.01, 0.22]) # Size of colorbar
 
-        rect = patches.Rectangle((0.76, 0.01),0.235,0.43,linewidth=0.5, transform=ax.transAxes, edgecolor=light,facecolor='none')
-        ax.add_patch(rect)
+        #rect = patches.Rectangle((0.76, 0.01),0.235,0.43,linewidth=0.5, transform=ax.transAxes, edgecolor=light,facecolor='none')
+        #ax.add_patch(rect)
 
         ax.margins(0.1)
 
@@ -252,7 +260,8 @@ class charts:
             nbin = 10
         
         plt.style.use('seaborn-whitegrid')
-        fig, ax = plt.subplots(1,1, figsize=(14,10))
+        fig, ax = plt.subplots(1,1, dpi=450.0)
+        fig.set_size_inches(6.1, 4.2)
         ax.hist(data, bins=nbin, alpha=1.0, color=colour.purple)
         ax.set_xlabel(xlab)
         ax.set_ylabel(ylab)
@@ -289,6 +298,10 @@ class charts:
             The increment of ticks on the y axis.
         list_legends: list, optional (when baseline is ON)
             List of legend names to show on plot
+            
+       min_text : array of min-value text information, default is None
+       max_text : array of max-value text information, default is None
+           
         
         Returns 
         --------
@@ -307,8 +320,11 @@ class charts:
         baseline = kwargs.get('baseline', None)
         addedline1 = kwargs.get('addedline1', None)
         addedline2 = kwargs.get('addedline2', None)
-        xticker_labels = kwargs.get('xticker_labels', None)
         list_legends = kwargs.get('list_legends', None)
+        min_text     = kwargs.get('min_text', None)
+        max_text     = kwargs.get('max_text', None)
+        xticker_labels = kwargs.get('xticker_labels', None)
+        xticker_slots= kwargs.get('xticker_slots', None)
         
         delta = (ymax - ymin)/4
         i = 0
@@ -319,7 +335,8 @@ class charts:
                 break
         yinc = kwargs.get('yinc', int(round(delta+1)*pow(10,i)))
         
-        fig, ax = plt.subplots(dpi=450.0, figsize=(12,12))
+        fig, ax = plt.subplots(dpi=450.0)
+        fig.set_size_inches(6.1, 4.2)        
         line, = ax.plot(data, linewidth=3, color = colour.purple)
         if baseline is not None:
             line_baseline, = ax.plot(baseline ,linewidth=3, color = colour.grey)
@@ -342,21 +359,32 @@ class charts:
                    horizontalalignment='right', y=1.0, 
                    labelpad=10, fontname = font.normal)
         fig.set_size_inches(6.1, 4.1)
-        #plt.xticks(fontsize=9, fontname = font.normal)
+        plt.xticks(xticker_slots, fontsize=9, fontname = font.normal)
         plt.yticks(range(ymin, ymax + yinc, yinc), fontsize =9,
                    fontname = font.normal)
 
+        
         if (xticker_labels is not None):
             list_major_labels = xticker_labels
-            list_major_ticks  = np.arange(0, len(list_major_labels), 1)
+            list_major_ticks  = xticker_slots
             ax.xaxis.set_major_locator(ticker.FixedLocator(list_major_ticks))
             ax.xaxis.set_major_formatter(ticker.FixedFormatter(list_major_labels))
-            ax.tick_params(axis='x', which='major', colors = colour.light_grey, labelsize=7, rotation=45)
-#             ax.set_xticklabels(list_major_labels)        
+            #ax.tick_params(axis='x', which='major', colors = colour.light_grey, labelsize=7, rotation=0)
         
+    
+        # Set text - min & max
         props = dict(boxstyle='round, pad=0.4',edgecolor=colour.purple,
                      linewidth = 2, facecolor = 'w', alpha=1)
-                
+        if (min_text is not None):
+            plt.text(min_text[0], min_text[1], int(data.min()), size=min_text[2], rotation=min_text[3], 
+                     ha="center", va="center", color='#660159', bbox=props)        
+        if (max_text is not None):
+            plt.text(max_text[0], max_text[1], int(data.max()), size=max_text[2], rotation=max_text[3], 
+                     ha="center", va="center", color='#660159', bbox=props)
+
+        
+        
+        
         # Set lengends (if multiple lines)
         if (baseline is not None):
             ax.legend([line, line_baseline], list_legends, loc = 'best',
@@ -380,6 +408,7 @@ class charts:
     
     def tow_chart(data, ylab, **kwargs):
         """Creates a 7 day time of week line chart. Each data point represents 1 hour out of 168 hours.
+
         Parameters
         -----------
         data : array like or scalar
@@ -392,6 +421,7 @@ class charts:
             The minimum value of the y axis
         yinc : int, optional
             The increment of ticks on the y axis.
+
         Returns 
         --------
         fig
@@ -400,6 +430,7 @@ class charts:
             Matplotlib ax object
         props
             Dictionary of the text annotation properties
+
         """
         import matplotlib.pyplot as plt
         import matplotlib as mpl
@@ -432,15 +463,16 @@ class charts:
         else:
             upper = int(3*yinc+ymin)
 
-        fig, ax = plt.subplots(dpi=450.0, figsize=(12,12))
+        fig, ax = plt.subplots(dpi=450.0)
         ax.plot(data, linewidth = 2.5, color = colour.purple)
 
         # Commented to view weekday spans 
         #plt.grid()
+        ax.set_xlim(0, 168)
         ax.set_facecolor('xkcd:white')
 
         plt.xlabel('Time of week', fontname = font.normal, fontsize=9, horizontalalignment='left', x=0, labelpad=3, fontweight = 'bold')
-        ax.set_ylim([ymin,upper])
+        ax.set_ylim([ymin, upper])
 
         ax.grid(color='k', linestyle='-', linewidth=0.2)
         plt.ylabel(ylab, fontname = font.normal, fontsize=9, horizontalalignment='right', y=1, labelpad=7, fontweight = 'bold')
@@ -449,33 +481,59 @@ class charts:
         ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
         plt.yticks(range(ymin,upper+int(0.1*yinc), yinc), fontsize =9, fontname = font.normal)
 
-        list_major_ticks  = np.arange(0, 180, 12)
-        list_major_labels = ['0','12','0','12','0','12','0','12','0','12','0','12','0','12','0']
+#         # Basic - Y ticks
+#         list_major_ticks  = np.arange(0, 180, 12)
+#         list_major_labels = ['0','12','0','12','0','12','0','12','0','12','0','12','0','12','0']
+
+#         # Experiment-1 - Y ticks (every 3hrs)
+#         list_major_ticks  = np.arange(0, 180, 3)
+#         list_major_labels = ['0','3','6','9','12','15','18','21',
+#                              '0','3','6','9','12','15','18','21',
+#                              '0','3','6','9','12','15','18','21',
+#                              '0','3','6','9','12','15','18','21',
+#                              '0','3','6','9','12','15','18','21',
+#                              '0','3','6','9','12','15','18','21',
+#                              '0','3','6','9','12','15','18','21',
+#                              '0']
+
+#         # Experiment-2 - Y ticks (every 6hrs)
+#         list_major_ticks  = np.arange(0, 180, 6)
+#         list_major_labels = ['0','6','12','18',
+#                              '0','6','12','18',
+#                              '0','6','12','18',
+#                              '0','6','12','18',
+#                              '0','6','12','18',
+#                              '0','6','12','18',
+#                              '0','6','12','18',
+#                              '0']
+
+        
+        
+        # Experiment-3 - Y ticks (only 9H & 18H)
+        list_major_ticks  = [0, 9, 18, 24, 33, 42, 48, 57, 66, 72, 81, 90, 96, 105, 114, 120, 129, 138, 144, 153, 162, 168]
+        list_major_labels = ['0','9','18',
+                             '0','9','18',
+                             '0','9','18',
+                             '0','9','18',
+                             '0','9','18',
+                             '0','9','18',
+                             '0','9','18',
+                             '0']               
+        
         ax.xaxis.set_major_locator(ticker.FixedLocator(list_major_ticks))
         ax.xaxis.set_major_formatter(ticker.FixedFormatter(list_major_labels))
         ax.tick_params(axis='x', which='major', colors = colour.light_grey, labelsize=7)
 
-        list_minor_ticks  = np.arange(0, 180, 24)
+        list_minor_ticks  = list(range(12,180,24))
         list_minor_labels = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
-        # Minor ticks location isn't being set correctly with below
-        #ax.xaxis.set_minor_locator(ticker.FixedLocator(list_minor_ticks))
-        #ax.xaxis.set_minor_formatter(ticker.FixedFormatter(list_minor_labels))
-        #ax.tick_params(axis='x', which='minor', colors = 'k', labelsize=9, pad =14)
-        #ax.minorticks_on()
-
-        # Weekday colors (Ref:https://blog.forret.com/2007/08/21/weekday-colours-ayurveda/)
-        #list_colors_of_the_week = ['#FFFAF0', '#CD5C5C', '#32CD32', '#FFFFE0', '#F0F8FF', '#663399', '#800000']
-        list_colors_of_the_week = ['#F0F8FF', '#F0F8FF', '#F0F8FF', '#F0F8FF', '#F0F8FF', '#F0F8FF', '#F0F8FF']
         
-        # Spans for DOW
-        for icolor in range(len(list_colors_of_the_week)):
-            ax.axvspan(list_minor_ticks[icolor], list_minor_ticks[icolor+1], alpha=0.12, lw=0, color=list_colors_of_the_week[icolor])
-            ax.axvline(x=list_minor_ticks[icolor+1], linewidth=0.25, color='#000000')
-            ax.text(np.mean([list_minor_ticks[icolor], list_minor_ticks[icolor+1]]) - len(list_minor_labels[icolor]), ymax-yinc, list_minor_labels[icolor], fontsize=7)
+        # Minor ticks location isn't being set correctly with below
+        ax.xaxis.set_minor_locator(ticker.FixedLocator(list_minor_ticks))
+        ax.xaxis.set_minor_formatter(ticker.FixedFormatter(list_minor_labels))
+        ax.tick_params(axis='x',which='minor', colors = 'k', labelsize=9, pad=14)
 
         props = dict(boxstyle='round, pad=0.3',edgecolor=colour.purple, linewidth = 1.5, facecolor = 'w', alpha=1)
 
-        ax.set_xlim(0, 167)
         return fig, ax, props
 
     def stacked_chart(data_in, xlab, lab1, lab2, **kwargs):
@@ -543,7 +601,7 @@ class charts:
         
         ind = np.arange(len(data))
 
-        fig, ax = plt.subplots(dpi=450.0, figsize=(12,12))
+        fig, ax = plt.subplots(dpi=450.0)
         fig.set_size_inches(6.1, len(data))
         ax.grid(color='k', linestyle='-', linewidth=0.25)
 
@@ -594,7 +652,7 @@ class charts:
 
         return fig, ax
     
-    def bar_chart(data_in, xlab,**kwargs):
+    def bar_chart(data_in, xlab, ylab, horizontal=False, **kwargs):
         """Creates a bar chart
         
         Parameters
@@ -603,15 +661,19 @@ class charts:
             Data for the bar chart. The dataframe must have 2 columns, the first representing the y ticks, and the second representing the data
         xlab : str
             Label for the x axis.
-        xmax : int, optional, default is the max s value
+        ylab : str
+            Label for the y axis.
+        horizontal: bool, Alignment of bar_chart
+            True if horizontal else vertical 
+        xymax : int, optional, default is the max s value
             The max value of the y axis
-        xmin : int, optional, default is 0
+        xymin : int, optional, default is 0
             The minimum value of the x axis
         precision : int, optional, default is -1
             Decimal places in the annotations
             
-        xinc : int, optional
-            The increment of ticks on the x axis.
+        xyinc : int, optional
+            The increment of ticks on the x axis/y axis depending on horizontal bool value.
         
         Returns 
         --------
@@ -626,44 +688,63 @@ class charts:
         
         data.columns = ['name', 'values1']
         
-        xmin = kwargs.get('xmin', 0)
-        xmax = kwargs.get('xmax', None)
+        xymin = kwargs.get('xymin', 0)
+        xymax = kwargs.get('xymax', None)
         precision = kwargs.get('precision', 0)
         
-        xmax_flag = True
-        if xmax == None:
-            xmax = data['values1'].max()
-            xmax_flag = False
+        xymax_flag = True
+        if xymax == None:
+            xymax = data['values1'].max()
+            xymax_flag = False
 
-        delta = (xmax - xmin)/4
+        delta = (xymax - xymin)/4
         i = 0
         while True:
             if delta < 10:
                 break
             delta /= 10
             i += 1
-        xinc = kwargs.get('xinc', int(round(delta+1)*pow(10,i)))
+        xyinc = kwargs.get('xyinc', int(round(delta+1)*pow(10,i)))
 
-        if xmax_flag == True:
-            upper = xmax
+        if xymax_flag == True:
+            upper = xymax
         else:
-            upper = int(4*xinc+xmin)
+            upper = int(4*xyinc+xymin)
         
         ind = np.arange(len(data))
 
-        fig, ax = plt.subplots(dpi=450.0, figsize=(12,12))
-        fig.set_size_inches(6.1, len(data)*0.7)
+        fig, ax = plt.subplots(dpi=450.0)
+        fig.set_size_inches(6.1, 4.2)
+#         fig.set_size_inches(6.1, len(data)*0.7)
         ax.grid(color='k', linestyle='-', linewidth=0.25)
-        p2 = ax.barh(ind, data['values1'], 0.75, align='center', color = colour.purple)
-        ax.xaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
+        if(horizontal):
+            p2 = ax.barh(ind, data['values1'], 0.75, align='center', color = colour.purple)
+            ax.xaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
+            ax.xaxis.grid(True)
+            ax.yaxis.grid(False)
+            ax.set_yticks(ind)
+            ax.set_xlim(0,upper)
+            ax.set_yticklabels(data['name'])
+            ax.set_xlabel(xlab,  horizontalalignment='left', x=0, labelpad=10, fontname = font.normal, fontsize=10, fontweight = 'bold')
+            if (ylab is not None):
+                ax.set_ylabel(ylab, labelpad=10, fontname = font.normal, fontsize=10, fontweight = 'bold')
+            plt.xticks(range(xymin,upper+int(0.1*xyinc), xyinc), fontname = font.normal, fontsize =10)
+            plt.yticks( fontname = font.normal, fontsize =10)
+        else:
+            p2 = ax.bar(ind, data['values1'], 1.0, align='center', color = colour.purple)
+            ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
+            ax.yaxis.grid(True)
+            ax.xaxis.grid(False)
+            ax.set_xticks(ind)
+            ax.set_ylim(0, upper)
+            ax.set_xticklabels(data['name'], rotation=0.0)
+            ax.set_ylabel(ylab, labelpad=10, fontname = font.normal, fontsize=10, fontweight = 'bold')
+            if (xlab is not None):
+                ax.set_xlabel(xlab, labelpad=10, fontname = font.normal, fontsize=10, fontweight = 'bold')
+            plt.yticks(range(xymin, upper+int(0.1*xyinc), xyinc), fontname = font.normal, fontsize =10)
+            plt.xticks( fontname = font.normal, fontsize =10)            
 
-        ax.xaxis.grid(True)
-        ax.yaxis.grid(False)
-        ax.set_yticks(ind)
-        ax.set_xlim(0,upper)
-        ax.set_yticklabels(data['name'])
-        ax.set_xlabel(xlab,  horizontalalignment='left', x=0, labelpad=10, fontname = font.normal, fontsize=10, fontweight = 'bold')
-
+            
         ax.set_facecolor('xkcd:white')
         j=0
         
@@ -671,15 +752,20 @@ class charts:
             data['values1'] = data['values1'].astype(int)
 
         j=0
-        for i in data['values1']:
-            if i < 0.1*upper:
-                ax.annotate(str(format(round(i,precision), ',')), xy=(i+0.015*upper, j-0.05), ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
-            else:
-                ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
-            j=j+1
+        if (horizontal == True and (precision != -1)):
+            for i in data['values1']:
+                if i < 0.1*upper:
+                    ax.annotate(str(format(round(i, precision), ',')), xy=(i+0.015*upper, j-0.05), ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
+                else:
+                    ax.annotate(str(format(round(i, precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
+                j=j+1
+        elif (horizontal == False and (precision != -1)):
+            for i in data['values1']:
+                if i < 0.1*upper:
+                    ax.annotate(str(format(round(i, precision), ',')), xy=(j-0.15, i+0.015*upper), ha = 'left', color = 'k', fontname = font.normal, fontsize=10, rotation=90.)
+                else:
+                    ax.annotate(str(format(round(i, precision), ',')), xy=(j+0.15, i-0.06*upper), ha = 'right', color = 'w', fontname = font.normal, fontsize=10, rotation=90.)
+                j=j+1
 
-        
-        plt.xticks(range(xmin,upper+int(0.1*xinc), xinc), fontname = font.normal, fontsize =10)
-        plt.yticks( fontname = font.normal, fontsize =10)
-        
+                
         return fig, ax
