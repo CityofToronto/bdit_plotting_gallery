@@ -30,7 +30,7 @@ class font:
     semibold = 'DejaVu Sans SemiBold'
     
     
-class colour:
+class colour():
     """
     Class defining the global colour variables for all functions.
     
@@ -44,7 +44,23 @@ class colour:
     cmap = 'YlOrRd'
     teal = '#23a87f' 
     blue_grey = '#1b5872'
-    
+
+    # Purple shades
+    purple_0 = '#440436'
+    purple_1 = '#550347'
+    purple_2 = '#660159'
+    purple_3 = '#9c7b94'
+    purple_4 = '#c0abbb'
+
+    colours_map = {
+        1: purple_1,
+        2: purple_2,
+        3: purple_3,
+        4: light_grey
+    }
+    def get_colour_from_index(self, index):
+        return self.colours_map[index]
+
 class geo:
     """
     Class for additional gis layers needed for the cloropleth map.
@@ -1239,3 +1255,127 @@ class charts:
                     )
     
         return fig, ax
+
+    def multi_linechart_test(data, ylab, xlab, **kwargs):
+        '''
+        Creates a line chart of one or more lines.
+        Number of lines to plot determined from columns in input dataframe.
+        Parameters
+        -----------
+        data : array like or scalar
+            Data for the line chart.
+        ylab : str
+            Label for the y axis.
+        xlab : str
+            Label for the x axis.
+        ymax : int, optional, default is the max y value
+            The max value of the y axis.
+        ymin : int, optional, default is 0
+            The minimum value of the y axis
+            Should include this if ymin < 0.
+        yinc : int, optional
+            The increment of ticks on the y axis.
+        axis : Axes object, optional 
+            The axis that the plot will be located on. 
+        plot_size : tuple, optional 
+        set_plot_size : bool, optional
+             
+        Returns 
+        --------
+        fig
+            Matplotlib fig object
+        ax 
+            Matplotlib ax object
+        ''' 
+
+        func() 
+
+        ymin, ymax, yinc = calculate_y_params(data, **kwargs)
+
+        fig, ax = plot_line_data(data, kwargs.get('ax',None))
+
+        fig, ax = set_plot_style(fig, ax, ymin, ymax, 
+                                 plot_size=kwargs.get('plot_size', (6.1, 4.1)), 
+                                 set_plot_size=kwargs.get('set_plot_size', True))
+
+        fig, ax = set_ticks(fig, ax, ymin, ymax, yinc)
+
+        fig, ax = set_labels(fig, ax, xlab, ylab)
+
+        return fig, ax
+
+def calculate_y_params(df, **kwargs): 
+    '''
+    Checks if minimum, maximum and increment values are passed into the plotting function 
+    for the y axis, and returns these. Otherwise, calculates them.
+    '''
+    ymax = kwargs.get('ymax', int(df.max(axis=1).max(axis=0)))
+    ymin = kwargs.get('ymin', 0)
+    delta, i = calculate_delta(ymax, ymin)
+    yinc = kwargs.get('yinc', int(round(delta+1)*pow(10,i)))
+
+    return ymin, ymax, yinc
+
+def calculate_delta(ymax, ymin):
+    '''
+    Returns parameters used to find the size of the y axis increments.
+    '''
+    delta = (ymax - ymin)/4
+    i = 0
+    while True:
+        delta /= 10
+        i += 1
+        if delta < 10:
+            break
+    return delta, i
+
+def plot_line_data(df, axis):
+    '''
+    Plots all columns in the input dataframe as lines in one graph.
+    '''
+    if axis != None:
+        ax = axis
+        fig = ax.get_figure()
+    else:
+        fig, ax = plt.subplots()
+
+    colour_instance = colour()
+    for i, col in enumerate(df.columns):
+        hex_code = colour_instance.get_colour_from_index(i+1)
+        ax.plot(df[col] ,linewidth=3, color = hex_code)
+
+    return fig, ax
+
+def set_plot_style(fig, ax, ymin, ymax, plot_size, set_plot_size):
+    '''
+    Sets background and grid colour for plot.
+    '''
+    if set_plot_size == True:
+        fig.set_size_inches(plot_size)
+    ax.set_facecolor('xkcd:white')
+    ax.set_ylim([ymin, ymax])
+    ax.grid(color='k', linestyle='-', linewidth=0.2)
+    return fig, ax
+
+def set_ticks(fig, ax, ymin, ymax, yinc): 
+    '''
+    Sets x and y axis tick locations and tick labels.
+    '''
+    ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
+    ax.xaxis.set_major_locator(mpl.ticker.FixedLocator(range(len(ax.get_xticklabels()))))
+    ax.set_xticklabels(labels=ax.get_xticklabels(), fontsize = 9, fontname=font.normal)
+    ax.set_yticks(range(ymin, ymax + yinc, yinc), labels=range(ymin, ymax + yinc, yinc), fontsize = 9, fontname = font.normal)
+
+    return fig, ax 
+
+def set_labels(fig, ax, xlab, ylab):
+    '''
+    Set the labels of the y and x axes.
+    '''
+    ax.set_xlabel(xlab, fontsize=9, fontweight = 'bold', horizontalalignment='right', x=0, labelpad=10, 
+                fontname = font.normal)
+    ax.set_ylabel(ylab, fontsize=9, fontweight = 'bold',
+                horizontalalignment='right', y=1.0, 
+                labelpad=10, fontname = font.normal)
+
+    return fig, ax
