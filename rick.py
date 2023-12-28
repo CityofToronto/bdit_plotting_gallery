@@ -335,8 +335,8 @@ class charts:
         
         ax.set_facecolor('xkcd:white')
 
-        plt.xlabel(xlab, fontsize=9, fontweight = 'bold', horizontalalignment='right', x=0, labelpad=10, fontname = font.normal)
-        
+        plt.xlabel(xlab, fontsize=9, fontweight = 'bold', horizontalalignment='right', x=0, labelpad=10, 
+                   fontname = font.normal)
         ax.grid(color='k', linestyle='-', linewidth=0.2)
         plt.ylabel(ylab, fontsize=9, fontweight = 'bold',
                    horizontalalignment='right', y=1.0, 
@@ -432,16 +432,15 @@ class charts:
         else:
             upper = int(3*yinc+ymin)
 
-        fig, ax = plt.subplots(dpi=450.0)
+        fig, ax = plt.subplots(dpi=450.0, figsize=(12,12))
         ax.plot(data, linewidth = 2.5, color = colour.purple)
 
         # Commented to view weekday spans 
         #plt.grid()
-        ax.set_xlim(0, 168)
         ax.set_facecolor('xkcd:white')
 
         plt.xlabel('Time of week', fontname = font.normal, fontsize=9, horizontalalignment='left', x=0, labelpad=3, fontweight = 'bold')
-        ax.set_ylim([ymin, upper])
+        ax.set_ylim([ymin,upper])
 
         ax.grid(color='k', linestyle='-', linewidth=0.2)
         plt.ylabel(ylab, fontname = font.normal, fontsize=9, horizontalalignment='right', y=1, labelpad=7, fontweight = 'bold')
@@ -449,33 +448,34 @@ class charts:
 
         ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
         plt.yticks(range(ymin,upper+int(0.1*yinc), yinc), fontsize =9, fontname = font.normal)
-        
-        
-        # Experiment-3 - Y ticks (only 9H & 18H)
-        list_major_ticks  = [0, 9, 18, 24, 33, 42, 48, 57, 66, 72, 81, 90, 96, 105, 114, 120, 129, 138, 144, 153, 162, 168]
-        list_major_labels = ['0','9','18',
-                             '0','9','18',
-                             '0','9','18',
-                             '0','9','18',
-                             '0','9','18',
-                             '0','9','18',
-                             '0','9','18',
-                             '0']               
-        
+
+        list_major_ticks  = np.arange(0, 180, 12)
+        list_major_labels = ['0','12','0','12','0','12','0','12','0','12','0','12','0','12','0']
         ax.xaxis.set_major_locator(ticker.FixedLocator(list_major_ticks))
         ax.xaxis.set_major_formatter(ticker.FixedFormatter(list_major_labels))
         ax.tick_params(axis='x', which='major', colors = colour.light_grey, labelsize=7)
 
-        list_minor_ticks  = list(range(12,180,24))
+        list_minor_ticks  = np.arange(0, 180, 24)
         list_minor_labels = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
-        
         # Minor ticks location isn't being set correctly with below
-        ax.xaxis.set_minor_locator(ticker.FixedLocator(list_minor_ticks))
-        ax.xaxis.set_minor_formatter(ticker.FixedFormatter(list_minor_labels))
-        ax.tick_params(axis='x',which='minor', colors = 'k', labelsize=9, pad=14)
+        #ax.xaxis.set_minor_locator(ticker.FixedLocator(list_minor_ticks))
+        #ax.xaxis.set_minor_formatter(ticker.FixedFormatter(list_minor_labels))
+        #ax.tick_params(axis='x', which='minor', colors = 'k', labelsize=9, pad =14)
+        #ax.minorticks_on()
+
+        # Weekday colors (Ref:https://blog.forret.com/2007/08/21/weekday-colours-ayurveda/)
+        #list_colors_of_the_week = ['#FFFAF0', '#CD5C5C', '#32CD32', '#FFFFE0', '#F0F8FF', '#663399', '#800000']
+        list_colors_of_the_week = ['#F0F8FF', '#F0F8FF', '#F0F8FF', '#F0F8FF', '#F0F8FF', '#F0F8FF', '#F0F8FF']
+        
+        # Spans for DOW
+        for icolor in range(len(list_colors_of_the_week)):
+            ax.axvspan(list_minor_ticks[icolor], list_minor_ticks[icolor+1], alpha=0.12, lw=0, color=list_colors_of_the_week[icolor])
+            ax.axvline(x=list_minor_ticks[icolor+1], linewidth=0.25, color='#000000')
+            ax.text(np.mean([list_minor_ticks[icolor], list_minor_ticks[icolor+1]]) - len(list_minor_labels[icolor]), ymax-yinc, list_minor_labels[icolor], fontsize=7)
 
         props = dict(boxstyle='round, pad=0.3',edgecolor=colour.purple, linewidth = 1.5, facecolor = 'w', alpha=1)
 
+        ax.set_xlim(0, 167)
         return fig, ax, props
 
     def stacked_chart(data_in, xlab, lab1, lab2, **kwargs):
