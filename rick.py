@@ -399,7 +399,7 @@ class charts:
 
         if (xticker_labels is not None):
             list_major_labels = xticker_labels
-            list_major_ticks  = xticker_slots
+            list_major_ticks  = np.arange(0, len(list_major_labels), 1)
             ax.xaxis.set_major_locator(ticker.FixedLocator(list_major_ticks))
             ax.xaxis.set_major_formatter(ticker.FixedFormatter(list_major_labels))
             #ax.tick_params(axis='x', which='major', colors = colour.light_grey, labelsize=7, rotation=0)
@@ -618,16 +618,16 @@ class charts:
             data[['values1', 'values2']] = data[['values1', 'values2']].astype(int)
         for i in data['values2']:
             if i < 0.1*upper:
-                ax.annotate(str(format(round(i,precision), ',')), xy=(i+0.015*upper, j-0.05), ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
+                ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
             else:
                 ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
             j=j+1
         j=0.4
         for i in data['values1']:
             if i < 0.1*upper:
-                ax.annotate(str(format(round(i,precision), ',')), xy=(i+0.015*upper, j-0.07), ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
+                ax.annotate(str(format(round(i,precision), ',')), xy=(i+0.015*upper, j-0.05), ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
             else:
-                ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.07), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
+                ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
             j=j+1
 
         
@@ -640,8 +640,8 @@ class charts:
             data_yoy['percent'] = (data['values2']-data['values1'])*100/data['values1']
             j=0.15
             for index, row in data_yoy.iterrows():
-                ax.annotate(('+' if row['percent'] > 0 else '')+str(format(int(round(row['percent'],0)), ','))+'%', 
-                            xy=(max(row[['values1', 'values2']]) + (0.12 if row['values2'] < 0.1*upper else 0.03)*upper, j), color = 'k', fontname = font.normal, fontsize=10)
+                ax.annotate('+'+str(format(int(round(row['percent'],0)), ','))+'%',
+                            xy=(max(row[['values1', 'values2']]) + 0.03*upper, j), color = 'k', fontname = font.normal, fontsize=10)
                 j=j+1
                 
 
