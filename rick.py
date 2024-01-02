@@ -26,9 +26,9 @@ class font:
     
     """
     
-    leg_font = font_manager.FontProperties(family='Libre Franklin',size=9)
-    normal = 'Libre Franklin'
-    semibold = 'Libre Franklin SemiBold'
+    leg_font = font_manager.FontProperties(family='DejaVu Sans',size=9)
+    normal = 'DejaVu Sans'
+    semibold = 'DejaVu Sans SemiBold'
     
     
 class colour():
@@ -88,7 +88,7 @@ class geo:
         
         '''
         ttc = gpd.GeoDataFrame.from_postgis(query, con, geom_col='geom')
-        ttc = ttc.to_crs(epsg=3857)
+        ttc = ttc.to_crs('epsg:3857')
         
         # Below can be replaced by an apply lambda
         # in case one row is of a different type (e.g. MULTIPOLYGON vs POLYGON)
@@ -119,14 +119,14 @@ class geo:
 
         SELECT 
         geom
-        FROM gis.zones_tts06
+        FROM tts.zones_tts06
         WHERE gta06 = 81
 
         '''
 
         island =  gpd.GeoDataFrame.from_postgis(query, con, geom_col='geom')
         # island  = island.to_crs({'init' :'epsg:3857'})
-        island  = island.to_crs(epsg=3857)
+        island  = island.to_crs('epsg:3857')
 
         # Below can be replaced by an apply lambda
         # in case one row is of a different type (e.g. MULTIPOLYGON vs POLYGON)
@@ -151,9 +151,9 @@ class charts:
         """
         
         sns.set(font_scale=1.5) 
-        mpl.rc('font',family='Libre Franklin')
+        mpl.rc('font',family='DejaVu Sans')
     
-    def chloro_map(con, df, lower, upper, title, **kwargs):
+    def chloro_map(con, df, subway, island, lower, upper, title, **kwargs):
         """Creates a chloropleth map
         
         Parameters
@@ -198,9 +198,9 @@ class charts:
         df.columns = ['geom', 'values']
         light = '#d9d9d9'
 
-        fig, ax = plt.subplots(dpi=450.0, figsize=(12,12))
+        fig, ax = plt.subplots()
         fig.set_size_inches(6.69,3.345)
-        
+         
         ax.set_yticklabels([])
         ax.set_xticklabels([])
         ax.set_axis_off()
@@ -399,7 +399,7 @@ class charts:
 
         if (xticker_labels is not None):
             list_major_labels = xticker_labels
-            list_major_ticks  = np.arange(0, len(list_major_labels), 1)
+            list_major_ticks  = xticker_slots
             ax.xaxis.set_major_locator(ticker.FixedLocator(list_major_ticks))
             ax.xaxis.set_major_formatter(ticker.FixedFormatter(list_major_labels))
             #ax.tick_params(axis='x', which='major', colors = colour.light_grey, labelsize=7, rotation=0)
@@ -618,16 +618,16 @@ class charts:
             data[['values1', 'values2']] = data[['values1', 'values2']].astype(int)
         for i in data['values2']:
             if i < 0.1*upper:
-                ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
+                ax.annotate(str(format(round(i,precision), ',')), xy=(i+0.015*upper, j-0.05), ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
             else:
                 ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
             j=j+1
         j=0.4
         for i in data['values1']:
             if i < 0.1*upper:
-                ax.annotate(str(format(round(i,precision), ',')), xy=(i+0.015*upper, j-0.05), ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
+                ax.annotate(str(format(round(i,precision), ',')), xy=(i+0.015*upper, j-0.07), ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
             else:
-                ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
+                ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.07), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
             j=j+1
 
         
@@ -640,8 +640,8 @@ class charts:
             data_yoy['percent'] = (data['values2']-data['values1'])*100/data['values1']
             j=0.15
             for index, row in data_yoy.iterrows():
-                ax.annotate('+'+str(format(int(round(row['percent'],0)), ','))+'%', 
-                            xy=(max(row[['values1', 'values2']]) + 0.03*upper, j), color = 'k', fontname = font.normal, fontsize=10)
+                ax.annotate(('+' if row['percent'] > 0 else '')+str(format(int(round(row['percent'],0)), ','))+'%', 
+                            xy=(max(row[['values1', 'values2']]) + (0.12 if row['values2'] < 0.1*upper else 0.03)*upper, j), color = 'k', fontname = font.normal, fontsize=10)
                 j=j+1
                 
 
