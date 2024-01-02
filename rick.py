@@ -26,9 +26,9 @@ class font:
     
     """
     
-    leg_font = font_manager.FontProperties(family='DejaVu Sans',size=9)
-    normal = 'DejaVu Sans'
-    semibold = 'DejaVu Sans SemiBold'
+    leg_font = font_manager.FontProperties(family='Libre Franklin',size=9)
+    normal = 'Libre Franklin'
+    semibold = 'Libre Franklin SemiBold'
     
     
 class colour():
@@ -88,7 +88,7 @@ class geo:
         
         '''
         ttc = gpd.GeoDataFrame.from_postgis(query, con, geom_col='geom')
-        ttc = ttc.to_crs('epsg:3857')
+        ttc = ttc.to_crs(epsg=3857)
         
         # Below can be replaced by an apply lambda
         # in case one row is of a different type (e.g. MULTIPOLYGON vs POLYGON)
@@ -119,14 +119,14 @@ class geo:
 
         SELECT 
         geom
-        FROM tts.zones_tts06
+        FROM gis.zones_tts06
         WHERE gta06 = 81
 
         '''
 
         island =  gpd.GeoDataFrame.from_postgis(query, con, geom_col='geom')
         # island  = island.to_crs({'init' :'epsg:3857'})
-        island  = island.to_crs('epsg:3857')
+        island  = island.to_crs(epsg=3857)
 
         # Below can be replaced by an apply lambda
         # in case one row is of a different type (e.g. MULTIPOLYGON vs POLYGON)
@@ -151,9 +151,9 @@ class charts:
         """
         
         sns.set(font_scale=1.5) 
-        mpl.rc('font',family='DejaVu Sans')
+        mpl.rc('font',family='Libre Franklin')
     
-    def chloro_map(con, df, subway, island, lower, upper, title, **kwargs):
+    def chloro_map(con, df, lower, upper, title, **kwargs):
         """Creates a chloropleth map
         
         Parameters
@@ -198,9 +198,9 @@ class charts:
         df.columns = ['geom', 'values']
         light = '#d9d9d9'
 
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(dpi=450.0, figsize=(12,12))
         fig.set_size_inches(6.69,3.345)
-         
+        
         ax.set_yticklabels([])
         ax.set_xticklabels([])
         ax.set_axis_off()
