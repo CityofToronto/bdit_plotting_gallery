@@ -18,7 +18,7 @@ import seaborn as sns
 from shapely.geometry import Point
 import matplotlib.font_manager as font_manager
 import numpy as np
-import pandas as pd 
+import pandas as pd
 import copy
 
 class font:
@@ -30,33 +30,35 @@ class font:
     leg_font = font_manager.FontProperties(family='DejaVu Sans',size=9)
     normal = 'DejaVu Sans'
     semibold = 'DejaVu Sans SemiBold'
-    
-    
+
+
 class colour():
     """
     Class defining the global colour variables for all functions.
-    
+
     """
 
     purple = '#660159'
     grey = '#7f7e7e'
     orange = '#d95f02'
-    green = '#0D9F73' 
+    green = '#0D9F73'
     blue = '#253494'
     light_grey = '#777777'
     cmap = 'YlOrRd'
 
     colours_map = {
         1: purple,
-        2: grey, 
-        3: orange, 
+        2: grey,
+        3: orange,
         4: blue,
-        5: green, 
+        5: green,
         6: light_grey
     }
+
     def get_colour_from_index(self, index):
         return self.colours_map[index]
-    
+
+
 class geo:
     """
     Class for additional gis layers needed for the cloropleth map.
@@ -132,26 +134,27 @@ class geo:
         island['geom']=island['geom'].apply(lambda x: shapely.affinity.rotate(x, angle=-17, origin = Point(0, 0)))
 
         return island
-    
+
+
 class charts:
     """
     Class defining all the charting functions.
-    
+
     """
-    
+
     global func
     def func():
-        
+
         """Function to set global settings for the charts class. 
-        
+
         """
-        
+
         sns.set(font_scale=1.5) 
         mpl.rc('font',family='DejaVu Sans')
-    
+
     def chloro_map(con, df, lower, upper, title, **kwargs):
         """Creates a chloropleth map
-        
+
         Parameters
         -----------
         con : SQL connection object
@@ -1335,6 +1338,8 @@ def general_grouped_bar_chart(data, param_axis, index_axis, horizontal, standard
         ax
             Matplotlib ax object
         '''
+        BAR_WIDTH = 1/(len(data.columns)+1)
+        TICK_OFFSET = (len(data.columns)-1) * BAR_WIDTH/2
 
         func()
 
@@ -1368,7 +1373,7 @@ def general_grouped_bar_chart(data, param_axis, index_axis, horizontal, standard
             inc=inc,
             index_axis=index_axis,
             data=data,
-            offset=1/(len(data.columns)+1)
+            offset=TICK_OFFSET
         )
 
         fig, ax = set_labels(
