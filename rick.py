@@ -4,6 +4,7 @@ Version 0.8.0
 TODO:
 - add type hints to all functions
 - add docstrings explaining input/output
+- consistent variable naming
 - implement legend function
 - more general annotation function
 
