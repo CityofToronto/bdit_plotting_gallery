@@ -18,6 +18,8 @@ import seaborn as sns
 from shapely.geometry import Point
 import matplotlib.font_manager as font_manager
 import numpy as np
+import pandas as pd 
+import copy
 
 class font:
     """
@@ -25,20 +27,35 @@ class font:
     
     """
     
-    leg_font = font_manager.FontProperties(family='Libre Franklin',size=9)
-    normal = 'Libre Franklin'
-    semibold = 'Libre Franklin SemiBold'
+    leg_font = font_manager.FontProperties(family='DejaVu Sans',size=9)
+    normal = 'DejaVu Sans'
+    semibold = 'DejaVu Sans SemiBold'
     
     
-class colour:
+class colour():
     """
     Class defining the global colour variables for all functions.
     
     """
+
     purple = '#660159'
     grey = '#7f7e7e'
+    orange = '#d95f02'
+    green = '#0D9F73' 
+    blue = '#253494'
     light_grey = '#777777'
     cmap = 'YlOrRd'
+
+    colours_map = {
+        1: purple,
+        2: grey, 
+        3: orange, 
+        4: blue,
+        5: green, 
+        6: light_grey
+    }
+    def get_colour_from_index(self, index):
+        return self.colours_map[index]
     
 class geo:
     """
@@ -130,7 +147,7 @@ class charts:
         """
         
         sns.set(font_scale=1.5) 
-        mpl.rc('font',family='Libre Franklin')
+        mpl.rc('font',family='DejaVu Sans')
     
     def chloro_map(con, df, lower, upper, title, **kwargs):
         """Creates a chloropleth map
@@ -480,7 +497,7 @@ class charts:
             data[['values1', 'values2']] = data[['values1', 'values2']].astype(int)
         for i in data['values2']:
             if i < 0.1*upper:
-                ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
+                ax.annotate(str(format(round(i,precision), ',')), xy=(i+0.015*upper, j-0.05), ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
             else:
                 ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
             j=j+1
@@ -502,13 +519,157 @@ class charts:
             data_yoy['percent'] = (data['values2']-data['values1'])*100/data['values1']
             j=0.15
             for index, row in data_yoy.iterrows():
-                ax.annotate('+'+str(format(int(round(row['percent'],0)), ','))+'%', xy=(max(row[['values1', 'values2']]) + 0.03*upper, j), 
-                                                                                           color = 'k', fontname = font.normal, fontsize=10)
+                ax.annotate(('+' if row['percent'] > 0 else '')+str(format(int(round(row['percent'],0)), ','))+'%', 
+                            xy=(max(row[['values1', 'values2']]) + (0.12 if row['values2'] < 0.1*upper else 0.03)*upper, j), color = 'k', fontname = font.normal, fontsize=10)
                 j=j+1
                 
 
         return fig, ax
     
+    def stacked_chart_quad(data_in, xlab, lab1, lab2, lab3, lab4, **kwargs):
+        """Creates a stacked bar chart comparing 4 sets of data
+        
+        Parameters
+        -----------
+        data : dataframe
+            Data for the stacked bar chart. The dataframe must have 5 columns, the first representing the y ticks, the second representing the baseline, and the third representing the next series of data.
+        xlab : str
+            Label for the x axis.
+        lab1 : str
+            Label in the legend for the baseline
+        lab2 : str
+            Label in the legend fot the next data series
+        xmax : int, optional, default is the max s value
+            The max value of the y axis
+        xmin : int, optional, default is 0
+            The minimum value of the x axis
+        precision : int, optional, default is -1
+            Decimal places in the annotations
+        percent : boolean, optional, default is False
+            Whether the annotations should be formatted as percentages
+            
+        xinc : int, optional
+            The increment of ticks on the x axis.
+        
+        Returns 
+        --------
+        fig
+            Matplotlib fig object
+        ax 
+            Matplotlib ax object
+            
+        """
+        
+        func()
+        data = data_in.copy(deep=True)
+        
+        data.columns = ['name', 'values1', 'values2', 'values3', 'values4']
+        
+        xmin = kwargs.get('xmin', 0)
+        xmax = kwargs.get('xmax', None)
+        precision = kwargs.get('precision', -1)
+        percent = kwargs.get('percent', False)
+        
+        xmax_flag = True
+        if xmax == None:
+            xmax = int(max(data[['values1', 'values2', 'values3', 'values4']].max()))
+            xmax_flag = False
+        
+        delta = (xmax - xmin)/4
+        i = 0
+        while True:
+            delta /= 10
+            i += 1
+            if delta < 10:
+                break
+        xinc = kwargs.get('xinc', int(round(delta+1)*pow(10,i)))
+
+        if xmax_flag == True:
+            upper = xmax
+        else:
+            upper = int(4*xinc+xmin)
+        
+        ind = np.arange(len(data))
+
+        fig, ax = plt.subplots()
+        fig.set_size_inches(6.1, len(data)*1.5)
+        ax.grid(color='k', linestyle='-', linewidth=0.25)
+
+        p1 = ax.barh(ind+0.6, data['values1'], 0.2, align='center', color = colour.green)
+        p2 = ax.barh(ind+0.4, data['values2'], 0.2, align='center', color = colour.blue)
+        p3 = ax.barh(ind+0.2, data['values3'], 0.2, align='center', color = colour.grey)
+        p4 = ax.barh(ind, data['values4'], 0.2, align='center', color=colour.purple)
+        ax.xaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
+
+        ax.xaxis.grid(True)
+        ax.yaxis.grid(False)
+        ax.set_yticks(ind+0.6/2)
+        ax.set_xlim(0,upper)
+        ax.set_yticklabels(data['name'])
+        ax.set_xlabel(xlab,  horizontalalignment='left', x=0, labelpad=10, fontname = font.normal, fontsize=10, fontweight = 'bold')
+
+        ax.set_facecolor('xkcd:white')
+        
+        
+        if precision < 1:
+            data[['values1', 'values2', 'values3', 'values4']] = data[['values1', 'values2', 'values3', 'values4']].astype(int)
+        
+        j = 0.0
+        for k in range(4,0,-1):
+
+            for i in data[f'values{k}']:
+                if i < 0.1*upper:
+                    ax.annotate(str(format(round(i,precision), ',')), xy=(i+0.015*upper, j-0.05), ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
+                else:
+                    ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
+                j=j+1
+            j = j-len(data[f'values{k}']) + 0.2
+            
+
+        ax.legend((p1[0], p2[0], p3[0], p4[0]), (lab1, lab2, lab3, lab4), loc=4, frameon=False, prop=font.leg_font)
+        plt.xticks(range(xmin,upper+int(0.1*xinc), xinc), fontname = font.normal, fontsize =10)
+        plt.yticks( fontname = font.normal, fontsize =10)
+        
+        if percent == True:
+            j = 0.15 
+            data_yoy = data
+            for k in range(3,0,-1):
+                data_yoy[f'percent{k}'] = (data['values4']-data[f'values{k}'])*100/data[f'values{k}']
+                
+                for index, row in data_yoy.iterrows():
+                    ax.annotate(('+' if row[f'percent{k}'] > 0 else '')+str(format(int(round(row[f'percent{k}'],0)), ','))+'%', 
+                                xy=(max(row[['values1', 'values2', 'values3', 'values4']]) + (0.12 if row['values4'] < 0.1*upper else 0.03)*upper, j), color = 'k', fontname = font.normal, fontsize=10)
+                    j+=1
+                j = j-len(data_yoy) + 0.2
+                    
+
+        return fig, ax
+    
+    def horizontal_grouped_bar_chart(data, **kwargs):
+        # Assumption: if percent, comparison is made to the last column of the df 
+        return general_grouped_bar_chart(
+            data=data,
+            param_axis='x',
+            index_axis='y',
+            horizontal=True,
+            standard_plot_size=(6.1, len(data)*1.5),
+            grid_y=False,
+            **kwargs
+            )
+
+    def vertical_grouped_bar_chart(data, **kwargs):
+
+        return general_grouped_bar_chart(
+            data=data,
+            param_axis='y',
+            index_axis='x',
+            horizontal=False,
+            standard_plot_size=(len(data)*1.5, 6.1),
+            grid_x=False,
+            **kwargs
+            )
+
+
     def bar_chart(data_in, xlab,**kwargs):
         """Creates a bar chart
         
@@ -599,7 +760,279 @@ class charts:
         
         return fig, ax
 
-    def multi_linechart(data, ylab, xlab, **kwargs):
+
+    def multi_linechart(df_line, sett):
+        '''Creates a line chart of one or more lines.
+    
+        Number of lines to plot determined from columns in input dataframe.
+    
+    
+        '''
+        df=df_line.copy()
+    
+        # ----------------------------------------------
+        # Setup the figure
+        fig, ax =plt.subplots(1)
+        fig.set_size_inches(18, 5)
+        ax = plt.gca()
+    
+        # ----------------------------------------------
+        # Default styling params if not defined in sett
+        if 'body' in sett:
+            dflt={
+                'font-size':(12 if 'font-size' not in sett['body']
+                             else sett['body']['font-size']),
+                'font-family':('sans-serif' if 'font-family' not in sett['body']
+                             else sett['body']['font-family']),
+                'fontfamily-list':(['Libre Franklin', 'DejaVu Sans'] if 'fontfamily-list'
+                              not in sett['body']
+                              else sett['body']['fontfamily-list']),
+                'stroke':('#000000' if 'stroke' not in sett['body']
+                             else sett['body']['stroke']),
+                'stroke-width':(2 if 'stroke-width' not in sett['body']
+                             else sett['body']['stroke-width']),
+                'border':('solid' if 'border' not in sett['body']
+                             else sett['body']['border'])
+            }
+        else:
+            dflt={
+                'font-size':12, 'font-family':'sans-serif',
+                'fontfamily-list':['Libre Franklin', 'DejaVu Sans'],
+                'stroke':'#000000', 'stroke-width':2, 'border':'solid'
+            }
+    
+        mpl.rcParams['font.family'] = dflt['font-family']
+        if dflt['font-family']=='sans-serif':
+            mpl.rcParams['font.sans-serif']=dflt['fontfamily-list']
+    
+    #     mpl.rcParams.update({
+    #         'font.size': dflt['font-size'],
+    #         'font.family': dflt['font-family']
+    #     })
+        # ----------------------------------------------------------------
+        # WEIRD HACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # For some reason, mpl.rcParams needs to be run TWICE before it
+        # actually gets set. So just before calling the function,
+        # make sure you set it again...
+        # ----------------------------------------------------------------
+    
+        # ----------------------------------------------
+        # Define line-number-dependent params
+        num_lines=df.shape[1] - 1
+    
+        col_names=['xcol']
+        ymax_array=[]
+        for n in range(num_lines):
+            col_names.append('ycol_' + str(n))
+            ymax_array.append(df.iloc[:,n+1].max())
+    
+        df.columns=col_names
+    
+        # ----------------------------------------------
+        # title
+        if 'title' in sett:
+            if 'title_params' in sett:
+                title_size=(
+                    dflt['font-size'] if 'font-size' not in
+                    sett['title_params']
+                    else sett['title_params']['font-size'])
+                loc=('center' if 'loc' not in sett['title_params']
+                     else sett['title_params']['loc'])
+            ax.set_title(sett['title'], fontsize=title_size,  loc=loc)
+    
+        # ----------------------------------------------
+        # grid
+        if 'major_grid_on' in sett and sett['major_grid_on']==True:
+            if 'major_grid' in sett:
+                c=('gray' if 'stroke' not in sett['major_grid']
+                   else sett['major_grid']['stroke'])
+                b=('-' if 'border' not in sett['major_grid']
+                   else sett['major_grid']['border'])
+            else:
+                c='gray'
+                b='-'
+            plt.grid(b=True, which='major', color=c, linestyle=b)
+        if 'minor_grid_on' in sett and sett['minor_grid_on']==True:
+            if 'minor_grid' in sett:
+                c=('gray' if 'stroke' not in sett['minor_grid']
+                   else sett['minor_grid']['stroke'])
+                b=('-' if 'border' not in sett['minor_grid']
+                   else sett['minor_grid']['border'])
+            else:
+                c='gray'
+                b='-'
+            plt.grid(b=True, which='minor', color=c, linestyle=b)
+    
+        # ----------------------------------------------
+        # axes (both)
+        mpl.rcParams['axes.linewidth'] = 0.3
+        ticklength=2 if 'ticklength' not in sett else sett['ticklength']
+        tickwidth=1 if 'tickwidth' not in sett else sett['tickwidth']
+        ax.tick_params(width=tickwidth, length=ticklength)
+    
+        # y-axis
+        if 'yaxis' in sett:
+            ymin=(0 if 'ymin' not in sett['yaxis']
+                  else sett['yaxis']['ymin'])
+            ymax=(np.max(ymax_array)*(1 + 0.1) if 'ymax'
+                  not in sett['yaxis']
+                  else sett['yaxis']['ymax'])
+    
+            # y-axis label
+            label=('' if 'label' not in sett['yaxis']
+                   else sett['yaxis']['label'])
+            labelsize=(dflt['font-size'] if 'labelsize'
+                       not in sett['yaxis']
+                       else sett['yaxis']['labelsize'])
+            plt.ylabel(label, fontsize=labelsize)
+    
+            # Format y-axis tick labels
+            ticklabelsize=(dflt['font-size'] if 'ticklabelsize'
+                      not in sett['yaxis']
+                      else sett['yaxis']['ticklabelsize'])
+            ax.tick_params(axis='y', labelsize=ticklabelsize)
+    
+            # comma format
+            precision=('.0f' if 'precision'
+                       not in sett['yaxis']
+                       else sett['yaxis']['precision'])
+            ax.yaxis.set_major_formatter(
+                mpl.ticker.StrMethodFormatter('{x:,' + precision + '}')
+            )
+        else:
+            ymin=0
+            ymax=np.max(ymax_array)*(1 + 0.1)
+    
+        delta = (ymax - ymin)/4
+        i = 0
+        while True:
+            delta /= 10
+            i += 1
+            if delta < 10:
+                break
+        if 'yinc' in sett:
+            yinc=sett['yinc']
+        else:
+            yinc = int(round(delta+1)*pow(10,i))
+    
+        plt.ylim(top=ymax, bottom=ymin)
+    
+        # ----------------------------------------------
+        # x-axis
+        if 'xaxis' in sett:
+            # x-axis label
+            label=('' if 'label' not in sett['xaxis']
+                   else sett['xaxis']['label'])
+            labelsize=(dflt['font-size'] if 'labelsize'
+                       not in sett['xaxis']
+                       else sett['xaxis']['labelsize'])
+            plt.xlabel(label, fontsize=labelsize)
+    
+            # x-axis tick labels
+            if 'major_loc' in sett['xaxis']: # x-values are dates
+                date_form_mjr = sett['xaxis']['major_loc']['date_form']
+                ax.xaxis.set_major_formatter(date_form_mjr)
+            if 'minor_loc' in sett['xaxis']:
+                date_form_mnr = sett['xaxis']['minor_loc']['date_form']
+                ax.xaxis.set_minor_locator(date_form_mnr)
+    
+            # x-axis tick label size
+            ticklabelsize=(dflt['font-size'] if 'ticklabelsize'
+                      not in sett['xaxis']
+                      else sett['xaxis']['ticklabelsize'])
+            ax.tick_params(axis='x', labelsize=ticklabelsize,
+                           labelbottom=True)
+        else:
+            # Default x-axis tick lines
+            ax.tick_params(axis='x', labelsize=dflt['font-size'],
+                           labelbottom=True)
+    
+        # ----------------------------------------------
+        # Plot data and legend
+        if 'legend' in sett:
+            legend_loc=('upper left' if 'loc' not in sett['legend']
+                        else sett['legend']['loc'])
+            leg_array=[]
+            custom_lines=[]
+    
+        for n in range(num_lines):
+            if 'lines' in sett:
+                line_colour=(dflt['stroke'] if 'stroke' not in
+                             sett['lines'][n]
+                             else sett['lines'][n]['stroke'])
+                line_width=(dflt['stroke-width'] if 'stroke-width'
+                            not in sett['lines'][n]
+                            else sett['lines'][n]['stroke-width'])
+                border_style=(dflt['border'] if 'border-style' not in
+                              sett['lines'][n]
+                              else sett['lines'][n]['border-style'])
+            else:
+                line_colour=dflt['stroke']
+                line_width=dflt['stroke-width']
+                border_style=dflt['border']
+    
+            ax.plot(df['xcol'], df['ycol_' + str(n)], linewidth=line_width,
+                    color = line_colour, linestyle=border_style)
+    
+            # Legend
+            if 'legend' in sett:
+                leg_array.append(sett['lines'][n]['label'])
+                custom_lines.append(Line2D([0], [0],
+                                           color=line_colour,
+                                           lw=line_width,
+                                           linestyle=border_style)
+                                   )
+    
+        if 'legend' in sett:
+            ax.legend(custom_lines, leg_array, loc=legend_loc,
+                      prop={"size": dflt['font-size']},
+                      ncol=len(df.columns))
+    
+        # ----------------------------------------------
+        # Plot shaded areas
+        if 'shaded' in sett:
+            num_a=len(sett['shaded'].keys())
+    
+            for area in range(num_a):
+                idx=sett['shaded'][area]['lims']
+                facecolour=sett['shaded'][area]['fill']
+                zorder=(0 if 'zorder' not in sett['shaded'][area]
+                        else sett['shaded'][area]['zorder'])
+                alpha=(1 if 'alpha' not in sett['shaded'][area]
+                       else sett['shaded'][area]['alpha'])
+    
+                # Shaded area left and right bds
+                for i in range(len(idx)):
+                    bd1=idx[i][0]
+                    bd2=idx[i][1]
+    
+                    ax.axvspan(bd1, bd2, facecolor=facecolour,
+                               edgecolor='none', alpha=alpha,
+                               zorder=zorder)
+    
+                # Shaded area label
+                if 'label' in sett['shaded'][area]:
+                    rot=(0 if 'rotation' not in
+                         sett['shaded'][area]['label']
+                         else sett['shaded'][area]['label']['rotation'])
+                    label_colour=(dflt['stroke'] if 'colour' not in
+                                  sett['shaded'][area]['label']
+                                  else sett['shaded'][area]['label']['colour'])
+                    label_size=(dflt['font-size'] if 'font-size' not in
+                                sett['shaded'][area]['label']
+                                else sett['shaded'][area]['label']['font-size'])
+                    plt.text(
+                        sett['shaded'][area]['label']['x'], # x posn of label
+                        sett['shaded'][area]['label']['y'], # y posn of label
+                        sett['shaded'][area]['label']['text'],
+                        rotation=rot,
+                        color=label_colour,
+                        fontsize=label_size
+                    )
+    
+        return fig, ax
+ 
+    def multi_linechart_test(data, ylab, xlab, **kwargs):
         '''
         Creates a line chart of one or more lines.
         Number of lines to plot determined from columns in input dataframe.
@@ -618,7 +1051,12 @@ class charts:
             Should include this if ymin < 0.
         yinc : int, optional
             The increment of ticks on the y axis.
+        axis : Axes object, optional 
+            The axis that the plot will be located on. 
+        plot_size : tuple, optional 
 
+        set_plot_size : bool, optional 
+             
         Returns 
         --------
         fig
@@ -629,11 +1067,13 @@ class charts:
         
         func() 
 
-        ymin, ymax, yinc = calculate_y_params(data, **kwargs)
+        ymin, ymax, yinc = calculate_params(data, axis ='y', **kwargs)
 
-        fig, ax = plot_line_data(data)
+        fig, ax = plot_line_data(data, kwargs.get('ax',None))
         
-        fig, ax = set_plot_style(fig, ax, ymin, ymax)
+        fig, ax = set_plot_style(fig, ax, ymin, ymax, 
+                                 plot_size=kwargs.get('plot_size', (6.1, 4.1)), 
+                                 set_plot_size=kwargs.get('set_plot_size', True))
 
         fig, ax = set_ticks(fig, ax, ymin, ymax, yinc)
 
@@ -641,23 +1081,26 @@ class charts:
 
         return fig, ax
 
-def calculate_y_params(df, **kwargs): 
+def calculate_params(df:pd.DataFrame, param_axis:str, **kwargs) -> (float, float, float, float): 
     '''
     Checks if minimum, maximum and increment values are passed into the plotting function 
-    for the y axis, and returns these. Otherwise, calculates them.
+    for the specified axis, and returns these. Otherwise, calculates them.
     '''
-    ymax = kwargs.get('ymax', int(df.max(axis=1).max(axis=0)))
-    ymin = kwargs.get('ymin', 0)
-    delta, i = calculate_delta(ymax, ymin)
-    yinc = kwargs.get('yinc', int(round(delta+1)*pow(10,i)))
+    max_value = kwargs.get(f'{param_axis}max', int(df.max(axis=1).max(axis=0)))
+    min_value = kwargs.get(f'{param_axis}min', 0)
+    delta, i = calculate_delta(max_value, min_value)
+    inc = kwargs.get(f'{param_axis}inc', int(round(delta+1)*pow(10,i)))
+    if kwargs.get(f'{param_axis}max',None)==None:
+        upper=max_value 
+    else: 
+        upper=int(min_value+4*inc)
+    return max_value, min_value, inc, upper 
 
-    return ymin, ymax, yinc
-
-def calculate_delta(ymax, ymin):
+def calculate_delta(max_value:float, min_value:float) -> (float, float):
     '''
-    Returns parameters used to find the size of the y axis increments.
+    Returns parameters used to find the size of the y or x axis increments.
     '''
-    delta = (ymax - ymin)/4
+    delta = (max_value - min_value)/4
     i = 0
     while True:
         delta /= 10
@@ -666,47 +1109,284 @@ def calculate_delta(ymax, ymin):
             break
     return delta, i
 
-def plot_line_data(df):
+def plot_line_data(df:pd.DataFrame, axis:plt.axes) -> (plt.figure, plt.axes):
     '''
     Plots all columns in the input dataframe as lines in one graph.
     '''
-    fig, ax = plt.subplots()
+    fig, ax = init_fig(axis)
     colour_instance = colour()
     for i, col in enumerate(df.columns):
         hex_code = colour_instance.get_colour_from_index(i+1)
-        ax.plot(df[col] ,linewidth=3, color = hex_code)
+        ax.plot(df[col], linewidth=3, color=hex_code)
         
-    return fig, ax 
-
-def set_plot_style(fig, ax, ymin, ymax):
-    '''
-    Sets background and grid colour for plot.
-    '''
-    fig.set_size_inches(6.1, 4.1)
-    ax.set_facecolor('xkcd:white')
-    ax.set_ylim([ymin, ymax])
-    ax.grid(color='k', linestyle='-', linewidth=0.2)
     return fig, ax
 
-def set_ticks(fig, ax, ymin, ymax, yinc): 
+def plot_grouped_bar_data(data, ax, horizontal):
+    '''
+    Plots all columns in the input dataframe as bars in a grouped bar graph.
+    '''
+    fig, ax = init_fig(ax)
+    bar_width = 1/(len(data.columns)+1)
+    adjustment = 0
+    colour_instance = colour()
+    ind = np.arange(len(data))
+    
+    for i, col in enumerate((reversed(data.columns)) if horizontal else (data.columns)):
+        hex_code = colour_instance.get_colour_from_index(i+1)
+        getattr(ax, 'barh' if horizontal else 'bar')(ind+adjustment, data[col], bar_width, align='center', color = hex_code)
+        adjustment += bar_width
+
+    return fig, ax 
+
+def init_fig(axis):
+    '''
+    Sets the plot fig and axes objects to be the ones specified by the user or 
+    creates new ones.
+    '''
+    if axis != None:
+        ax = axis
+        fig = ax.get_figure()
+    else:
+        fig, ax = plt.subplots()    
+
+    return fig, ax
+
+def set_plot_style(fig, ax, plot_size, grid_x, grid_y, min_value, max_value, param_axis):
+    '''
+    Sets background and grid for plot.
+    TODO: add set size
+    '''
+    fig.set_size_inches(plot_size)
+    getattr(ax, 'set_ylim' if param_axis == 'y' else 'set_xlim')([min_value, max_value])
+    ax.set_facecolor('xkcd:white')
+    fig, ax = set_grid(fig, ax, grid_x, grid_y)
+    
+    return fig, ax
+
+def set_grid(fig, ax, grid_x, grid_y):
+    '''
+    Sets the grid for plot. 
+    '''
+    ax.grid(color='k', linestyle='-', linewidth=0.2)
+    ax.xaxis.grid(grid_x)
+    ax.yaxis.grid(grid_y)
+    return fig, ax 
+
+def set_ticks(fig, ax, min_value, max_value, inc, data, index_axis='x', offset=0): 
     '''
     Sets x and y axis tick locations and tick labels.
+    TODO: add description of inputs
     '''
-    ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
-    ax.xaxis.set_major_locator(mpl.ticker.FixedLocator(range(len(ax.get_xticklabels()))))
-    ax.set_xticklabels(labels=ax.get_xticklabels(), fontsize = 9, fontname=font.normal)
-    ax.set_yticks(range(ymin, ymax + yinc, yinc), labels=range(ymin, ymax + yinc, yinc), fontsize = 9, fontname = font.normal)
-    
+
+    locs = [x+offset for x in np.arange(len(data.index))]
+
+    # Set the locations for the ticks of the two axes 
+    getattr(ax, 'yaxis' if index_axis == 'y' else 'xaxis').set_major_locator(mpl.ticker.FixedLocator(locs))
+    getattr(ax, 'set_xticks' if index_axis == 'y' else 'set_yticks')(range(min_value, max_value + inc, inc), 
+                                                                    labels=range(min_value, max_value + inc, inc), 
+                                                                    fontsize = 9, fontname = font.normal)
+    # Set the formatting of the labels
+    getattr(ax, 'xaxis' if index_axis == 'y' else 'yaxis').set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
+    getattr(ax, 'set_yticklabels' if index_axis == 'y' else 'set_xticklabels')(labels=data.index, 
+                                                                               fontsize = 9)
+
     return fig, ax 
 
 def set_labels(fig, ax, xlab, ylab):
     '''
     Set the labels of the y and x axes.
     '''
-    ax.set_xlabel(xlab, fontsize=9, fontweight = 'bold', horizontalalignment='right', x=0, labelpad=10, 
-                fontname = font.normal)
-    ax.set_ylabel(ylab, fontsize=9, fontweight = 'bold',
-                horizontalalignment='right', y=1.0, 
-                labelpad=10, fontname = font.normal)
+    if xlab != None:
+        ax.set_xlabel(xlab, fontsize=9, fontweight='bold',
+                      horizontalalignment='right', x=0, 
+                      labelpad=10,
+                      fontname = font.normal)
+    if ylab != None:
+        ax.set_ylabel(ylab, fontsize=9, fontweight='bold',
+                      horizontalalignment='right', y=1.0, 
+                      labelpad=10, fontname = font.normal)
 
     return fig, ax 
+
+def add_bar_annotations(fig, ax, df, upper, precision, percent, additional_annotations, horizontal):
+    '''
+    TODO: add description and inputs 
+    '''
+    bar_width = 1/(len(df.columns)+1)
+
+    if precision < 1:
+        df[df.columns] = df[df.columns].astype(int)
+
+    if horizontal:
+        ax = horizontal_bar_annotations(df, ax, bar_width, upper, precision, percent)
+    else:
+        ax = vertical_bar_annotations(df, ax, bar_width, upper, precision, percent)
+
+    # TODO: make this more customizable - add another function possibly?
+    if additional_annotations != None:
+        for xy, text in additional_annotations.items():
+            ax.annotate(text=text, xy=xy, ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
+    
+
+    return fig, ax
+
+def horizontal_bar_annotations(df, ax, bar_width, upper, precision, percent):
+    '''
+    Adds value annotations to horizontal grouped or regular bar charts. 
+    '''
+    HORIZONTAL_CUTOFF = 0.1 * upper
+    ANNOTATION_OFFSET = 0.015 * upper
+    PERCENT_OFFSET = 0.03
+    
+    # Adding annotations for values of each bar 
+    for k in range(len(df.columns)):
+        j = bar_width*(len(df.columns)-1-k)
+        for i in df[df.columns[k]]:
+            xy = (i + ANNOTATION_OFFSET, j-0.05) if i < HORIZONTAL_CUTOFF else (i - ANNOTATION_OFFSET, j-0.05) 
+            ha = 'left' if i < HORIZONTAL_CUTOFF else 'right'
+            color = 'k' if i < HORIZONTAL_CUTOFF else 'w'
+            ax.annotate(str(format(round(i,precision), ',')), xy=xy, ha=ha, color=color, fontname=font.normal, fontsize=10)
+            j+=1
+
+    # Adding percentage difference between 'baseline' bar and all other bars (optional)
+    if percent: 
+        df_percent = copy.deepcopy(df)
+        for k, col in enumerate(reversed(df.columns[1:])):
+            df_percent[f'percent{k}'] = 100 * (df[col] - df[df.columns[0]]) / df[df.columns[0]]  # percent change = 100*(col-baseline)/baseline
+            j = bar_width*k
+            for index, row in df_percent.iterrows():
+                ax.annotate(
+                    ('+' if row[f'percent{k}'] > 0 else '') + str(format(int(round(row[f'percent{k}'])), ',')) + '%', # Rounds percentage to closest integer
+                    xy = (row[col] + (4*PERCENT_OFFSET if row[col] < HORIZONTAL_CUTOFF else PERCENT_OFFSET) * upper, j),  # Placement of percentage annotation 
+                    color = 'k',
+                    fontname = font.normal,
+                    fontsize=10
+                    )
+                j += 1
+        
+    return ax
+
+def vertical_bar_annotations(df, ax, bar_width, upper, precision, percent):
+    '''
+    Adds value annotations to vertical grouped or regular bar charts. 
+    '''
+    VERTICAL_CUTOFF = 0.1 * upper
+    ANNOTATION_OFFSET = 0.015 * upper
+    PERCENT_OFFSET = 0.03
+
+    # Adding annotations for values of each bar 
+    for k in range(len(df.columns)):
+        j = bar_width*k
+        for i in df[df.columns[k]]:
+            xy = (j, i + ANNOTATION_OFFSET) if i < VERTICAL_CUTOFF else (j, i - ANNOTATION_OFFSET)
+            va = 'top' if i >= VERTICAL_CUTOFF else 'center'
+            color = 'w' if i >= VERTICAL_CUTOFF else 'k'
+            ax.annotate(str(format(round(i, precision), ',')), xy=xy, ha='center', va=va, color=color, fontname=font.normal, fontsize=10)
+            j += 1
+
+    # Adding percentage difference between 'baseline' bar and all other bars (optional)
+    if percent: 
+        df_percent = copy.deepcopy(df)
+        for k, col in enumerate(df.columns[1:]):
+            df_percent[f'percent{k}'] = 100 * (df[col] - df[df.columns[0]]) / df[df.columns[0]]  # percent change = 100*(col-baseline)/baseline
+            j = bar_width * (k + 1)
+            for index, row in df_percent.iterrows():
+                ax.annotate(
+                    ('+' if row[f'percent{k}'] > 0 else '') + str(format(int(round(row[f'percent{k}'])), ',')) + '%', # Rounds percentage to closest integer
+                    xy = (j, row[col] + (4*PERCENT_OFFSET if row[col] < VERTICAL_CUTOFF else PERCENT_OFFSET) * upper),  # Placement of percentage annotation 
+                    ha='center',
+                    color = 'k',
+                    fontname = font.normal,
+                    fontsize=10
+                    )
+                j += 1
+    return ax
+
+def general_grouped_bar_chart(data, param_axis, index_axis, horizontal, standard_plot_size, grid_x=True, grid_y=True, **kwargs):
+        '''
+        Creates a horizontal grouped bar chart. Number of
+        bars in each group to plot is determined from the number of
+        columns in input dataframe, while the number of groups is
+        determined by the number of rows.
+
+        Parameters
+        -----------
+        data : array like or scalar
+            Data for the line chart.
+        ylab : str
+            Label for the y axis.
+        xlab : str
+            Label for the x axis.
+        xmax : int, optional, default is the max x value
+            The max value of the x axis.
+        xmin : int, optional, default is 0
+            The minimum value of the x axis
+            Should include this if xmin < 0.
+        xinc : int, optional
+            The increment of ticks on the x axis.
+        ax : Axes object, optional
+            The axis that the plot will be located on.
+        plot_size : tuple, optional
+
+        Returns
+        --------
+        fig
+            Matplotlib fig object
+        ax
+            Matplotlib ax object
+        '''
+
+        func()
+
+        max_value, min_value, inc, upper = calculate_params(
+            df=data,
+            param_axis=param_axis,
+            **kwargs)
+
+        fig, ax = plot_grouped_bar_data(
+            data=data,
+            ax=kwargs.get('ax', None), 
+            horizontal=horizontal
+        )
+
+        fig, ax = set_plot_style(
+            fig=fig,
+            ax=ax,
+            min_value=min_value,
+            max_value=max_value,
+            param_axis=param_axis,
+            plot_size=kwargs.get('plot_size', standard_plot_size),
+            grid_x=grid_x,
+            grid_y=grid_y
+        )
+
+        fig, ax = set_ticks(
+            fig=fig,
+            ax=ax,
+            min_value=min_value,
+            max_value=max_value,
+            inc=inc,
+            index_axis=index_axis,
+            data=data,
+            offset=1/(len(data.columns)+1)
+        )
+
+        fig, ax = set_labels(
+            fig=fig,
+            ax=ax,
+            xlab=kwargs.get('xlab', None),
+            ylab=kwargs.get('ylab', None)
+        )
+
+        fig, ax = add_bar_annotations(
+            fig=fig,
+            ax=ax,
+            df=data,
+            upper=upper,
+            horizontal=horizontal,
+            precision=kwargs.get('precision', -1),
+            percent=kwargs.get('percent', False),
+            additional_annotations=kwargs.get('annotations', None)
+        )
+
+        return fig, ax
