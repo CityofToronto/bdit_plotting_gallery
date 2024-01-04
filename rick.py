@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Version 0.8.0 
-
+Version 0.8.0
+TODO:
+- add type hints to all functions
+- add docstrings explaining input/output
+- implement legend function
+- more general annotation function
 
 """
 from psycopg2 import connect
@@ -1070,17 +1074,43 @@ class charts:
         
         func() 
 
-        ymin, ymax, yinc = calculate_params(data, axis ='y', **kwargs)
+        ymax, ymin, yinc, upper = calculate_params(
+            df=data,
+            param_axis ='y',
+            **kwargs
+            )
 
-        fig, ax = plot_line_data(data, kwargs.get('ax',None))
+        fig, ax = plot_line_data(
+            df=data,
+            axis=kwargs.get('ax',None)
+            )
         
-        fig, ax = set_plot_style(fig, ax, ymin, ymax, 
-                                 plot_size=kwargs.get('plot_size', (6.1, 4.1)), 
-                                 set_plot_size=kwargs.get('set_plot_size', True))
+        fig, ax = set_plot_style(
+            fig=fig,
+            ax=ax,
+            plot_size=kwargs.get('plot_size', (6.1, 4.1)), 
+            grid_x=True,
+            grid_y=True,
+            min_value=ymin,
+            max_value=ymax, 
+            param_axis='y'
+            )
 
-        fig, ax = set_ticks(fig, ax, ymin, ymax, yinc)
+        fig, ax = set_ticks(
+            fig=fig,
+            ax=ax,
+            df=data,
+            min_value=ymin, 
+            max_value=ymax, 
+            inc=yinc
+            )
 
-        fig, ax = set_labels(fig, ax, xlab, ylab)
+        fig, ax = set_labels(
+            fig=fig,
+            ax=ax,
+            xlab=xlab,
+            ylab=ylab
+            )
 
         return fig, ax
 
@@ -1088,6 +1118,8 @@ def calculate_params(df:pd.DataFrame, param_axis:str, **kwargs) -> (float, float
     '''
     Checks if minimum, maximum and increment values are passed into the plotting function 
     for the specified axis, and returns these. Otherwise, calculates them.
+    TODO: check whether the calculation of inc can be improved, at what value does it fail,
+    maybe print a warning if the user should specify it.
     '''
     max_value = kwargs.get(f'{param_axis}max', int(df.max(axis=1).max(axis=0)))
     min_value = kwargs.get(f'{param_axis}min', 0)
@@ -1173,16 +1205,16 @@ def set_grid(fig, ax, grid_x, grid_y):
     ax.grid(color='k', linestyle='-', linewidth=0.2)
     ax.xaxis.grid(grid_x)
     ax.yaxis.grid(grid_y)
+
     return fig, ax 
 
-def set_ticks(fig, ax, min_value, max_value, inc, data, index_axis='x', offset=0): 
+def set_ticks(fig, ax, df, min_value, max_value, inc, index_axis='x', offset=0): 
     '''
     Sets x and y axis tick locations and tick labels.
     TODO: add description of inputs
     '''
 
-    locs = [x+offset for x in np.arange(len(data.index))]
-
+    locs = [x+offset for x in np.arange(len(df.index))]
     # Set the locations for the ticks of the two axes 
     getattr(ax, 'yaxis' if index_axis == 'y' else 'xaxis').set_major_locator(mpl.ticker.FixedLocator(locs))
     getattr(ax, 'set_xticks' if index_axis == 'y' else 'set_yticks')(range(min_value, max_value + inc, inc), 
@@ -1190,7 +1222,7 @@ def set_ticks(fig, ax, min_value, max_value, inc, data, index_axis='x', offset=0
                                                                     fontsize = 9, fontname = font.normal)
     # Set the formatting of the labels
     getattr(ax, 'xaxis' if index_axis == 'y' else 'yaxis').set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
-    getattr(ax, 'set_yticklabels' if index_axis == 'y' else 'set_xticklabels')(labels=data.index, 
+    getattr(ax, 'set_yticklabels' if index_axis == 'y' else 'set_xticklabels')(labels=df.index, 
                                                                                fontsize = 9)
 
     return fig, ax 
@@ -1372,7 +1404,7 @@ def general_grouped_bar_chart(data, param_axis, index_axis, horizontal, standard
             max_value=max_value,
             inc=inc,
             index_axis=index_axis,
-            data=data,
+            df=data,
             offset=TICK_OFFSET
         )
 
