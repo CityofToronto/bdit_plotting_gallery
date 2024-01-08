@@ -1040,37 +1040,30 @@ class charts:
     
         return fig, ax
  
-    def multi_linechart_test(data, ylab, xlab, **kwargs):
+    def multi_linechart_test(data:pd.DataFrame, ylab:str, xlab:str, **kwargs:dict) -> (plt.figure, plt.axes):
         '''
         Creates a line chart of one or more lines.
         Number of lines to plot determined from columns in input dataframe.
+        
         Parameters
-        -----------
-        data : array like or scalar
-            Data for the line chart.
-        ylab : str
-            Label for the y axis.
-        xlab : str
-            Label for the x axis.
-        ymax : int, optional, default is the max y value
-            The max value of the y axis.
-        ymin : int, optional, default is 0
-            The minimum value of the y axis
-            Should include this if ymin < 0.
-        yinc : int, optional
-            The increment of ticks on the y axis.
-        axis : Axes object, optional 
-            The axis that the plot will be located on. 
-        plot_size : tuple, optional 
+        ----------
 
-        set_plot_size : bool, optional 
-             
+        Required: 
+        data : Data for the line chart.
+        ylab : Label for the y axis.
+        xlab : Label for the x axis.
+
+        Optional:
+        ymax : The max value of the y axis.
+        ymin : The min value of the y axis. Should include this if ymin < 0.
+        yinc : The increment of ticks on the y axis.
+        ax : The axis that the plot will be located on. 
+        plot_size : The dimensions of the plot if given a custom size.
+
         Returns 
         --------
-        fig
-            Matplotlib fig object
-        ax 
-            Matplotlib ax object
+        fig : Matplotlib fig object
+        ax  : Matplotlib ax object
         ''' 
         
         func() 
@@ -1086,7 +1079,7 @@ class charts:
             axis=kwargs.get('ax',None)
             )
         
-        fig, ax = set_plot_style(
+        set_plot_style(
             fig=fig,
             ax=ax,
             plot_size=kwargs.get('plot_size', (6.1, 4.1)), 
@@ -1097,8 +1090,7 @@ class charts:
             param_axis='y'
             )
 
-        fig, ax = set_ticks(
-            fig=fig,
+        set_ticks(
             ax=ax,
             df=data,
             min_value=ymin, 
@@ -1106,8 +1098,7 @@ class charts:
             inc=yinc
             )
 
-        fig, ax = set_labels(
-            fig=fig,
+        set_labels(
             ax=ax,
             xlab=xlab,
             ylab=ylab
@@ -1115,13 +1106,38 @@ class charts:
 
         return fig, ax
 
-def calculate_params(df:pd.DataFrame, param_axis:str, **kwargs) -> (float, float, float, float): 
+def calculate_params(df:pd.DataFrame, param_axis:str, **kwargs:dict) -> (float, float, float, float): 
     '''
     Checks if minimum, maximum and increment values are passed into the plotting function 
     for the specified axis, and returns these. Otherwise, calculates them.
+
+    Parameters
+    ----------
+
+    Required: 
+    data :  Data for the line chart.
+    param_axis : Axis along which max, min, upper, inc values should be calculated. 
+
+    Optional: 
+    xmin : Minimum value of x axis. 
+    xmax : Maximum value of x axis.
+    xinc : The increment of ticks on the x axis.
+    ymin : Minimum value of y axis
+    ymax : Maximum value of y axis.
+    yinc : The increment of ticks on the y axis.
+
+    Returns 
+    -------
+
+    max_value : Maximum value along param_axis 
+    min_value  : Minimum value along param_axis 
+    inc : Increment of ticks along param_axis
+    upper : Value used for placing of annotations. 
+
     TODO: check whether the calculation of inc can be improved, at what value does it fail,
     maybe print a warning if the user should specify it.
     '''
+
     max_value = kwargs.get(f'{param_axis}max', int(df.max(axis=1).max(axis=0)))
     min_value = kwargs.get(f'{param_axis}min', 0)
     delta, i = calculate_delta(max_value, min_value)
@@ -1136,6 +1152,7 @@ def calculate_delta(max_value:float, min_value:float) -> (float, float):
     '''
     Returns parameters used to find the size of the y or x axis increments.
     '''
+
     delta = (max_value - min_value)/4
     i = 0
     while True:
@@ -1147,8 +1164,20 @@ def calculate_delta(max_value:float, min_value:float) -> (float, float):
 
 def plot_line_data(df:pd.DataFrame, axis:plt.axes) -> (plt.figure, plt.axes):
     '''
-    Plots all columns in the input dataframe as lines in one graph.
+    Plots all columns in the input dataframe as lines in one graph 
+    on the specified axis object.
+
+    Parameters 
+    ---------- 
+    df : Data to be plotted 
+    axis : Prespecified axis to be used for the plot. 
+
+    Returns 
+    ------- 
+    fig : Matplotlib fig object
+    ax  : Matplotlib ax object
     '''
+
     fig, ax = init_fig(axis)
     colour_instance = colour()
     for i, col in enumerate(df.columns):
@@ -1157,28 +1186,30 @@ def plot_line_data(df:pd.DataFrame, axis:plt.axes) -> (plt.figure, plt.axes):
         
     return fig, ax
 
-def plot_grouped_bar_data(data, ax, horizontal):
+def plot_grouped_bar_data(df:pd.DataFrame, ax:plt.axes, horizontal:bool) -> (plt.figure, plt.axes):
     '''
     Plots all columns in the input dataframe as bars in a grouped bar graph.
     '''
+
     fig, ax = init_fig(ax)
-    bar_width = 1/(len(data.columns)+1)
+    bar_width = 1/(len(df.columns)+1)
     adjustment = 0
     colour_instance = colour()
-    ind = np.arange(len(data))
+    ind = np.arange(len(df))
     
-    for i, col in enumerate((reversed(data.columns)) if horizontal else (data.columns)):
+    for i, col in enumerate((reversed(df.columns)) if horizontal else (df.columns)):
         hex_code = colour_instance.get_colour_from_index(i+1)
-        getattr(ax, 'barh' if horizontal else 'bar')(ind+adjustment, data[col], bar_width, align='center', color = hex_code)
+        getattr(ax, 'barh' if horizontal else 'bar')(ind+adjustment, df[col], bar_width, align='center', color = hex_code)
         adjustment += bar_width
 
     return fig, ax 
 
-def init_fig(axis):
+def init_fig(axis:plt.axes) -> (plt.figure, plt.axes):
     '''
     Sets the plot fig and axes objects to be the ones specified by the user or 
     creates new ones.
     '''
+
     if axis != None:
         ax = axis
         fig = ax.get_figure()
@@ -1187,19 +1218,28 @@ def init_fig(axis):
 
     return fig, ax
 
-def set_plot_style(fig, ax, plot_size, grid_x, grid_y, min_value, max_value, param_axis):
+def set_plot_style(fig:plt.figure, ax:plt.axes, plot_size:(int, int), grid_x:bool, grid_y:bool, min_value:float, max_value:float, param_axis:str):
     '''
-    Sets background and grid for plot.
-    TODO: add set size
+    Sets size, background and grid for plot.
+
+    Parameters 
+    ---------- 
+    fig : Matplotlib fig object.
+    ax  : Matplotlib ax object.
+    plot_size : The dimensions of the plot in inches. 
+    grid_x : Whether there is a grid parallel to x ticks. 
+    grid_y : Whether there is a grid parallel to y ticks. 
+    min_value : Minimum value of param_axis.
+    max_value : Maximum value of param_axis.
+    param_axis : Axis opposite to index axis. 
     '''
+
     fig.set_size_inches(plot_size)
     getattr(ax, 'set_ylim' if param_axis == 'y' else 'set_xlim')([min_value, max_value])
     ax.set_facecolor('xkcd:white')
-    fig, ax = set_grid(fig, ax, grid_x, grid_y)
-    
-    return fig, ax
+    set_grid(ax, grid_x, grid_y)
 
-def set_grid(fig, ax, grid_x, grid_y):
+def set_grid(ax:plt.axes, grid_x:bool, grid_y:bool):
     '''
     Sets the grid for plot. 
     '''
@@ -1207,12 +1247,21 @@ def set_grid(fig, ax, grid_x, grid_y):
     ax.xaxis.grid(grid_x)
     ax.yaxis.grid(grid_y)
 
-    return fig, ax 
-
-def set_ticks(fig, ax, df, min_value, max_value, inc, index_axis='x', offset=0): 
+def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, inc:float, index_axis:str='x', offset:float=0.0): 
     '''
     Sets x and y axis tick locations and tick labels.
-    TODO: add description of inputs
+    
+    Parameters 
+    ----------
+    ax : Matplotlib axes object.
+    df : Dataset being plotted.
+    min_value : Minimum value along non index axis.
+    max_value : Maximum value along non index axis. 
+    inc : Incrementation of ticks along non index axis. 
+    index_axis : The index of the DataFrame object, 
+                 e.g. the x axis for a line chart. 
+    offset : Offset in the placement of ticks. 
+             Used for grouped bar charts to center labels. 
     '''
 
     locs = [x+offset for x in np.arange(len(df.index))]
@@ -1226,12 +1275,17 @@ def set_ticks(fig, ax, df, min_value, max_value, inc, index_axis='x', offset=0):
     getattr(ax, 'set_yticklabels' if index_axis == 'y' else 'set_xticklabels')(labels=df.index, 
                                                                                fontsize = 9)
 
-    return fig, ax 
-
-def set_labels(fig, ax, xlab, ylab):
+def set_labels(ax:plt.axes, xlab:str, ylab:str):
     '''
     Set the labels of the y and x axes.
+
+    Parameters
+    ----------
+    ax : Matplotlib axes object. 
+    xlab : Label of x axis. 
+    ylab : Label of y axis. 
     '''
+
     if xlab != None:
         ax.set_xlabel(xlab, fontsize=9, fontweight='bold',
                       horizontalalignment='right', x=0, 
@@ -1242,11 +1296,23 @@ def set_labels(fig, ax, xlab, ylab):
                       horizontalalignment='right', y=1.0, 
                       labelpad=10, fontname = font.normal)
 
-    return fig, ax 
-
-def add_bar_annotations(fig, ax, df, upper, precision, percent, additional_annotations, horizontal):
+def add_bar_annotations(ax:plt.axes, df:pd.DataFrame, upper:float, precision:int, percent:bool, horizontal:bool, additional_annotations:dict):
     '''
-    TODO: add description and inputs 
+    Adds bar annotations to bar charts, and other annotations if specified. 
+
+    Parameters 
+    ----------
+    ax : Matplotlib axes object. 
+    df : Dataset being plotted.
+    upper : Bar value used for determining placement of annotation. 
+    precision : Decimal points in the annotations. 
+    percent : Flag determining whether to show percentage change between 
+                baseline column (assumed to be the first column) and 
+                remaining columns.
+    horizontal : Flag to indicate if this is a horizontal bar graph.
+    additional_annotations : Dictionary with keys of type (int, int) and values 
+                                of type (str), indicating the coordinates and 
+                                annotation to be added. 
     '''
     bar_width = 1/(len(df.columns)+1)
 
@@ -1254,19 +1320,16 @@ def add_bar_annotations(fig, ax, df, upper, precision, percent, additional_annot
         df[df.columns] = df[df.columns].astype(int)
 
     if horizontal:
-        ax = horizontal_bar_annotations(df, ax, bar_width, upper, precision, percent)
+        horizontal_bar_annotations(df, ax, bar_width, upper, precision, percent)
     else:
-        ax = vertical_bar_annotations(df, ax, bar_width, upper, precision, percent)
+        vertical_bar_annotations(df, ax, bar_width, upper, precision, percent)
 
     # TODO: make this more customizable - add another function possibly?
     if additional_annotations != None:
         for xy, text in additional_annotations.items():
             ax.annotate(text=text, xy=xy, ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
-    
 
-    return fig, ax
-
-def horizontal_bar_annotations(df, ax, bar_width, upper, precision, percent):
+def horizontal_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, upper:float, precision:int, percent:bool):
     '''
     Adds value annotations to horizontal grouped or regular bar charts. 
     '''
@@ -1300,9 +1363,7 @@ def horizontal_bar_annotations(df, ax, bar_width, upper, precision, percent):
                     )
                 j += 1
         
-    return ax
-
-def vertical_bar_annotations(df, ax, bar_width, upper, precision, percent):
+def vertical_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, upper:float, precision:int, percent:bool):
     '''
     Adds value annotations to vertical grouped or regular bar charts. 
     '''
@@ -1336,33 +1397,42 @@ def vertical_bar_annotations(df, ax, bar_width, upper, precision, percent):
                     fontsize=10
                     )
                 j += 1
-    return ax
 
-def general_grouped_bar_chart(data, param_axis, index_axis, horizontal, standard_plot_size, grid_x=True, grid_y=True, **kwargs):
+def general_grouped_bar_chart(data:pd.DataFrame, param_axis:str, index_axis:str, standard_plot_size:(int, int), horizontal:bool, grid_x:bool=True, grid_y:bool=True, **kwargs:dict) -> (plt.figure, plt.axes):
         '''
-        Creates a horizontal grouped bar chart. Number of
+        Creates a horizontal or vertical grouped bar chart. Number of
         bars in each group to plot is determined from the number of
         columns in input dataframe, while the number of groups is
         determined by the number of rows.
 
         Parameters
         -----------
-        data : array like or scalar
-            Data for the line chart.
-        ylab : str
-            Label for the y axis.
-        xlab : str
-            Label for the x axis.
-        xmax : int, optional, default is the max x value
-            The max value of the x axis.
-        xmin : int, optional, default is 0
-            The minimum value of the x axis
-            Should include this if xmin < 0.
-        xinc : int, optional
-            The increment of ticks on the x axis.
-        ax : Axes object, optional
-            The axis that the plot will be located on.
-        plot_size : tuple, optional
+
+        Required: 
+        data : Data for the line chart.
+        param_axis : Axis along which bars are plotted.
+        index_axis : Axis containing labels for bars. 
+        standard_plot_size : The standard size depending on the type of graph (horizontal or vertical).
+        horizontal : Flag indicating whether plot is horizontal. 
+        
+        
+        Optional: 
+        ylab : Label for the y axis.
+        xlab : Label for the x axis.
+
+        xmax or ymax : The max value of the x axis.
+        xmin or ymin : The minimum value of the x axis
+                        Should include this if minimum < 0.
+        xinc or yinc : The increment of ticks on the y axis.
+        ax : The axis that the plot will be located on.
+        plot_size : Custom plot dimensions. 
+        precision : Decimal points in the annotations. 
+        percent : Flag determining whether to show percentage change between 
+                    baseline column (assumed to be the first column) and 
+                    remaining columns.
+        additional_annotations : Dictionary with keys of type (int, int) and values 
+                                    of type (str), indicating the coordinates and 
+                                    annotation to be added. 
 
         Returns
         --------
@@ -1382,12 +1452,12 @@ def general_grouped_bar_chart(data, param_axis, index_axis, horizontal, standard
             **kwargs)
 
         fig, ax = plot_grouped_bar_data(
-            data=data,
+            df=data,
             ax=kwargs.get('ax', None), 
             horizontal=horizontal
         )
 
-        fig, ax = set_plot_style(
+        set_plot_style(
             fig=fig,
             ax=ax,
             min_value=min_value,
@@ -1398,8 +1468,7 @@ def general_grouped_bar_chart(data, param_axis, index_axis, horizontal, standard
             grid_y=grid_y
         )
 
-        fig, ax = set_ticks(
-            fig=fig,
+        set_ticks(
             ax=ax,
             min_value=min_value,
             max_value=max_value,
@@ -1409,15 +1478,13 @@ def general_grouped_bar_chart(data, param_axis, index_axis, horizontal, standard
             offset=TICK_OFFSET
         )
 
-        fig, ax = set_labels(
-            fig=fig,
+        set_labels(
             ax=ax,
             xlab=kwargs.get('xlab', None),
             ylab=kwargs.get('ylab', None)
         )
 
-        fig, ax = add_bar_annotations(
-            fig=fig,
+        add_bar_annotations(
             ax=ax,
             df=data,
             upper=upper,
