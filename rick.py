@@ -1,13 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Version 0.8.0
-TODO:
-- add type hints to all functions
-- add docstrings explaining input/output
-- consistent variable naming
-- implement legend function
-- more general annotation function
-
 """
 from psycopg2 import connect
 import psycopg2.sql as pg
@@ -653,8 +646,8 @@ class charts:
 
         return fig, ax
     
-    def horizontal_grouped_bar_chart(data, **kwargs):
-        # Assumption: if percent, comparison is made to the last column of the df 
+    def horizontal_grouped_bar_chart(data: pd.DataFrame, **kwargs: dict) -> (plt.figure, plt.axes):
+
         return general_grouped_bar_chart(
             data=data,
             param_axis='x',
@@ -665,7 +658,7 @@ class charts:
             **kwargs
             )
 
-    def vertical_grouped_bar_chart(data, **kwargs):
+    def vertical_grouped_bar_chart(data: pd.DataFrame, **kwargs: dict) -> (plt.figure, plt.axes):
 
         return general_grouped_bar_chart(
             data=data,
@@ -1218,7 +1211,7 @@ def init_fig(axis:plt.axes) -> (plt.figure, plt.axes):
 
     return fig, ax
 
-def set_plot_style(fig:plt.figure, ax:plt.axes, plot_size:(int, int), grid_x:bool, grid_y:bool, min_value:float, max_value:float, param_axis:str):
+def set_plot_style(fig:plt.figure, ax:plt.axes, plot_size:(int, int), grid_x:bool, grid_y:bool, min_value:float, max_value:float, param_axis:str) -> None:
     '''
     Sets size, background and grid for plot.
 
@@ -1239,7 +1232,7 @@ def set_plot_style(fig:plt.figure, ax:plt.axes, plot_size:(int, int), grid_x:boo
     ax.set_facecolor('xkcd:white')
     set_grid(ax, grid_x, grid_y)
 
-def set_grid(ax:plt.axes, grid_x:bool, grid_y:bool):
+def set_grid(ax:plt.axes, grid_x:bool, grid_y:bool) -> None:
     '''
     Sets the grid for plot. 
     '''
@@ -1247,7 +1240,7 @@ def set_grid(ax:plt.axes, grid_x:bool, grid_y:bool):
     ax.xaxis.grid(grid_x)
     ax.yaxis.grid(grid_y)
 
-def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, inc:float, index_axis:str='x', offset:float=0.0): 
+def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, inc:float, index_axis:str='x', offset:float=0.0) -> None: 
     '''
     Sets x and y axis tick locations and tick labels.
     
@@ -1275,7 +1268,7 @@ def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, in
     getattr(ax, 'set_yticklabels' if index_axis == 'y' else 'set_xticklabels')(labels=df.index, 
                                                                                fontsize = 9)
 
-def set_labels(ax:plt.axes, xlab:str, ylab:str):
+def set_labels(ax:plt.axes, xlab:str, ylab:str) -> None:
     '''
     Set the labels of the y and x axes.
 
@@ -1296,7 +1289,7 @@ def set_labels(ax:plt.axes, xlab:str, ylab:str):
                       horizontalalignment='right', y=1.0, 
                       labelpad=10, fontname = font.normal)
 
-def add_bar_annotations(ax:plt.axes, df:pd.DataFrame, upper:float, precision:int, percent:bool, horizontal:bool, additional_annotations:dict):
+def add_bar_annotations(ax:plt.axes, df:pd.DataFrame, upper:float, precision:int, percent:bool, horizontal:bool, additional_annotations:dict) -> None:
     '''
     Adds bar annotations to bar charts, and other annotations if specified. 
 
@@ -1329,7 +1322,7 @@ def add_bar_annotations(ax:plt.axes, df:pd.DataFrame, upper:float, precision:int
         for xy, text in additional_annotations.items():
             ax.annotate(text=text, xy=xy, ha = 'left', color = 'k', fontname = font.normal, fontsize=10)
 
-def horizontal_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, upper:float, precision:int, percent:bool):
+def horizontal_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, upper:float, precision:int, percent:bool) -> None:
     '''
     Adds value annotations to horizontal grouped or regular bar charts. 
     '''
@@ -1363,7 +1356,7 @@ def horizontal_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, up
                     )
                 j += 1
         
-def vertical_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, upper:float, precision:int, percent:bool):
+def vertical_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, upper:float, precision:int, percent:bool) -> None:
     '''
     Adds value annotations to vertical grouped or regular bar charts. 
     '''
