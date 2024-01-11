@@ -1256,8 +1256,21 @@ def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, in
     offset : Offset in the placement of ticks. 
              Used for grouped bar charts to center labels. 
     '''
+    height, width = ax.figure.get_size_inches()
+    NUM_SLICES = int(width) + 1
 
-    locs = [x+offset for x in np.arange(len(df.index))]
+    # Checking if data being plotted is indexed by date 
+    # Assumption: dates are plotted on x axis 
+    if type(df.index) == pd.core.indexes.datetimes.DatetimeIndex:
+        locs = mpl.dates.date2num(df.index)[::NUM_SLICES]
+        label_rotation = 45
+        index_labels = df.index.strftime('%Y-%m-%d')[::NUM_SLICES]
+
+    else: 
+        locs = [x+offset for x in np.arange(len(df.index))]
+        label_rotation = 0
+        index_labels = df.index 
+
     # Set the locations for the ticks of the two axes 
     getattr(ax, 'yaxis' if index_axis == 'y' else 'xaxis').set_major_locator(mpl.ticker.FixedLocator(locs))
     getattr(ax, 'set_xticks' if index_axis == 'y' else 'set_yticks')(range(min_value, max_value + inc, inc), 
@@ -1265,8 +1278,10 @@ def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, in
                                                                     fontsize = 9, fontname = font.normal)
     # Set the formatting of the labels
     getattr(ax, 'xaxis' if index_axis == 'y' else 'yaxis').set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
-    getattr(ax, 'set_yticklabels' if index_axis == 'y' else 'set_xticklabels')(labels=df.index, 
+    getattr(ax, 'set_yticklabels' if index_axis == 'y' else 'set_xticklabels')(labels=index_labels, 
+                                                                               rotation=label_rotation,
                                                                                fontsize = 9)
+
 
 def set_labels(ax:plt.axes, xlab:str, ylab:str) -> None:
     '''
