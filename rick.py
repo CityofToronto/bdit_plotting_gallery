@@ -647,7 +647,40 @@ class charts:
         return fig, ax
     
     def horizontal_grouped_bar_chart(data: pd.DataFrame, **kwargs: dict) -> (plt.figure, plt.axes):
+        '''
+        Creates a horizontal grouped bar chart. Number of bars in
+        each group to plot is determined from the number of
+        columns in input dataframe, while the number of groups is
+        determined by the number of rows.
 
+        Parameters
+        -----------
+
+        Required:
+        data : Data for the grouped bar chart.
+
+        Optional:
+        ylab : Label for the y axis.
+        xlab : Label for the x axis.
+        xmax : The max value of the x axis.
+        xmin : The minimum value of the x axis
+                Should include this if minimum < 0.
+        xinc : The increment of ticks on the x axis.
+        ax : The axis that the plot will be located on.
+        plot_size : Custom plot dimensions.
+        precision : Decimal points in the annotations.
+        percent : Flag determining whether to show percentage change between
+                    baseline column (assumed to be the first column) and
+                    remaining columns.
+        additional_annotations : Dictionary with keys of type (int, int) and values
+                                    of type (str), indicating the coordinates and
+                                    annotation to be added.
+
+        Returns
+        --------
+        fig : Matplotlib fig object
+        ax : Matplotlib ax object
+        '''
         return general_grouped_bar_chart(
             data=data,
             param_axis='x',
@@ -659,7 +692,40 @@ class charts:
             )
 
     def vertical_grouped_bar_chart(data: pd.DataFrame, **kwargs: dict) -> (plt.figure, plt.axes):
+        '''
+        Creates a vertical grouped bar chart. Number of bars in
+        each group to plot is determined from the number of
+        columns in input dataframe, while the number of groups is
+        determined by the number of rows.
 
+        Parameters
+        -----------
+
+        Required:
+        data : Data for the grouped bar chart.
+
+        Optional:
+        ylab : Label for the y axis.
+        xlab : Label for the x axis.
+        ymax : The max value of the y axis.
+        ymin : The minimum value of the y axis
+                Should include this if minimum < 0.
+        yinc : The increment of ticks on the y axis.
+        ax : The axis that the plot will be located on.
+        plot_size : Custom plot dimensions.
+        precision : Decimal points in the annotations.
+        percent : Flag determining whether to show percentage change between
+                    baseline column (assumed to be the first column) and
+                    remaining columns.
+        additional_annotations : Dictionary with keys of type (int, int) and values
+                                    of type (str), indicating the coordinates and
+                                    annotation to be added.
+
+        Returns
+        --------
+        fig : Matplotlib fig object
+        ax : Matplotlib ax object
+        '''
         return general_grouped_bar_chart(
             data=data,
             param_axis='y',
@@ -1417,7 +1483,7 @@ def general_grouped_bar_chart(data:pd.DataFrame, param_axis:str, index_axis:str,
         -----------
 
         Required: 
-        data : Data for the line chart.
+        data : Data for the grouped bar chart.
         param_axis : Axis along which bars are plotted.
         index_axis : Axis containing labels for bars. 
         standard_plot_size : The standard size depending on the type of graph (horizontal or vertical).
@@ -1428,10 +1494,10 @@ def general_grouped_bar_chart(data:pd.DataFrame, param_axis:str, index_axis:str,
         ylab : Label for the y axis.
         xlab : Label for the x axis.
 
-        xmax or ymax : The max value of the x axis.
-        xmin or ymin : The minimum value of the x axis
+        xmax or ymax : The max value of the x or y axis.
+        xmin or ymin : The minimum value of the x or y axis
                         Should include this if minimum < 0.
-        xinc or yinc : The increment of ticks on the y axis.
+        xinc or yinc : The increment of ticks on the x or y axis.
         ax : The axis that the plot will be located on.
         plot_size : Custom plot dimensions. 
         precision : Decimal points in the annotations. 
@@ -1444,10 +1510,8 @@ def general_grouped_bar_chart(data:pd.DataFrame, param_axis:str, index_axis:str,
 
         Returns
         --------
-        fig
-            Matplotlib fig object
-        ax
-            Matplotlib ax object
+        fig : Matplotlib fig object
+        ax : Matplotlib ax object
         '''
         BAR_WIDTH = 1/(len(data.columns)+1)
         TICK_OFFSET = (len(data.columns)-1) * BAR_WIDTH/2
