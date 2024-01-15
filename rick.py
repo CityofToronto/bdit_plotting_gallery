@@ -1322,8 +1322,7 @@ def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, in
     offset : Offset in the placement of ticks. 
              Used for grouped bar charts to center labels. 
     '''
-    height, width = ax.figure.get_size_inches()
-    NUM_SLICES = int(width) + 1
+    NUM_SLICES = int(len(df)/8) # makes it so that there is 8 date labels along x axis
 
     # Checking if data being plotted is indexed by date 
     # Assumption: dates are plotted on x axis 
