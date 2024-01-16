@@ -1406,10 +1406,11 @@ def horizontal_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, up
     '''
     Adds value annotations to horizontal grouped or regular bar charts. 
     '''
-    HORIZONTAL_CUTOFF = 0.1 * upper
+    HORIZONTAL_CUTOFF = 0.15 * upper
     ANNOTATION_OFFSET = 0.015 * upper
-    PERCENT_OFFSET = 0.03
-    
+    PERCENT_HRZNTL_OFFSET = 0.04
+    PERCENT_VRTCL_OFFSET =  (0.15) if len(df.columns) == 2 else (-0.05) 
+
     # Adding annotations for values of each bar 
     for k in range(len(df.columns)):
         j = bar_width*(len(df.columns)-1-k)
@@ -1429,7 +1430,7 @@ def horizontal_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, up
             for index, row in df_percent.iterrows():
                 ax.annotate(
                     ('+' if row[f'percent{k}'] > 0 else '') + str(format(int(round(row[f'percent{k}'])), ',')) + '%', # Rounds percentage to closest integer
-                    xy = (row[col] + (4*PERCENT_OFFSET if row[col] < HORIZONTAL_CUTOFF else PERCENT_OFFSET) * upper, j),  # Placement of percentage annotation 
+                    xy = (row[col] + (4*PERCENT_HRZNTL_OFFSET if row[col] < HORIZONTAL_CUTOFF else PERCENT_HRZNTL_OFFSET) * upper, j + PERCENT_VRTCL_OFFSET),  # Placement of percentage annotation 
                     color = 'k',
                     fontname = font.normal,
                     fontsize=10

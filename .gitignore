@@ -141,3 +141,5 @@ $RECYCLE.BIN/
 .vscode/
 email_notifications/client_secret.json
 temp.ipynb
+db.cfg
+dbsettings.cfg
