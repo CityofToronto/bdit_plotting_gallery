@@ -10,7 +10,7 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_line_plot_multiline.py>`
+        :ref:`Go to the end <sphx_glr_download_auto_examples_line_plot_multiline.py>`
         to download the full example code
 
 .. rst-class:: sphx-glr-example-title
@@ -28,7 +28,7 @@ more shaded regions with labels.
 
 .. GENERATED FROM PYTHON SOURCE LINES 10-24
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import matplotlib.pyplot as plt
@@ -60,7 +60,7 @@ Source code for multi-line function.
 
 .. GENERATED FROM PYTHON SOURCE LINES 29-301
 
-.. code-block:: default
+.. code-block:: Python
 
 
     def multi_linechart(df_line, sett):
@@ -350,7 +350,7 @@ This Section creates example data.
 
 .. GENERATED FROM PYTHON SOURCE LINES 306-340
 
-.. code-block:: default
+.. code-block:: Python
 
 
     # x-axis
@@ -402,7 +402,7 @@ This Section plots dataframe using default settings.
 
 .. GENERATED FROM PYTHON SOURCE LINES 345-352
 
-.. code-block:: default
+.. code-block:: Python
 
 
     sett_empty={
@@ -414,32 +414,66 @@ This Section plots dataframe using default settings.
 
 
 
-.. image:: /auto_examples/line/images/sphx_glr_plot_multiline_001.png
-    :alt: plot multiline
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/line/images/sphx_glr_plot_multiline_001.png
+   :alt: plot multiline
+   :srcset: /auto_examples/line/images/sphx_glr_plot_multiline_001.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f11d76df5c0>)
+    (<Figure size 1800x500 with 1 Axes>, <Axes: >)
 
 
 
 .. GENERATED FROM PYTHON SOURCE LINES 353-357
+
+Example: plot data with new multiline function
+----------------------------------
+
+This Section plots dataframe using the rewrite of the multiline function.
+
+.. GENERATED FROM PYTHON SOURCE LINES 357-363
+
+.. code-block:: Python
+
+    import rick
+    df_multi_dt = df_multi.set_index('dt')
+    df_multi_dt.index = pd.to_datetime(df_multi.index)
+    rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dates', plot_size=(6.1, 4.1))
+
+
+
+
+
+.. image-sg:: /auto_examples/line/images/sphx_glr_plot_multiline_002.png
+   :alt: plot multiline
+   :srcset: /auto_examples/line/images/sphx_glr_plot_multiline_002.png
+   :class: sphx-glr-single-img
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+
+    (<Figure size 610x410 with 1 Axes>, <Axes: xlabel='Dates', ylabel='Values'>)
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 364-368
 
 Example: one shaded area with legend 
 ------------------------------------
 
 This Section plots dataframe with legend and one shaded area.
 
-.. GENERATED FROM PYTHON SOURCE LINES 357-441
+.. GENERATED FROM PYTHON SOURCE LINES 368-452
 
-.. code-block:: default
+.. code-block:: Python
 
 
     sett = {
@@ -523,29 +557,22 @@ This Section plots dataframe with legend and one shaded area.
             mpl.rcParams['font.family'] = sett['body']['font-family']
             print(mpl.rcParams['font.family'])
 
-    multi_linechart(df_multi, sett)
+    #multi_linechart(df_multi, sett)
 
 
 
-
-.. image:: /auto_examples/line/images/sphx_glr_plot_multiline_002.png
-    :alt: plot multiline
-    :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
     ['sans-serif']
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f11d6ad29e8>)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 442-447
+.. GENERATED FROM PYTHON SOURCE LINES 453-458
 
 Example: two shaded area blocks  
 ------------------------------------
@@ -553,9 +580,9 @@ Example: two shaded area blocks
 This Section plots dataframe with legend, one shaded 
 block, and shaded blocks for weekends.
 
-.. GENERATED FROM PYTHON SOURCE LINES 447-545
+.. GENERATED FROM PYTHON SOURCE LINES 458-556
 
-.. code-block:: default
+.. code-block:: Python
 
 
     def find_weekend_indices(df):
@@ -654,52 +681,39 @@ block, and shaded blocks for weekends.
             mpl.rcParams['font.family'] = sett['body']['font-family']
             print(mpl.rcParams['font.family'])
 
-    multi_linechart(df_multi, sett)
+    #multi_linechart(df_multi, sett)
 
 
-
-.. image:: /auto_examples/line/images/sphx_glr_plot_multiline_003.png
-    :alt: plot multiline
-    :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
     ['sans-serif']
 
-    (<Figure size 1800x500 with 1 Axes>, <matplotlib.axes._subplots.AxesSubplot object at 0x7f11d7672080>)
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.422 seconds)
+   **Total running time of the script:** (0 minutes 1.226 seconds)
 
 
 .. _sphx_glr_download_auto_examples_line_plot_multiline.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: plot_multiline.ipynb <plot_multiline.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
-
-     :download:`Download Python source code: plot_multiline.py <plot_multiline.py>`
-
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_multiline.ipynb <plot_multiline.ipynb>`
+      :download:`Download Python source code: plot_multiline.py <plot_multiline.py>`
 
 
 .. only:: html

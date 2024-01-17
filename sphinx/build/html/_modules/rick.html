@@ -1,28 +1,27 @@
-
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" data-content_root="../">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>rick &#8212; BDITTO Chart Gallery &#39;2020-01-06&#39; documentation</title>
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-binder.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-dataframe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/gallery-rendered-html.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=12dfc556" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=61a4c737" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+    <script src="../_static/documentation_options.js?v=09b0f4b4"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
+
   
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+  
 
   </head><body>
   
@@ -37,11 +36,9 @@
   <h1>Source code for rick</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Version 0.8.0 </span>
-
-
+<span class="sd">Version 0.8.0</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">psycopg2</span> <span class="k">import</span> <span class="n">connect</span>
+<span class="kn">from</span> <span class="nn">psycopg2</span> <span class="kn">import</span> <span class="n">connect</span>
 <span class="kn">import</span> <span class="nn">psycopg2.sql</span> <span class="k">as</span> <span class="nn">pg</span>
 <span class="kn">import</span> <span class="nn">pandas.io.sql</span> <span class="k">as</span> <span class="nn">pandasql</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
@@ -52,39 +49,68 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">shapely</span>
 <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="k">import</span> <span class="n">Point</span>
+<span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
 <span class="kn">import</span> <span class="nn">matplotlib.font_manager</span> <span class="k">as</span> <span class="nn">font_manager</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">copy</span>
 
-<div class="viewcode-block" id="font"><a class="viewcode-back" href="../code.html#rick.font">[docs]</a><span class="k">class</span> <span class="nc">font</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="font">
+<a class="viewcode-back" href="../code.html#rick.font">[docs]</a>
+<span class="k">class</span> <span class="nc">font</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class defining the global font variables for all functions.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-    <span class="n">leg_font</span> <span class="o">=</span> <span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s1">&#39;Libre Franklin&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
-    <span class="n">normal</span> <span class="o">=</span> <span class="s1">&#39;Libre Franklin&#39;</span>
-    <span class="n">semibold</span> <span class="o">=</span> <span class="s1">&#39;Libre Franklin SemiBold&#39;</span></div>
-    
-    
-<div class="viewcode-block" id="colour"><a class="viewcode-back" href="../code.html#rick.colour">[docs]</a><span class="k">class</span> <span class="nc">colour</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">leg_font</span> <span class="o">=</span> <span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="s1">&#39;DejaVu Sans&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">normal</span> <span class="o">=</span> <span class="s1">&#39;DejaVu Sans&#39;</span>
+    <span class="n">semibold</span> <span class="o">=</span> <span class="s1">&#39;DejaVu Sans SemiBold&#39;</span></div>
+
+
+
+<div class="viewcode-block" id="colour">
+<a class="viewcode-back" href="../code.html#rick.colour">[docs]</a>
+<span class="k">class</span> <span class="nc">colour</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class defining the global colour variables for all functions.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">purple</span> <span class="o">=</span> <span class="s1">&#39;#660159&#39;</span>
     <span class="n">grey</span> <span class="o">=</span> <span class="s1">&#39;#7f7e7e&#39;</span>
+    <span class="n">orange</span> <span class="o">=</span> <span class="s1">&#39;#d95f02&#39;</span>
+    <span class="n">green</span> <span class="o">=</span> <span class="s1">&#39;#0D9F73&#39;</span>
+    <span class="n">blue</span> <span class="o">=</span> <span class="s1">&#39;#253494&#39;</span>
     <span class="n">light_grey</span> <span class="o">=</span> <span class="s1">&#39;#777777&#39;</span>
-    <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;YlOrRd&#39;</span></div>
-    
-<div class="viewcode-block" id="geo"><a class="viewcode-back" href="../code.html#rick.geo">[docs]</a><span class="k">class</span> <span class="nc">geo</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+    <span class="n">cmap</span> <span class="o">=</span> <span class="s1">&#39;YlOrRd&#39;</span>
+
+    <span class="n">colours_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="mi">1</span><span class="p">:</span> <span class="n">purple</span><span class="p">,</span>
+        <span class="mi">2</span><span class="p">:</span> <span class="n">grey</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">:</span> <span class="n">orange</span><span class="p">,</span>
+        <span class="mi">4</span><span class="p">:</span> <span class="n">blue</span><span class="p">,</span>
+        <span class="mi">5</span><span class="p">:</span> <span class="n">green</span><span class="p">,</span>
+        <span class="mi">6</span><span class="p">:</span> <span class="n">light_grey</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">get_colour_from_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">colours_map</span><span class="p">[</span><span class="n">index</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="geo">
+<a class="viewcode-back" href="../code.html#rick.geo">[docs]</a>
+<span class="k">class</span> <span class="nc">geo</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for additional gis layers needed for the cloropleth map.</span>
 <span class="sd">    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-<div class="viewcode-block" id="geo.ttc"><a class="viewcode-back" href="../code.html#rick.geo.ttc">[docs]</a>    <span class="k">def</span> <span class="nf">ttc</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Function to return the TTC subway layer.</span>
+<div class="viewcode-block" id="geo.ttc">
+<a class="viewcode-back" href="../code.html#rick.geo.ttc">[docs]</a>
+    <span class="k">def</span> <span class="nf">ttc</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to return the TTC subway layer.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ------------</span>
@@ -114,10 +140,13 @@
         <span class="n">ttc</span><span class="p">[</span><span class="s1">&#39;geom&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">ttc</span><span class="p">[</span><span class="s1">&#39;geom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">affinity</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">angle</span><span class="o">=-</span><span class="mi">17</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
         
         <span class="k">return</span> <span class="n">ttc</span></div>
+
     
-<div class="viewcode-block" id="geo.island"><a class="viewcode-back" href="../code.html#rick.geo.island">[docs]</a>    <span class="k">def</span> <span class="nf">island</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
-        
-        <span class="sd">&quot;&quot;&quot;Function to return a layer of the Toronto island. Since the island is classified in the same neighbourhood as the waterfront, in some cases its not completely accurate to show the island shares the same data as the waterfront. </span>
+<div class="viewcode-block" id="geo.island">
+<a class="viewcode-back" href="../code.html#rick.geo.island">[docs]</a>
+    <span class="k">def</span> <span class="nf">island</span><span class="p">(</span><span class="n">con</span><span class="p">):</span>
+<span class="w">        </span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to return a layer of the Toronto island. Since the island is classified in the same neighbourhood as the waterfront, in some cases its not completely accurate to show the island shares the same data as the waterfront. </span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ------------</span>
@@ -151,27 +180,34 @@
         <span class="c1">#    island.loc[index, &#39;geom&#39;] = rotated</span>
         <span class="n">island</span><span class="p">[</span><span class="s1">&#39;geom&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">island</span><span class="p">[</span><span class="s1">&#39;geom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">shapely</span><span class="o">.</span><span class="n">affinity</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">angle</span><span class="o">=-</span><span class="mi">17</span><span class="p">,</span> <span class="n">origin</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
 
-        <span class="k">return</span> <span class="n">island</span></div></div>
-    
-<div class="viewcode-block" id="charts"><a class="viewcode-back" href="../code.html#rick.charts">[docs]</a><span class="k">class</span> <span class="nc">charts</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">island</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="charts">
+<a class="viewcode-back" href="../code.html#rick.charts">[docs]</a>
+<span class="k">class</span> <span class="nc">charts</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class defining all the charting functions.</span>
-<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-    
+
     <span class="k">global</span> <span class="n">func</span>
     <span class="k">def</span> <span class="nf">func</span><span class="p">():</span>
-        
-        <span class="sd">&quot;&quot;&quot;Function to set global settings for the charts class. </span>
-<span class="sd">        </span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Function to set global settings for the charts class. </span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        
+
         <span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span> 
-        <span class="n">mpl</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span><span class="n">family</span><span class="o">=</span><span class="s1">&#39;Libre Franklin&#39;</span><span class="p">)</span>
-    
-<div class="viewcode-block" id="charts.chloro_map"><a class="viewcode-back" href="../code.html#rick.charts.chloro_map">[docs]</a>    <span class="k">def</span> <span class="nf">chloro_map</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a chloropleth map</span>
-<span class="sd">        </span>
+        <span class="n">mpl</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">&#39;font&#39;</span><span class="p">,</span><span class="n">family</span><span class="o">=</span><span class="s1">&#39;DejaVu Sans&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="charts.chloro_map">
+<a class="viewcode-back" href="../code.html#rick.charts.chloro_map">[docs]</a>
+    <span class="k">def</span> <span class="nf">chloro_map</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a chloropleth map</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        -----------</span>
 <span class="sd">        con : SQL connection object</span>
@@ -272,9 +308,12 @@
             
         
         <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
     
-<div class="viewcode-block" id="charts.line_chart"><a class="viewcode-back" href="../code.html#rick.charts.line_chart">[docs]</a>    <span class="k">def</span> <span class="nf">line_chart</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ylab</span><span class="p">,</span> <span class="n">xlab</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a line chart. x axis must be modified manually</span>
+<div class="viewcode-block" id="charts.line_chart">
+<a class="viewcode-back" href="../code.html#rick.charts.line_chart">[docs]</a>
+    <span class="k">def</span> <span class="nf">line_chart</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ylab</span><span class="p">,</span> <span class="n">xlab</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a line chart. x axis must be modified manually</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        -----------</span>
@@ -346,9 +385,12 @@
         <span class="n">fig</span><span class="o">.</span><span class="n">patch</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
         
         <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">props</span></div>
+
     
-<div class="viewcode-block" id="charts.tow_chart"><a class="viewcode-back" href="../code.html#rick.charts.tow_chart">[docs]</a>    <span class="k">def</span> <span class="nf">tow_chart</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ylab</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a 7 day time of week line chart. Each data point represents 1 hour out of 168 hours.</span>
+<div class="viewcode-block" id="charts.tow_chart">
+<a class="viewcode-back" href="../code.html#rick.charts.tow_chart">[docs]</a>
+    <span class="k">def</span> <span class="nf">tow_chart</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">ylab</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a 7 day time of week line chart. Each data point represents 1 hour out of 168 hours.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        -----------</span>
@@ -430,8 +472,11 @@
         <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">167</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">props</span></div>
 
-<div class="viewcode-block" id="charts.stacked_chart"><a class="viewcode-back" href="../code.html#rick.charts.stacked_chart">[docs]</a>    <span class="k">def</span> <span class="nf">stacked_chart</span><span class="p">(</span><span class="n">data_in</span><span class="p">,</span> <span class="n">xlab</span><span class="p">,</span> <span class="n">lab1</span><span class="p">,</span> <span class="n">lab2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a stacked bar chart comparing 2 sets of data</span>
+
+<div class="viewcode-block" id="charts.stacked_chart">
+<a class="viewcode-back" href="../code.html#rick.charts.stacked_chart">[docs]</a>
+    <span class="k">def</span> <span class="nf">stacked_chart</span><span class="p">(</span><span class="n">data_in</span><span class="p">,</span> <span class="n">xlab</span><span class="p">,</span> <span class="n">lab1</span><span class="p">,</span> <span class="n">lab2</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a stacked bar chart comparing 2 sets of data</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        -----------</span>
@@ -517,7 +562,7 @@
             <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;values1&#39;</span><span class="p">,</span> <span class="s1">&#39;values2&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;values1&#39;</span><span class="p">,</span> <span class="s1">&#39;values2&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;values2&#39;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">upper</span><span class="p">:</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">precision</span><span class="p">),</span> <span class="s1">&#39;,&#39;</span><span class="p">)),</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mf">0.015</span><span class="o">*</span><span class="n">upper</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mf">0.05</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">precision</span><span class="p">),</span> <span class="s1">&#39;,&#39;</span><span class="p">)),</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mf">0.015</span><span class="o">*</span><span class="n">upper</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mf">0.05</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">precision</span><span class="p">),</span> <span class="s1">&#39;,&#39;</span><span class="p">)),</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mf">0.015</span><span class="o">*</span><span class="n">upper</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mf">0.05</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
             <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span>
@@ -539,15 +584,237 @@
             <span class="n">data_yoy</span><span class="p">[</span><span class="s1">&#39;percent&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;values2&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;values1&#39;</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;values1&#39;</span><span class="p">]</span>
             <span class="n">j</span><span class="o">=</span><span class="mf">0.15</span>
             <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data_yoy</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;percent&#39;</span><span class="p">],</span><span class="mi">0</span><span class="p">)),</span> <span class="s1">&#39;,&#39;</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39;%&#39;</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">row</span><span class="p">[[</span><span class="s1">&#39;values1&#39;</span><span class="p">,</span> <span class="s1">&#39;values2&#39;</span><span class="p">]])</span> <span class="o">+</span> <span class="mf">0.03</span><span class="o">*</span><span class="n">upper</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> 
-                                                                                           <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">((</span><span class="s1">&#39;+&#39;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;percent&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;percent&#39;</span><span class="p">],</span><span class="mi">0</span><span class="p">)),</span> <span class="s1">&#39;,&#39;</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39;%&#39;</span><span class="p">,</span> 
+                            <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">row</span><span class="p">[[</span><span class="s1">&#39;values1&#39;</span><span class="p">,</span> <span class="s1">&#39;values2&#39;</span><span class="p">]])</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.12</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;values2&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">upper</span> <span class="k">else</span> <span class="mf">0.03</span><span class="p">)</span><span class="o">*</span><span class="n">upper</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
                 <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span>
                 
 
         <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
     
-<div class="viewcode-block" id="charts.bar_chart"><a class="viewcode-back" href="../code.html#rick.charts.bar_chart">[docs]</a>    <span class="k">def</span> <span class="nf">bar_chart</span><span class="p">(</span><span class="n">data_in</span><span class="p">,</span> <span class="n">xlab</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Creates a bar chart</span>
+<div class="viewcode-block" id="charts.stacked_chart_quad">
+<a class="viewcode-back" href="../code.html#rick.charts.stacked_chart_quad">[docs]</a>
+    <span class="k">def</span> <span class="nf">stacked_chart_quad</span><span class="p">(</span><span class="n">data_in</span><span class="p">,</span> <span class="n">xlab</span><span class="p">,</span> <span class="n">lab1</span><span class="p">,</span> <span class="n">lab2</span><span class="p">,</span> <span class="n">lab3</span><span class="p">,</span> <span class="n">lab4</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a stacked bar chart comparing 4 sets of data</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        data : dataframe</span>
+<span class="sd">            Data for the stacked bar chart. The dataframe must have 5 columns, the first representing the y ticks, the second representing the baseline, and the third representing the next series of data.</span>
+<span class="sd">        xlab : str</span>
+<span class="sd">            Label for the x axis.</span>
+<span class="sd">        lab1 : str</span>
+<span class="sd">            Label in the legend for the baseline</span>
+<span class="sd">        lab2 : str</span>
+<span class="sd">            Label in the legend fot the next data series</span>
+<span class="sd">        xmax : int, optional, default is the max s value</span>
+<span class="sd">            The max value of the y axis</span>
+<span class="sd">        xmin : int, optional, default is 0</span>
+<span class="sd">            The minimum value of the x axis</span>
+<span class="sd">        precision : int, optional, default is -1</span>
+<span class="sd">            Decimal places in the annotations</span>
+<span class="sd">        percent : boolean, optional, default is False</span>
+<span class="sd">            Whether the annotations should be formatted as percentages</span>
+<span class="sd">            </span>
+<span class="sd">        xinc : int, optional</span>
+<span class="sd">            The increment of ticks on the x axis.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns </span>
+<span class="sd">        --------</span>
+<span class="sd">        fig</span>
+<span class="sd">            Matplotlib fig object</span>
+<span class="sd">        ax </span>
+<span class="sd">            Matplotlib ax object</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">func</span><span class="p">()</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data_in</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="n">data</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;values1&#39;</span><span class="p">,</span> <span class="s1">&#39;values2&#39;</span><span class="p">,</span> <span class="s1">&#39;values3&#39;</span><span class="p">,</span> <span class="s1">&#39;values4&#39;</span><span class="p">]</span>
+        
+        <span class="n">xmin</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xmin&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">xmax</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xmax&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">precision</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;precision&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">percent</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+        
+        <span class="n">xmax_flag</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">xmax</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">xmax</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">data</span><span class="p">[[</span><span class="s1">&#39;values1&#39;</span><span class="p">,</span> <span class="s1">&#39;values2&#39;</span><span class="p">,</span> <span class="s1">&#39;values3&#39;</span><span class="p">,</span> <span class="s1">&#39;values4&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">max</span><span class="p">()))</span>
+            <span class="n">xmax_flag</span> <span class="o">=</span> <span class="kc">False</span>
+        
+        <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">delta</span> <span class="o">/=</span> <span class="mi">10</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">delta</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="n">xinc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xinc&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">delta</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">i</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="n">xmax_flag</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">upper</span> <span class="o">=</span> <span class="n">xmax</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">upper</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">xinc</span><span class="o">+</span><span class="n">xmin</span><span class="p">)</span>
+        
+        <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mf">6.1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">*</span><span class="mf">1.5</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.25</span><span class="p">)</span>
+
+        <span class="n">p1</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">ind</span><span class="o">+</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;values1&#39;</span><span class="p">],</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colour</span><span class="o">.</span><span class="n">green</span><span class="p">)</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">ind</span><span class="o">+</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;values2&#39;</span><span class="p">],</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colour</span><span class="o">.</span><span class="n">blue</span><span class="p">)</span>
+        <span class="n">p3</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">ind</span><span class="o">+</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;values3&#39;</span><span class="p">],</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colour</span><span class="o">.</span><span class="n">grey</span><span class="p">)</span>
+        <span class="n">p4</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">barh</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;values4&#39;</span><span class="p">],</span> <span class="mf">0.2</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colour</span><span class="o">.</span><span class="n">purple</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">StrMethodFormatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{x:,.0f}</span><span class="s1">&#39;</span><span class="p">))</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">ind</span><span class="o">+</span><span class="mf">0.6</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">upper</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlab</span><span class="p">,</span>  <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">labelpad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span> <span class="o">=</span> <span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;xkcd:white&#39;</span><span class="p">)</span>
+        
+        
+        <span class="k">if</span> <span class="n">precision</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;values1&#39;</span><span class="p">,</span> <span class="s1">&#39;values2&#39;</span><span class="p">,</span> <span class="s1">&#39;values3&#39;</span><span class="p">,</span> <span class="s1">&#39;values4&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[[</span><span class="s1">&#39;values1&#39;</span><span class="p">,</span> <span class="s1">&#39;values2&#39;</span><span class="p">,</span> <span class="s1">&#39;values3&#39;</span><span class="p">,</span> <span class="s1">&#39;values4&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        
+        <span class="n">j</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;values</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">upper</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">precision</span><span class="p">),</span> <span class="s1">&#39;,&#39;</span><span class="p">)),</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mf">0.015</span><span class="o">*</span><span class="n">upper</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mf">0.05</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">precision</span><span class="p">),</span> <span class="s1">&#39;,&#39;</span><span class="p">)),</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mf">0.015</span><span class="o">*</span><span class="n">upper</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mf">0.05</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+                <span class="n">j</span><span class="o">=</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;values</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="mf">0.2</span>
+            
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">((</span><span class="n">p1</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p2</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p3</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p4</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="p">(</span><span class="n">lab1</span><span class="p">,</span> <span class="n">lab2</span><span class="p">,</span> <span class="n">lab3</span><span class="p">,</span> <span class="n">lab4</span><span class="p">),</span> <span class="n">loc</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">frameon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">prop</span><span class="o">=</span><span class="n">font</span><span class="o">.</span><span class="n">leg_font</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span><span class="n">upper</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.1</span><span class="o">*</span><span class="n">xinc</span><span class="p">),</span> <span class="n">xinc</span><span class="p">),</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">percent</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="mf">0.15</span> 
+            <span class="n">data_yoy</span> <span class="o">=</span> <span class="n">data</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">data_yoy</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;percent</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;values4&#39;</span><span class="p">]</span><span class="o">-</span><span class="n">data</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;values</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="o">/</span><span class="n">data</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;values</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span>
+                
+                <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data_yoy</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">((</span><span class="s1">&#39;+&#39;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;percent</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;percent</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">],</span><span class="mi">0</span><span class="p">)),</span> <span class="s1">&#39;,&#39;</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39;%&#39;</span><span class="p">,</span> 
+                                <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">row</span><span class="p">[[</span><span class="s1">&#39;values1&#39;</span><span class="p">,</span> <span class="s1">&#39;values2&#39;</span><span class="p">,</span> <span class="s1">&#39;values3&#39;</span><span class="p">,</span> <span class="s1">&#39;values4&#39;</span><span class="p">]])</span> <span class="o">+</span> <span class="p">(</span><span class="mf">0.12</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;values4&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.1</span><span class="o">*</span><span class="n">upper</span> <span class="k">else</span> <span class="mf">0.03</span><span class="p">)</span><span class="o">*</span><span class="n">upper</span><span class="p">,</span> <span class="n">j</span><span class="p">),</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+                    <span class="n">j</span><span class="o">+=</span><span class="mi">1</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">j</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">data_yoy</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.2</span>
+                    
+
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+    
+<div class="viewcode-block" id="charts.horizontal_grouped_bar_chart">
+<a class="viewcode-back" href="../code.html#rick.charts.horizontal_grouped_bar_chart">[docs]</a>
+    <span class="k">def</span> <span class="nf">horizontal_grouped_bar_chart</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates a horizontal grouped bar chart. Number of bars in</span>
+<span class="sd">        each group to plot is determined from the number of</span>
+<span class="sd">        columns in input dataframe, while the number of groups is</span>
+<span class="sd">        determined by the number of rows.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+
+<span class="sd">        Required:</span>
+<span class="sd">        data : Data for the grouped bar chart.</span>
+
+<span class="sd">        Optional:</span>
+<span class="sd">        ylab : Label for the y axis.</span>
+<span class="sd">        xlab : Label for the x axis.</span>
+<span class="sd">        xmax : The max value of the x axis.</span>
+<span class="sd">        xmin : The minimum value of the x axis</span>
+<span class="sd">                Should include this if minimum &lt; 0.</span>
+<span class="sd">        xinc : The increment of ticks on the x axis.</span>
+<span class="sd">        ax : The axis that the plot will be located on.</span>
+<span class="sd">        plot_size : Custom plot dimensions.</span>
+<span class="sd">        precision : Decimal points in the annotations.</span>
+<span class="sd">        percent : Flag determining whether to show percentage change between</span>
+<span class="sd">                    baseline column (assumed to be the first column) and</span>
+<span class="sd">                    remaining columns.</span>
+<span class="sd">        additional_annotations : Dictionary with keys of type (int, int) and values</span>
+<span class="sd">                                    of type (str), indicating the coordinates and</span>
+<span class="sd">                                    annotation to be added.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        fig : Matplotlib fig object</span>
+<span class="sd">        ax : Matplotlib ax object</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">general_grouped_bar_chart</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">param_axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+            <span class="n">index_axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>
+            <span class="n">horizontal</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">standard_plot_size</span><span class="o">=</span><span class="p">(</span><span class="mf">6.1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">*</span><span class="mf">1.5</span><span class="p">),</span>
+            <span class="n">grid_y</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="charts.vertical_grouped_bar_chart">
+<a class="viewcode-back" href="../code.html#rick.charts.vertical_grouped_bar_chart">[docs]</a>
+    <span class="k">def</span> <span class="nf">vertical_grouped_bar_chart</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates a vertical grouped bar chart. Number of bars in</span>
+<span class="sd">        each group to plot is determined from the number of</span>
+<span class="sd">        columns in input dataframe, while the number of groups is</span>
+<span class="sd">        determined by the number of rows.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+
+<span class="sd">        Required:</span>
+<span class="sd">        data : Data for the grouped bar chart.</span>
+
+<span class="sd">        Optional:</span>
+<span class="sd">        ylab : Label for the y axis.</span>
+<span class="sd">        xlab : Label for the x axis.</span>
+<span class="sd">        ymax : The max value of the y axis.</span>
+<span class="sd">        ymin : The minimum value of the y axis</span>
+<span class="sd">                Should include this if minimum &lt; 0.</span>
+<span class="sd">        yinc : The increment of ticks on the y axis.</span>
+<span class="sd">        ax : The axis that the plot will be located on.</span>
+<span class="sd">        plot_size : Custom plot dimensions.</span>
+<span class="sd">        precision : Decimal points in the annotations.</span>
+<span class="sd">        percent : Flag determining whether to show percentage change between</span>
+<span class="sd">                    baseline column (assumed to be the first column) and</span>
+<span class="sd">                    remaining columns.</span>
+<span class="sd">        additional_annotations : Dictionary with keys of type (int, int) and values</span>
+<span class="sd">                                    of type (str), indicating the coordinates and</span>
+<span class="sd">                                    annotation to be added.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        fig : Matplotlib fig object</span>
+<span class="sd">        ax : Matplotlib ax object</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="n">general_grouped_bar_chart</span><span class="p">(</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">param_axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>
+            <span class="n">index_axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+            <span class="n">horizontal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">standard_plot_size</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">*</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">),</span>
+            <span class="n">grid_x</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="charts.bar_chart">
+<a class="viewcode-back" href="../code.html#rick.charts.bar_chart">[docs]</a>
+    <span class="k">def</span> <span class="nf">bar_chart</span><span class="p">(</span><span class="n">data_in</span><span class="p">,</span> <span class="n">xlab</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a bar chart</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        -----------</span>
@@ -634,7 +901,795 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span><span class="n">upper</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.1</span><span class="o">*</span><span class="n">xinc</span><span class="p">),</span> <span class="n">xinc</span><span class="p">),</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span><span class="mi">10</span><span class="p">)</span>
         
-        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div></div>
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="charts.multi_linechart">
+<a class="viewcode-back" href="../code.html#rick.charts.multi_linechart">[docs]</a>
+    <span class="k">def</span> <span class="nf">multi_linechart</span><span class="p">(</span><span class="n">df_line</span><span class="p">,</span> <span class="n">sett</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Creates a line chart of one or more lines.</span>
+<span class="sd">    </span>
+<span class="sd">        Number of lines to plot determined from columns in input dataframe.</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">df</span><span class="o">=</span><span class="n">df_line</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    
+        <span class="c1"># ----------------------------------------------</span>
+        <span class="c1"># Setup the figure</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+    
+        <span class="c1"># ----------------------------------------------</span>
+        <span class="c1"># Default styling params if not defined in sett</span>
+        <span class="k">if</span> <span class="s1">&#39;body&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="n">dflt</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;font-size&#39;</span><span class="p">:(</span><span class="mi">12</span> <span class="k">if</span> <span class="s1">&#39;font-size&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                             <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;font-size&#39;</span><span class="p">]),</span>
+                <span class="s1">&#39;font-family&#39;</span><span class="p">:(</span><span class="s1">&#39;sans-serif&#39;</span> <span class="k">if</span> <span class="s1">&#39;font-family&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                             <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;font-family&#39;</span><span class="p">]),</span>
+                <span class="s1">&#39;fontfamily-list&#39;</span><span class="p">:([</span><span class="s1">&#39;Libre Franklin&#39;</span><span class="p">,</span> <span class="s1">&#39;DejaVu Sans&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;fontfamily-list&#39;</span>
+                              <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                              <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;fontfamily-list&#39;</span><span class="p">]),</span>
+                <span class="s1">&#39;stroke&#39;</span><span class="p">:(</span><span class="s1">&#39;#000000&#39;</span> <span class="k">if</span> <span class="s1">&#39;stroke&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                             <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;stroke&#39;</span><span class="p">]),</span>
+                <span class="s1">&#39;stroke-width&#39;</span><span class="p">:(</span><span class="mi">2</span> <span class="k">if</span> <span class="s1">&#39;stroke-width&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                             <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;stroke-width&#39;</span><span class="p">]),</span>
+                <span class="s1">&#39;border&#39;</span><span class="p">:(</span><span class="s1">&#39;solid&#39;</span> <span class="k">if</span> <span class="s1">&#39;border&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span>
+                             <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">][</span><span class="s1">&#39;border&#39;</span><span class="p">])</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dflt</span><span class="o">=</span><span class="p">{</span>
+                <span class="s1">&#39;font-size&#39;</span><span class="p">:</span><span class="mi">12</span><span class="p">,</span> <span class="s1">&#39;font-family&#39;</span><span class="p">:</span><span class="s1">&#39;sans-serif&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;fontfamily-list&#39;</span><span class="p">:[</span><span class="s1">&#39;Libre Franklin&#39;</span><span class="p">,</span> <span class="s1">&#39;DejaVu Sans&#39;</span><span class="p">],</span>
+                <span class="s1">&#39;stroke&#39;</span><span class="p">:</span><span class="s1">&#39;#000000&#39;</span><span class="p">,</span> <span class="s1">&#39;stroke-width&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;border&#39;</span><span class="p">:</span><span class="s1">&#39;solid&#39;</span>
+            <span class="p">}</span>
+    
+        <span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-family&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-family&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;sans-serif&#39;</span><span class="p">:</span>
+            <span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.sans-serif&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;fontfamily-list&#39;</span><span class="p">]</span>
+    
+    <span class="c1">#     mpl.rcParams.update({</span>
+    <span class="c1">#         &#39;font.size&#39;: dflt[&#39;font-size&#39;],</span>
+    <span class="c1">#         &#39;font.family&#39;: dflt[&#39;font-family&#39;]</span>
+    <span class="c1">#     })</span>
+        <span class="c1"># ----------------------------------------------------------------</span>
+        <span class="c1"># WEIRD HACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</span>
+        <span class="c1"># For some reason, mpl.rcParams needs to be run TWICE before it</span>
+        <span class="c1"># actually gets set. So just before calling the function,</span>
+        <span class="c1"># make sure you set it again...</span>
+        <span class="c1"># ----------------------------------------------------------------</span>
+    
+        <span class="c1"># ----------------------------------------------</span>
+        <span class="c1"># Define line-number-dependent params</span>
+        <span class="n">num_lines</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+    
+        <span class="n">col_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;xcol&#39;</span><span class="p">]</span>
+        <span class="n">ymax_array</span><span class="o">=</span><span class="p">[]</span>
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_lines</span><span class="p">):</span>
+            <span class="n">col_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ycol_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+            <span class="n">ymax_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    
+        <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">=</span><span class="n">col_names</span>
+    
+        <span class="c1"># ----------------------------------------------</span>
+        <span class="c1"># title</span>
+        <span class="k">if</span> <span class="s1">&#39;title&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;title_params&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+                <span class="n">title_size</span><span class="o">=</span><span class="p">(</span>
+                    <span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;font-size&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                    <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;title_params&#39;</span><span class="p">]</span>
+                    <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;title_params&#39;</span><span class="p">][</span><span class="s1">&#39;font-size&#39;</span><span class="p">])</span>
+                <span class="n">loc</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;center&#39;</span> <span class="k">if</span> <span class="s1">&#39;loc&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;title_params&#39;</span><span class="p">]</span>
+                     <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;title_params&#39;</span><span class="p">][</span><span class="s1">&#39;loc&#39;</span><span class="p">])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">title_size</span><span class="p">,</span>  <span class="n">loc</span><span class="o">=</span><span class="n">loc</span><span class="p">)</span>
+    
+        <span class="c1"># ----------------------------------------------</span>
+        <span class="c1"># grid</span>
+        <span class="k">if</span> <span class="s1">&#39;major_grid_on&#39;</span> <span class="ow">in</span> <span class="n">sett</span> <span class="ow">and</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;major_grid_on&#39;</span><span class="p">]</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;major_grid&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+                <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;gray&#39;</span> <span class="k">if</span> <span class="s1">&#39;stroke&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;major_grid&#39;</span><span class="p">]</span>
+                   <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;major_grid&#39;</span><span class="p">][</span><span class="s1">&#39;stroke&#39;</span><span class="p">])</span>
+                <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="k">if</span> <span class="s1">&#39;border&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;major_grid&#39;</span><span class="p">]</span>
+                   <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;major_grid&#39;</span><span class="p">][</span><span class="s1">&#39;border&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">c</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span>
+                <span class="n">b</span><span class="o">=</span><span class="s1">&#39;-&#39;</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;major&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;minor_grid_on&#39;</span> <span class="ow">in</span> <span class="n">sett</span> <span class="ow">and</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;minor_grid_on&#39;</span><span class="p">]</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;minor_grid&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+                <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;gray&#39;</span> <span class="k">if</span> <span class="s1">&#39;stroke&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;minor_grid&#39;</span><span class="p">]</span>
+                   <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;minor_grid&#39;</span><span class="p">][</span><span class="s1">&#39;stroke&#39;</span><span class="p">])</span>
+                <span class="n">b</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;-&#39;</span> <span class="k">if</span> <span class="s1">&#39;border&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;minor_grid&#39;</span><span class="p">]</span>
+                   <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;minor_grid&#39;</span><span class="p">][</span><span class="s1">&#39;border&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">c</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span>
+                <span class="n">b</span><span class="o">=</span><span class="s1">&#39;-&#39;</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s1">&#39;minor&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+    
+        <span class="c1"># ----------------------------------------------</span>
+        <span class="c1"># axes (both)</span>
+        <span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;axes.linewidth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.3</span>
+        <span class="n">ticklength</span><span class="o">=</span><span class="mi">2</span> <span class="k">if</span> <span class="s1">&#39;ticklength&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span> <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;ticklength&#39;</span><span class="p">]</span>
+        <span class="n">tickwidth</span><span class="o">=</span><span class="mi">1</span> <span class="k">if</span> <span class="s1">&#39;tickwidth&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span> <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;tickwidth&#39;</span><span class="p">]</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">tickwidth</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">ticklength</span><span class="p">)</span>
+    
+        <span class="c1"># y-axis</span>
+        <span class="k">if</span> <span class="s1">&#39;yaxis&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="n">ymin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="s1">&#39;ymin&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+                  <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;ymin&#39;</span><span class="p">])</span>
+            <span class="n">ymax</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ymax_array</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span> <span class="k">if</span> <span class="s1">&#39;ymax&#39;</span>
+                  <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+                  <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;ymax&#39;</span><span class="p">])</span>
+    
+            <span class="c1"># y-axis label</span>
+            <span class="n">label</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="s1">&#39;label&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+                   <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+            <span class="n">labelsize</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;labelsize&#39;</span>
+                       <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+                       <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;labelsize&#39;</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">labelsize</span><span class="p">)</span>
+    
+            <span class="c1"># Format y-axis tick labels</span>
+            <span class="n">ticklabelsize</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;ticklabelsize&#39;</span>
+                      <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+                      <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;ticklabelsize&#39;</span><span class="p">])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">ticklabelsize</span><span class="p">)</span>
+    
+            <span class="c1"># comma format</span>
+            <span class="n">precision</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;.0f&#39;</span> <span class="k">if</span> <span class="s1">&#39;precision&#39;</span>
+                       <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">]</span>
+                       <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yaxis&#39;</span><span class="p">][</span><span class="s1">&#39;precision&#39;</span><span class="p">])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span>
+                <span class="n">mpl</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">StrMethodFormatter</span><span class="p">(</span><span class="s1">&#39;{x:,&#39;</span> <span class="o">+</span> <span class="n">precision</span> <span class="o">+</span> <span class="s1">&#39;}&#39;</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ymin</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">ymax</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ymax_array</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span>
+    
+        <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">delta</span> <span class="o">/=</span> <span class="mi">10</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">delta</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="s1">&#39;yinc&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="n">yinc</span><span class="o">=</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;yinc&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">yinc</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">delta</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">i</span><span class="p">))</span>
+    
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">ymax</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="n">ymin</span><span class="p">)</span>
+    
+        <span class="c1"># ----------------------------------------------</span>
+        <span class="c1"># x-axis</span>
+        <span class="k">if</span> <span class="s1">&#39;xaxis&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="c1"># x-axis label</span>
+            <span class="n">label</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;&#39;</span> <span class="k">if</span> <span class="s1">&#39;label&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">]</span>
+                   <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+            <span class="n">labelsize</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;labelsize&#39;</span>
+                       <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">]</span>
+                       <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">][</span><span class="s1">&#39;labelsize&#39;</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">labelsize</span><span class="p">)</span>
+    
+            <span class="c1"># x-axis tick labels</span>
+            <span class="k">if</span> <span class="s1">&#39;major_loc&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">]:</span> <span class="c1"># x-values are dates</span>
+                <span class="n">date_form_mjr</span> <span class="o">=</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">][</span><span class="s1">&#39;major_loc&#39;</span><span class="p">][</span><span class="s1">&#39;date_form&#39;</span><span class="p">]</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">date_form_mjr</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;minor_loc&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">]:</span>
+                <span class="n">date_form_mnr</span> <span class="o">=</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">][</span><span class="s1">&#39;minor_loc&#39;</span><span class="p">][</span><span class="s1">&#39;date_form&#39;</span><span class="p">]</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_minor_locator</span><span class="p">(</span><span class="n">date_form_mnr</span><span class="p">)</span>
+    
+            <span class="c1"># x-axis tick label size</span>
+            <span class="n">ticklabelsize</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;ticklabelsize&#39;</span>
+                      <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">]</span>
+                      <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;xaxis&#39;</span><span class="p">][</span><span class="s1">&#39;ticklabelsize&#39;</span><span class="p">])</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">ticklabelsize</span><span class="p">,</span>
+                           <span class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Default x-axis tick lines</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">],</span>
+                           <span class="n">labelbottom</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+        <span class="c1"># ----------------------------------------------</span>
+        <span class="c1"># Plot data and legend</span>
+        <span class="k">if</span> <span class="s1">&#39;legend&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="n">legend_loc</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;upper left&#39;</span> <span class="k">if</span> <span class="s1">&#39;loc&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;legend&#39;</span><span class="p">]</span>
+                        <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;legend&#39;</span><span class="p">][</span><span class="s1">&#39;loc&#39;</span><span class="p">])</span>
+            <span class="n">leg_array</span><span class="o">=</span><span class="p">[]</span>
+            <span class="n">custom_lines</span><span class="o">=</span><span class="p">[]</span>
+    
+        <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_lines</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s1">&#39;lines&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+                <span class="n">line_colour</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;stroke&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;stroke&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                             <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">]</span>
+                             <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="s1">&#39;stroke&#39;</span><span class="p">])</span>
+                <span class="n">line_width</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;stroke-width&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;stroke-width&#39;</span>
+                            <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">]</span>
+                            <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="s1">&#39;stroke-width&#39;</span><span class="p">])</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;border-style&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                              <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">]</span>
+                              <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="s1">&#39;border-style&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">line_colour</span><span class="o">=</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;stroke&#39;</span><span class="p">]</span>
+                <span class="n">line_width</span><span class="o">=</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;stroke-width&#39;</span><span class="p">]</span>
+                <span class="n">border_style</span><span class="o">=</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;border&#39;</span><span class="p">]</span>
+    
+            <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;xcol&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ycol_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)],</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">line_width</span><span class="p">,</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="n">line_colour</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="n">border_style</span><span class="p">)</span>
+    
+            <span class="c1"># Legend</span>
+            <span class="k">if</span> <span class="s1">&#39;legend&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+                <span class="n">leg_array</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">][</span><span class="n">n</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">])</span>
+                <span class="n">custom_lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Line2D</span><span class="p">([</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                           <span class="n">color</span><span class="o">=</span><span class="n">line_colour</span><span class="p">,</span>
+                                           <span class="n">lw</span><span class="o">=</span><span class="n">line_width</span><span class="p">,</span>
+                                           <span class="n">linestyle</span><span class="o">=</span><span class="n">border_style</span><span class="p">)</span>
+                                   <span class="p">)</span>
+    
+        <span class="k">if</span> <span class="s1">&#39;legend&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">custom_lines</span><span class="p">,</span> <span class="n">leg_array</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">legend_loc</span><span class="p">,</span>
+                      <span class="n">prop</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;size&quot;</span><span class="p">:</span> <span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]},</span>
+                      <span class="n">ncol</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+    
+        <span class="c1"># ----------------------------------------------</span>
+        <span class="c1"># Plot shaded areas</span>
+        <span class="k">if</span> <span class="s1">&#39;shaded&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">:</span>
+            <span class="n">num_a</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    
+            <span class="k">for</span> <span class="n">area</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_a</span><span class="p">):</span>
+                <span class="n">idx</span><span class="o">=</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;lims&#39;</span><span class="p">]</span>
+                <span class="n">facecolour</span><span class="o">=</span><span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;fill&#39;</span><span class="p">]</span>
+                <span class="n">zorder</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="s1">&#39;zorder&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">]</span>
+                        <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;zorder&#39;</span><span class="p">])</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span> <span class="k">if</span> <span class="s1">&#39;alpha&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">]</span>
+                       <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;alpha&#39;</span><span class="p">])</span>
+    
+                <span class="c1"># Shaded area left and right bds</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">idx</span><span class="p">)):</span>
+                    <span class="n">bd1</span><span class="o">=</span><span class="n">idx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">bd2</span><span class="o">=</span><span class="n">idx</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    
+                    <span class="n">ax</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">bd1</span><span class="p">,</span> <span class="n">bd2</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="n">facecolour</span><span class="p">,</span>
+                               <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span>
+                               <span class="n">zorder</span><span class="o">=</span><span class="n">zorder</span><span class="p">)</span>
+    
+                <span class="c1"># Shaded area label</span>
+                <span class="k">if</span> <span class="s1">&#39;label&#39;</span> <span class="ow">in</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">]:</span>
+                    <span class="n">rot</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="s1">&#39;rotation&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                         <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+                         <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;rotation&#39;</span><span class="p">])</span>
+                    <span class="n">label_colour</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;stroke&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;colour&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                                  <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+                                  <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;colour&#39;</span><span class="p">])</span>
+                    <span class="n">label_size</span><span class="o">=</span><span class="p">(</span><span class="n">dflt</span><span class="p">[</span><span class="s1">&#39;font-size&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;font-size&#39;</span> <span class="ow">not</span> <span class="ow">in</span>
+                                <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+                                <span class="k">else</span> <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;font-size&#39;</span><span class="p">])</span>
+                    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                        <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="c1"># x posn of label</span>
+                        <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="c1"># y posn of label</span>
+                        <span class="n">sett</span><span class="p">[</span><span class="s1">&#39;shaded&#39;</span><span class="p">][</span><span class="n">area</span><span class="p">][</span><span class="s1">&#39;label&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">],</span>
+                        <span class="n">rotation</span><span class="o">=</span><span class="n">rot</span><span class="p">,</span>
+                        <span class="n">color</span><span class="o">=</span><span class="n">label_colour</span><span class="p">,</span>
+                        <span class="n">fontsize</span><span class="o">=</span><span class="n">label_size</span>
+                    <span class="p">)</span>
+    
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+ 
+<div class="viewcode-block" id="charts.multi_linechart_test">
+<a class="viewcode-back" href="../code.html#rick.charts.multi_linechart_test">[docs]</a>
+    <span class="k">def</span> <span class="nf">multi_linechart_test</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ylab</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">xlab</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates a line chart of one or more lines.</span>
+<span class="sd">        Number of lines to plot determined from columns in input dataframe.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        Required: </span>
+<span class="sd">        data : Data for the line chart.</span>
+<span class="sd">        ylab : Label for the y axis.</span>
+<span class="sd">        xlab : Label for the x axis.</span>
+
+<span class="sd">        Optional:</span>
+<span class="sd">        ymax : The max value of the y axis.</span>
+<span class="sd">        ymin : The min value of the y axis. Should include this if ymin &lt; 0.</span>
+<span class="sd">        yinc : The increment of ticks on the y axis.</span>
+<span class="sd">        ax : The axis that the plot will be located on. </span>
+<span class="sd">        plot_size : The dimensions of the plot if given a custom size.</span>
+
+<span class="sd">        Returns </span>
+<span class="sd">        --------</span>
+<span class="sd">        fig : Matplotlib fig object</span>
+<span class="sd">        ax  : Matplotlib ax object</span>
+<span class="sd">        &#39;&#39;&#39;</span> 
+        
+        <span class="n">func</span><span class="p">()</span> 
+
+        <span class="n">ymax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">yinc</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">calculate_params</span><span class="p">(</span>
+            <span class="n">df</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">param_axis</span> <span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span>
+            <span class="p">)</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_line_data</span><span class="p">(</span>
+            <span class="n">df</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">axis</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ax&#39;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span>
+            <span class="p">)</span>
+        
+        <span class="n">set_plot_style</span><span class="p">(</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">plot_size</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;plot_size&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mf">6.1</span><span class="p">,</span> <span class="mf">4.1</span><span class="p">)),</span> 
+            <span class="n">grid_x</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">grid_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="n">ymin</span><span class="p">,</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="n">ymax</span><span class="p">,</span> 
+            <span class="n">param_axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span>
+            <span class="p">)</span>
+
+        <span class="n">set_ticks</span><span class="p">(</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">df</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="n">ymin</span><span class="p">,</span> 
+            <span class="n">max_value</span><span class="o">=</span><span class="n">ymax</span><span class="p">,</span> 
+            <span class="n">inc</span><span class="o">=</span><span class="n">yinc</span>
+            <span class="p">)</span>
+
+        <span class="n">set_labels</span><span class="p">(</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">xlab</span><span class="o">=</span><span class="n">xlab</span><span class="p">,</span>
+            <span class="n">ylab</span><span class="o">=</span><span class="n">ylab</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+</div>
+
+
+<div class="viewcode-block" id="calculate_params">
+<a class="viewcode-back" href="../code.html#rick.calculate_params">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_params</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">param_axis</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span> 
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Checks if minimum, maximum and increment values are passed into the plotting function </span>
+<span class="sd">    for the specified axis, and returns these. Otherwise, calculates them.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    Required: </span>
+<span class="sd">    data :  Data for the line chart.</span>
+<span class="sd">    param_axis : Axis along which max, min, upper, inc values should be calculated. </span>
+
+<span class="sd">    Optional: </span>
+<span class="sd">    xmin : Minimum value of x axis. </span>
+<span class="sd">    xmax : Maximum value of x axis.</span>
+<span class="sd">    xinc : The increment of ticks on the x axis.</span>
+<span class="sd">    ymin : Minimum value of y axis</span>
+<span class="sd">    ymax : Maximum value of y axis.</span>
+<span class="sd">    yinc : The increment of ticks on the y axis.</span>
+
+<span class="sd">    Returns </span>
+<span class="sd">    -------</span>
+
+<span class="sd">    max_value : Maximum value along param_axis </span>
+<span class="sd">    min_value  : Minimum value along param_axis </span>
+<span class="sd">    inc : Increment of ticks along param_axis</span>
+<span class="sd">    upper : Value used for placing of annotations. </span>
+
+<span class="sd">    TODO: check whether the calculation of inc can be improved, at what value does it fail,</span>
+<span class="sd">    maybe print a warning if the user should specify it.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">max_value</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">param_axis</span><span class="si">}</span><span class="s1">max&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)))</span>
+    <span class="n">min_value</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">param_axis</span><span class="si">}</span><span class="s1">min&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">delta</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="n">calculate_delta</span><span class="p">(</span><span class="n">max_value</span><span class="p">,</span> <span class="n">min_value</span><span class="p">)</span>
+    <span class="n">inc</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">param_axis</span><span class="si">}</span><span class="s1">inc&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">delta</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="nb">pow</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="n">i</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">param_axis</span><span class="si">}</span><span class="s1">max&#39;</span><span class="p">,</span><span class="kc">None</span><span class="p">)</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">upper</span><span class="o">=</span><span class="n">max_value</span> 
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">upper</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">min_value</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">inc</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">max_value</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">inc</span><span class="p">,</span> <span class="n">upper</span> </div>
+
+
+<div class="viewcode-block" id="calculate_delta">
+<a class="viewcode-back" href="../code.html#rick.calculate_delta">[docs]</a>
+<span class="k">def</span> <span class="nf">calculate_delta</span><span class="p">(</span><span class="n">max_value</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">min_value</span><span class="p">:</span><span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Returns parameters used to find the size of the y or x axis increments.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">delta</span> <span class="o">=</span> <span class="p">(</span><span class="n">max_value</span> <span class="o">-</span> <span class="n">min_value</span><span class="p">)</span><span class="o">/</span><span class="mi">4</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">delta</span> <span class="o">/=</span> <span class="mi">10</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">delta</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">return</span> <span class="n">delta</span><span class="p">,</span> <span class="n">i</span></div>
+
+
+<div class="viewcode-block" id="plot_line_data">
+<a class="viewcode-back" href="../code.html#rick.plot_line_data">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_line_data</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span><span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Plots all columns in the input dataframe as lines in one graph </span>
+<span class="sd">    on the specified axis object.</span>
+
+<span class="sd">    Parameters </span>
+<span class="sd">    ---------- </span>
+<span class="sd">    df : Data to be plotted </span>
+<span class="sd">    axis : Prespecified axis to be used for the plot. </span>
+
+<span class="sd">    Returns </span>
+<span class="sd">    ------- </span>
+<span class="sd">    fig : Matplotlib fig object</span>
+<span class="sd">    ax  : Matplotlib ax object</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">init_fig</span><span class="p">(</span><span class="n">axis</span><span class="p">)</span>
+    <span class="n">colour_instance</span> <span class="o">=</span> <span class="n">colour</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+        <span class="n">hex_code</span> <span class="o">=</span> <span class="n">colour_instance</span><span class="o">.</span><span class="n">get_colour_from_index</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">hex_code</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="plot_grouped_bar_data">
+<a class="viewcode-back" href="../code.html#rick.plot_grouped_bar_data">[docs]</a>
+<span class="k">def</span> <span class="nf">plot_grouped_bar_data</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span><span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">horizontal</span><span class="p">:</span><span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Plots all columns in the input dataframe as bars in a grouped bar graph.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">init_fig</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+    <span class="n">bar_width</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">adjustment</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">colour_instance</span> <span class="o">=</span> <span class="n">colour</span><span class="p">()</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+    
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">((</span><span class="nb">reversed</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span> <span class="k">if</span> <span class="n">horizontal</span> <span class="k">else</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="n">hex_code</span> <span class="o">=</span> <span class="n">colour_instance</span><span class="o">.</span><span class="n">get_colour_from_index</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s1">&#39;barh&#39;</span> <span class="k">if</span> <span class="n">horizontal</span> <span class="k">else</span> <span class="s1">&#39;bar&#39;</span><span class="p">)(</span><span class="n">ind</span><span class="o">+</span><span class="n">adjustment</span><span class="p">,</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">hex_code</span><span class="p">)</span>
+        <span class="n">adjustment</span> <span class="o">+=</span> <span class="n">bar_width</span>
+
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> </div>
+
+
+<div class="viewcode-block" id="init_fig">
+<a class="viewcode-back" href="../code.html#rick.init_fig">[docs]</a>
+<span class="k">def</span> <span class="nf">init_fig</span><span class="p">(</span><span class="n">axis</span><span class="p">:</span><span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets the plot fig and axes objects to be the ones specified by the user or </span>
+<span class="sd">    creates new ones.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">axis</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">axis</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_figure</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>    
+
+    <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
+
+<div class="viewcode-block" id="set_plot_style">
+<a class="viewcode-back" href="../code.html#rick.set_plot_style">[docs]</a>
+<span class="k">def</span> <span class="nf">set_plot_style</span><span class="p">(</span><span class="n">fig</span><span class="p">:</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span><span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">plot_size</span><span class="p">:(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="n">grid_x</span><span class="p">:</span><span class="nb">bool</span><span class="p">,</span> <span class="n">grid_y</span><span class="p">:</span><span class="nb">bool</span><span class="p">,</span> <span class="n">min_value</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">max_value</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">param_axis</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets size, background and grid for plot.</span>
+
+<span class="sd">    Parameters </span>
+<span class="sd">    ---------- </span>
+<span class="sd">    fig : Matplotlib fig object.</span>
+<span class="sd">    ax  : Matplotlib ax object.</span>
+<span class="sd">    plot_size : The dimensions of the plot in inches. </span>
+<span class="sd">    grid_x : Whether there is a grid parallel to x ticks. </span>
+<span class="sd">    grid_y : Whether there is a grid parallel to y ticks. </span>
+<span class="sd">    min_value : Minimum value of param_axis.</span>
+<span class="sd">    max_value : Maximum value of param_axis.</span>
+<span class="sd">    param_axis : Axis opposite to index axis. </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="n">plot_size</span><span class="p">)</span>
+    <span class="nb">getattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s1">&#39;set_ylim&#39;</span> <span class="k">if</span> <span class="n">param_axis</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span> <span class="k">else</span> <span class="s1">&#39;set_xlim&#39;</span><span class="p">)([</span><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_facecolor</span><span class="p">(</span><span class="s1">&#39;xkcd:white&#39;</span><span class="p">)</span>
+    <span class="n">set_grid</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">grid_x</span><span class="p">,</span> <span class="n">grid_y</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_grid">
+<a class="viewcode-back" href="../code.html#rick.set_grid">[docs]</a>
+<span class="k">def</span> <span class="nf">set_grid</span><span class="p">(</span><span class="n">ax</span><span class="p">:</span><span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">grid_x</span><span class="p">:</span><span class="nb">bool</span><span class="p">,</span> <span class="n">grid_y</span><span class="p">:</span><span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets the grid for plot. </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">grid_x</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">grid_y</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="set_ticks">
+<a class="viewcode-back" href="../code.html#rick.set_ticks">[docs]</a>
+<span class="k">def</span> <span class="nf">set_ticks</span><span class="p">(</span><span class="n">ax</span><span class="p">:</span><span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">min_value</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">max_value</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">inc</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">index_axis</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> 
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Sets x and y axis tick locations and tick labels.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters </span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : Matplotlib axes object.</span>
+<span class="sd">    df : Dataset being plotted.</span>
+<span class="sd">    min_value : Minimum value along non index axis.</span>
+<span class="sd">    max_value : Maximum value along non index axis. </span>
+<span class="sd">    inc : Incrementation of ticks along non index axis. </span>
+<span class="sd">    index_axis : The index of the DataFrame object, </span>
+<span class="sd">                 e.g. the x axis for a line chart. </span>
+<span class="sd">    offset : Offset in the placement of ticks. </span>
+<span class="sd">             Used for grouped bar charts to center labels. </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">NUM_SLICES</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span> <span class="c1"># makes it so that there is 8 date labels along x axis</span>
+
+    <span class="c1"># Checking if data being plotted is indexed by date </span>
+    <span class="c1"># Assumption: dates are plotted on x axis </span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span> <span class="o">==</span> <span class="n">pd</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">indexes</span><span class="o">.</span><span class="n">datetimes</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">:</span>
+        <span class="n">locs</span> <span class="o">=</span> <span class="n">mpl</span><span class="o">.</span><span class="n">dates</span><span class="o">.</span><span class="n">date2num</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)[::</span><span class="n">NUM_SLICES</span><span class="p">]</span>
+        <span class="n">label_rotation</span> <span class="o">=</span> <span class="mi">45</span>
+        <span class="n">index_labels</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)[::</span><span class="n">NUM_SLICES</span><span class="p">]</span>
+
+    <span class="k">else</span><span class="p">:</span> 
+        <span class="n">locs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="n">offset</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">))]</span>
+        <span class="n">label_rotation</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">index_labels</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span> 
+
+    <span class="c1"># Set the locations for the ticks of the two axes </span>
+    <span class="nb">getattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s1">&#39;yaxis&#39;</span> <span class="k">if</span> <span class="n">index_axis</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span> <span class="k">else</span> <span class="s1">&#39;xaxis&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">FixedLocator</span><span class="p">(</span><span class="n">locs</span><span class="p">))</span>
+    <span class="nb">getattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s1">&#39;set_xticks&#39;</span> <span class="k">if</span> <span class="n">index_axis</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span> <span class="k">else</span> <span class="s1">&#39;set_yticks&#39;</span><span class="p">)(</span><span class="nb">range</span><span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span> <span class="o">+</span> <span class="n">inc</span><span class="p">,</span> <span class="n">inc</span><span class="p">),</span> 
+                                                                    <span class="n">labels</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span> <span class="o">+</span> <span class="n">inc</span><span class="p">,</span> <span class="n">inc</span><span class="p">),</span> 
+                                                                    <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">9</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+    <span class="c1"># Set the formatting of the labels</span>
+    <span class="nb">getattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s1">&#39;xaxis&#39;</span> <span class="k">if</span> <span class="n">index_axis</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span> <span class="k">else</span> <span class="s1">&#39;yaxis&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">mpl</span><span class="o">.</span><span class="n">ticker</span><span class="o">.</span><span class="n">StrMethodFormatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{x:,.0f}</span><span class="s1">&#39;</span><span class="p">))</span>
+    <span class="nb">getattr</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="s1">&#39;set_yticklabels&#39;</span> <span class="k">if</span> <span class="n">index_axis</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span> <span class="k">else</span> <span class="s1">&#39;set_xticklabels&#39;</span><span class="p">)(</span><span class="n">labels</span><span class="o">=</span><span class="n">index_labels</span><span class="p">,</span> 
+                                                                               <span class="n">rotation</span><span class="o">=</span><span class="n">label_rotation</span><span class="p">,</span>
+                                                                               <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">9</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="set_labels">
+<a class="viewcode-back" href="../code.html#rick.set_labels">[docs]</a>
+<span class="k">def</span> <span class="nf">set_labels</span><span class="p">(</span><span class="n">ax</span><span class="p">:</span><span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">xlab</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">ylab</span><span class="p">:</span><span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Set the labels of the y and x axes.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : Matplotlib axes object. </span>
+<span class="sd">    xlab : Label of x axis. </span>
+<span class="sd">    ylab : Label of y axis. </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">if</span> <span class="n">xlab</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="n">xlab</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span>
+                      <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                      <span class="n">labelpad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                      <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylab</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">ylab</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span>
+                      <span class="n">horizontalalignment</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> 
+                      <span class="n">labelpad</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="add_bar_annotations">
+<a class="viewcode-back" href="../code.html#rick.add_bar_annotations">[docs]</a>
+<span class="k">def</span> <span class="nf">add_bar_annotations</span><span class="p">(</span><span class="n">ax</span><span class="p">:</span><span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">precision</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">percent</span><span class="p">:</span><span class="nb">bool</span><span class="p">,</span> <span class="n">horizontal</span><span class="p">:</span><span class="nb">bool</span><span class="p">,</span> <span class="n">additional_annotations</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Adds bar annotations to bar charts, and other annotations if specified. </span>
+
+<span class="sd">    Parameters </span>
+<span class="sd">    ----------</span>
+<span class="sd">    ax : Matplotlib axes object. </span>
+<span class="sd">    df : Dataset being plotted.</span>
+<span class="sd">    upper : Bar value used for determining placement of annotation. </span>
+<span class="sd">    precision : Decimal points in the annotations. </span>
+<span class="sd">    percent : Flag determining whether to show percentage change between </span>
+<span class="sd">                baseline column (assumed to be the first column) and </span>
+<span class="sd">                remaining columns.</span>
+<span class="sd">    horizontal : Flag to indicate if this is a horizontal bar graph.</span>
+<span class="sd">    additional_annotations : Dictionary with keys of type (int, int) and values </span>
+<span class="sd">                                of type (str), indicating the coordinates and </span>
+<span class="sd">                                annotation to be added. </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">bar_width</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">precision</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">horizontal</span><span class="p">:</span>
+        <span class="n">horizontal_bar_annotations</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">percent</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">vertical_bar_annotations</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ax</span><span class="p">,</span> <span class="n">bar_width</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span> <span class="n">percent</span><span class="p">)</span>
+
+    <span class="c1"># TODO: make this more customizable - add another function possibly?</span>
+    <span class="k">if</span> <span class="n">additional_annotations</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">xy</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">additional_annotations</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="n">xy</span><span class="o">=</span><span class="n">xy</span><span class="p">,</span> <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="horizontal_bar_annotations">
+<a class="viewcode-back" href="../code.html#rick.horizontal_bar_annotations">[docs]</a>
+<span class="k">def</span> <span class="nf">horizontal_bar_annotations</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span><span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">bar_width</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">precision</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">percent</span><span class="p">:</span><span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Adds value annotations to horizontal grouped or regular bar charts. </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">HORIZONTAL_CUTOFF</span> <span class="o">=</span> <span class="mf">0.15</span> <span class="o">*</span> <span class="n">upper</span>
+    <span class="n">ANNOTATION_OFFSET</span> <span class="o">=</span> <span class="mf">0.015</span> <span class="o">*</span> <span class="n">upper</span>
+    <span class="n">PERCENT_HRZNTL_OFFSET</span> <span class="o">=</span> <span class="mf">0.04</span>
+    <span class="n">PERCENT_VRTCL_OFFSET</span> <span class="o">=</span>  <span class="p">(</span><span class="mf">0.15</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.05</span><span class="p">)</span> 
+
+    <span class="c1"># Adding annotations for values of each bar </span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">bar_width</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">k</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">k</span><span class="p">]]:</span>
+            <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">ANNOTATION_OFFSET</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mf">0.05</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">HORIZONTAL_CUTOFF</span> <span class="k">else</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">ANNOTATION_OFFSET</span><span class="p">,</span> <span class="n">j</span><span class="o">-</span><span class="mf">0.05</span><span class="p">)</span> 
+            <span class="n">ha</span> <span class="o">=</span> <span class="s1">&#39;left&#39;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">HORIZONTAL_CUTOFF</span> <span class="k">else</span> <span class="s1">&#39;right&#39;</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">HORIZONTAL_CUTOFF</span> <span class="k">else</span> <span class="s1">&#39;w&#39;</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">precision</span><span class="p">),</span> <span class="s1">&#39;,&#39;</span><span class="p">)),</span> <span class="n">xy</span><span class="o">=</span><span class="n">xy</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="n">ha</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">fontname</span><span class="o">=</span><span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">j</span><span class="o">+=</span><span class="mi">1</span>
+
+    <span class="c1"># Adding percentage difference between &#39;baseline&#39; bar and all other bars (optional)</span>
+    <span class="k">if</span> <span class="n">percent</span><span class="p">:</span> 
+        <span class="n">df_percent</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:])):</span>
+            <span class="n">df_percent</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;percent</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>  <span class="c1"># percent change = 100*(col-baseline)/baseline</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">bar_width</span><span class="o">*</span><span class="n">k</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_percent</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+                    <span class="p">(</span><span class="s1">&#39;+&#39;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;percent</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;percent</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">])),</span> <span class="s1">&#39;,&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;%&#39;</span><span class="p">,</span> <span class="c1"># Rounds percentage to closest integer</span>
+                    <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">PERCENT_HRZNTL_OFFSET</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">HORIZONTAL_CUTOFF</span> <span class="k">else</span> <span class="n">PERCENT_HRZNTL_OFFSET</span><span class="p">)</span> <span class="o">*</span> <span class="n">upper</span><span class="p">,</span> <span class="n">j</span> <span class="o">+</span> <span class="n">PERCENT_VRTCL_OFFSET</span><span class="p">),</span>  <span class="c1"># Placement of percentage annotation </span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span>
+                    <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span>
+                    <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span>
+                    <span class="p">)</span>
+                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+        
+<div class="viewcode-block" id="vertical_bar_annotations">
+<a class="viewcode-back" href="../code.html#rick.vertical_bar_annotations">[docs]</a>
+<span class="k">def</span> <span class="nf">vertical_bar_annotations</span><span class="p">(</span><span class="n">df</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span><span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">,</span> <span class="n">bar_width</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span><span class="nb">float</span><span class="p">,</span> <span class="n">precision</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span> <span class="n">percent</span><span class="p">:</span><span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Adds value annotations to vertical grouped or regular bar charts. </span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">VERTICAL_CUTOFF</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">upper</span>
+    <span class="n">ANNOTATION_OFFSET</span> <span class="o">=</span> <span class="mf">0.015</span> <span class="o">*</span> <span class="n">upper</span>
+    <span class="n">PERCENT_OFFSET</span> <span class="o">=</span> <span class="mf">0.03</span>
+
+    <span class="c1"># Adding annotations for values of each bar </span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)):</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">bar_width</span><span class="o">*</span><span class="n">k</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">k</span><span class="p">]]:</span>
+            <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">ANNOTATION_OFFSET</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">VERTICAL_CUTOFF</span> <span class="k">else</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span> <span class="o">-</span> <span class="n">ANNOTATION_OFFSET</span><span class="p">)</span>
+            <span class="n">va</span> <span class="o">=</span> <span class="s1">&#39;top&#39;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">VERTICAL_CUTOFF</span> <span class="k">else</span> <span class="s1">&#39;center&#39;</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">VERTICAL_CUTOFF</span> <span class="k">else</span> <span class="s1">&#39;k&#39;</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">precision</span><span class="p">),</span> <span class="s1">&#39;,&#39;</span><span class="p">)),</span> <span class="n">xy</span><span class="o">=</span><span class="n">xy</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="n">va</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">fontname</span><span class="o">=</span><span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># Adding percentage difference between &#39;baseline&#39; bar and all other bars (optional)</span>
+    <span class="k">if</span> <span class="n">percent</span><span class="p">:</span> 
+        <span class="n">df_percent</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+            <span class="n">df_percent</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;percent</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>  <span class="c1"># percent change = 100*(col-baseline)/baseline</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="n">bar_width</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_percent</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+                    <span class="p">(</span><span class="s1">&#39;+&#39;</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;percent</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;percent</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">])),</span> <span class="s1">&#39;,&#39;</span><span class="p">))</span> <span class="o">+</span> <span class="s1">&#39;%&#39;</span><span class="p">,</span> <span class="c1"># Rounds percentage to closest integer</span>
+                    <span class="n">xy</span> <span class="o">=</span> <span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">PERCENT_OFFSET</span> <span class="k">if</span> <span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">VERTICAL_CUTOFF</span> <span class="k">else</span> <span class="n">PERCENT_OFFSET</span><span class="p">)</span> <span class="o">*</span> <span class="n">upper</span><span class="p">),</span>  <span class="c1"># Placement of percentage annotation </span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span>
+                    <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span>
+                    <span class="n">fontname</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span>
+                    <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span>
+                    <span class="p">)</span>
+                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="general_grouped_bar_chart">
+<a class="viewcode-back" href="../code.html#rick.general_grouped_bar_chart">[docs]</a>
+<span class="k">def</span> <span class="nf">general_grouped_bar_chart</span><span class="p">(</span><span class="n">data</span><span class="p">:</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">param_axis</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">index_axis</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">standard_plot_size</span><span class="p">:(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span> <span class="n">horizontal</span><span class="p">:</span><span class="nb">bool</span><span class="p">,</span> <span class="n">grid_x</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid_y</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">axes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Creates a horizontal or vertical grouped bar chart. Number of</span>
+<span class="sd">        bars in each group to plot is determined from the number of</span>
+<span class="sd">        columns in input dataframe, while the number of groups is</span>
+<span class="sd">        determined by the number of rows.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+
+<span class="sd">        Required: </span>
+<span class="sd">        data : Data for the grouped bar chart.</span>
+<span class="sd">        param_axis : Axis along which bars are plotted.</span>
+<span class="sd">        index_axis : Axis containing labels for bars. </span>
+<span class="sd">        standard_plot_size : The standard size depending on the type of graph (horizontal or vertical).</span>
+<span class="sd">        horizontal : Flag indicating whether plot is horizontal. </span>
+<span class="sd">        </span>
+<span class="sd">        </span>
+<span class="sd">        Optional: </span>
+<span class="sd">        ylab : Label for the y axis.</span>
+<span class="sd">        xlab : Label for the x axis.</span>
+
+<span class="sd">        xmax or ymax : The max value of the x or y axis.</span>
+<span class="sd">        xmin or ymin : The minimum value of the x or y axis</span>
+<span class="sd">                        Should include this if minimum &lt; 0.</span>
+<span class="sd">        xinc or yinc : The increment of ticks on the x or y axis.</span>
+<span class="sd">        ax : The axis that the plot will be located on.</span>
+<span class="sd">        plot_size : Custom plot dimensions. </span>
+<span class="sd">        precision : Decimal points in the annotations. </span>
+<span class="sd">        percent : Flag determining whether to show percentage change between </span>
+<span class="sd">                    baseline column (assumed to be the first column) and </span>
+<span class="sd">                    remaining columns.</span>
+<span class="sd">        additional_annotations : Dictionary with keys of type (int, int) and values </span>
+<span class="sd">                                    of type (str), indicating the coordinates and </span>
+<span class="sd">                                    annotation to be added. </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        fig : Matplotlib fig object</span>
+<span class="sd">        ax : Matplotlib ax object</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">BAR_WIDTH</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">TICK_OFFSET</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">BAR_WIDTH</span><span class="o">/</span><span class="mi">2</span>
+
+        <span class="n">func</span><span class="p">()</span>
+
+        <span class="n">max_value</span><span class="p">,</span> <span class="n">min_value</span><span class="p">,</span> <span class="n">inc</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="n">calculate_params</span><span class="p">(</span>
+            <span class="n">df</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">param_axis</span><span class="o">=</span><span class="n">param_axis</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_grouped_bar_data</span><span class="p">(</span>
+            <span class="n">df</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ax&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> 
+            <span class="n">horizontal</span><span class="o">=</span><span class="n">horizontal</span>
+        <span class="p">)</span>
+
+        <span class="n">set_plot_style</span><span class="p">(</span>
+            <span class="n">fig</span><span class="o">=</span><span class="n">fig</span><span class="p">,</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="n">max_value</span><span class="p">,</span>
+            <span class="n">param_axis</span><span class="o">=</span><span class="n">param_axis</span><span class="p">,</span>
+            <span class="n">plot_size</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;plot_size&#39;</span><span class="p">,</span> <span class="n">standard_plot_size</span><span class="p">),</span>
+            <span class="n">grid_x</span><span class="o">=</span><span class="n">grid_x</span><span class="p">,</span>
+            <span class="n">grid_y</span><span class="o">=</span><span class="n">grid_y</span>
+        <span class="p">)</span>
+
+        <span class="n">set_ticks</span><span class="p">(</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">min_value</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span>
+            <span class="n">max_value</span><span class="o">=</span><span class="n">max_value</span><span class="p">,</span>
+            <span class="n">inc</span><span class="o">=</span><span class="n">inc</span><span class="p">,</span>
+            <span class="n">index_axis</span><span class="o">=</span><span class="n">index_axis</span><span class="p">,</span>
+            <span class="n">df</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">offset</span><span class="o">=</span><span class="n">TICK_OFFSET</span>
+        <span class="p">)</span>
+
+        <span class="n">set_labels</span><span class="p">(</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">xlab</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;xlab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="n">ylab</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;ylab&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="n">add_bar_annotations</span><span class="p">(</span>
+            <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+            <span class="n">df</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">upper</span><span class="o">=</span><span class="n">upper</span><span class="p">,</span>
+            <span class="n">horizontal</span><span class="o">=</span><span class="n">horizontal</span><span class="p">,</span>
+            <span class="n">precision</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;precision&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">percent</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;percent&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+            <span class="n">additional_annotations</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;annotations&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span></div>
+
 </pre></div>
 
           </div>
@@ -655,22 +1710,22 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2021, Rick Liu + BDITTO.
+      &#169;2021, Rick Liu + BDITTO.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
       
     </div>
 

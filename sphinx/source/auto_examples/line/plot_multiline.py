@@ -349,6 +349,17 @@ sett_empty={
 
 multi_linechart(df_multi, sett_empty)
 
+################################
+#Example: plot data with new multiline function
+#----------------------------------
+#
+#This Section plots dataframe using the rewrite of the multiline function.
+import rick
+df_multi_dt = df_multi.set_index('dt')
+df_multi_dt.index = pd.to_datetime(df_multi.index)
+rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dates', plot_size=(6.1, 4.1))
+
+
 #####################################
 #Example: one shaded area with legend 
 #------------------------------------
@@ -436,7 +447,7 @@ if 'body' in sett:
         mpl.rcParams['font.family'] = sett['body']['font-family']
         print(mpl.rcParams['font.family'])
 
-multi_linechart(df_multi, sett)
+#multi_linechart(df_multi, sett)
 
 #####################################
 #Example: two shaded area blocks  
@@ -541,4 +552,4 @@ if 'body' in sett:
         mpl.rcParams['font.family'] = sett['body']['font-family']
         print(mpl.rcParams['font.family'])
 
-multi_linechart(df_multi, sett)
+#multi_linechart(df_multi, sett)
