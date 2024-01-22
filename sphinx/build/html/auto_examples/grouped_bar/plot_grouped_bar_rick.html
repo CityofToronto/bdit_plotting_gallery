@@ -38,19 +38,15 @@
             
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-grouped-bar-plot-grouped-bar-rick-py"><span class="std std-ref">here</span></a>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-grouped-bar-plot-grouped-bar-rick-py"><span class="std std-ref">Go to the end</span></a>
 to download the full example code</p>
 </div>
 <section class="sphx-glr-example-title" id="rick-grouped-bar-chart">
 <span id="sphx-glr-auto-examples-grouped-bar-plot-grouped-bar-rick-py"></span><h1>RICK Grouped Bar Chart<a class="headerlink" href="#rick-grouped-bar-chart" title="Link to this heading">¶</a></h1>
 <p>Example of a horizontal grouped bar chart.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">configparser</span>
-<span class="kn">from</span> <span class="nn">psycopg2</span> <span class="kn">import</span> <span class="n">connect</span>
-<span class="kn">import</span> <span class="nn">psycopg2.sql</span> <span class="k">as</span> <span class="nn">pg</span>
 <span class="kn">import</span> <span class="nn">pandas.io.sql</span> <span class="k">as</span> <span class="nn">pandasql</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
@@ -60,23 +56,26 @@ to download the full example code</p>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">shapely</span>
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="kn">import</span> <span class="n">Point</span>
-<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;PROJ_LIB&quot;</span><span class="p">]</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share&quot;</span>
+<span class="c1">#os.environ[&quot;PROJ_LIB&quot;]=r&quot;C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share&quot;</span>
 <span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.ticker</span> <span class="k">as</span> <span class="nn">ticker</span>
 <span class="kn">import</span> <span class="nn">matplotlib.font_manager</span> <span class="k">as</span> <span class="nn">font_manager</span>
 
+<span class="kn">import</span> <span class="nn">sqlalchemy</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">URL</span><span class="p">,</span> <span class="n">create_engine</span>
+<span class="kn">import</span> <span class="nn">configparser</span>
 
-<span class="n">CONFIG</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
-<span class="c1"># CONFIG.read(r&#39;C:\Users\rliu4\Documents\Python\config.cfg&#39;)</span>
-<span class="n">CONFIG</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;/home/cnangini/db.cfg&#39;</span><span class="p">)</span>
-<span class="n">dbset</span> <span class="o">=</span> <span class="n">CONFIG</span><span class="p">[</span><span class="s1">&#39;DBSETTINGS&#39;</span><span class="p">]</span>
-<span class="n">con</span> <span class="o">=</span> <span class="n">connect</span><span class="p">(</span><span class="o">**</span><span class="n">dbset</span><span class="p">)</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
+<span class="n">config</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;/data/home/mgoula/plotting_gallery/bdit_plotting_gallery/dbsettings.cfg&#39;</span><span class="p">)</span>
+<span class="n">connect_url</span> <span class="o">=</span> <span class="n">URL</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;postgresql+psycopg2&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;DBSETTINGS&#39;</span><span class="p">])</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">connect_url</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="data-collection">
 <h2>Data Collection<a class="headerlink" href="#data-collection" title="Link to this heading">¶</a></h2>
 <p>This Section grabs and formats the data.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">query</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;</span>
 
 <span class="s1">WITH sum AS (</span>
 
@@ -106,19 +105,30 @@ to download the full example code</p>
 <span class="s1">ORDER BY count1 ASC</span>
 <span class="s1">&#39;&#39;&#39;</span>
 
-<span class="n">district_cond</span> <span class="o">=</span> <span class="n">pandasql</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">engine</span><span class="o">.</span><span class="n">begin</span><span class="p">()</span> <span class="k">as</span> <span class="n">pg_conn</span><span class="p">:</span>
+    <span class="n">district_cond</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">rick</span><span class="o">.</span><span class="n">charts</span><span class="o">.</span><span class="n">stacked_chart</span><span class="p">(</span><span class="n">district_cond</span><span class="p">,</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s1">&#39;Trips&#39;</span><span class="p">,</span> <span class="n">lab1</span> <span class="o">=</span> <span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="n">lab2</span> <span class="o">=</span> <span class="s1">&#39;2018&#39;</span><span class="p">,</span> <span class="n">percent</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img alt="plot grouped bar rick" class="sphx-glr-single-img" src="../../_images/sphx_glr_plot_grouped_bar_rick_001.png" />
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.672 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-grouped-bar-plot-grouped-bar-rick-py">
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/78784c7b70cf78649c121de31a812562/plot_grouped_bar_rick.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_grouped_bar_rick.py</span></code></a></p>
+<img src="../../_images/sphx_glr_plot_grouped_bar_rick_001.png" srcset="../../_images/sphx_glr_plot_grouped_bar_rick_001.png" alt="plot grouped bar rick" class = "sphx-glr-single-img"/></section>
+<section id="id1">
+<h2>Data Collection<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<p>This Section uses the rewritten horizontal grouped bar chart function.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">rick</span><span class="o">.</span><span class="n">charts</span><span class="o">.</span><span class="n">horizontal_grouped_bar_chart</span><span class="p">(</span><span class="n">district_cond</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;area_name&#39;</span><span class="p">),</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s1">&#39;Trips&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;2018&#39;</span><span class="p">],</span> <span class="n">percent</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
 </div>
+<img src="../../_images/sphx_glr_plot_grouped_bar_rick_002.png" srcset="../../_images/sphx_glr_plot_grouped_bar_rick_002.png" alt="plot grouped bar rick" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.451 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-grouped-bar-plot-grouped-bar-rick-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/3a807fd942b12b2113f427b590c50f6f/plot_grouped_bar_rick.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_grouped_bar_rick.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/78784c7b70cf78649c121de31a812562/plot_grouped_bar_rick.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_grouped_bar_rick.py</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>

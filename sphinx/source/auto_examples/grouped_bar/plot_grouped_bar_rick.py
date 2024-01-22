@@ -5,13 +5,9 @@ RICK Grouped Bar Chart
 Example of a horizontal grouped bar chart.
 """
 
-from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import pandas as pd 
-import configparser
-from psycopg2 import connect
-import psycopg2.sql as pg
 import pandas.io.sql as pandasql
 import numpy as np 
 import datetime
@@ -21,23 +17,27 @@ import geopandas as gpd
 import os
 import shapely
 from shapely.geometry import Point
-os.environ["PROJ_LIB"]=r"C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share"
+#os.environ["PROJ_LIB"]=r"C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share"
 import importlib
 import matplotlib.ticker as ticker
 import matplotlib.font_manager as font_manager
 
+import sqlalchemy
+from sqlalchemy import URL, create_engine
+import configparser
 
-CONFIG = configparser.ConfigParser()
-# CONFIG.read(r'C:\Users\rliu4\Documents\Python\config.cfg')
-CONFIG.read(r'/home/cnangini/db.cfg')
-dbset = CONFIG['DBSETTINGS']
-con = connect(**dbset)
+
+config = configparser.ConfigParser()
+config.read('/data/home/mgoula/plotting_gallery/bdit_plotting_gallery/dbsettings.cfg')
+connect_url = URL.create("postgresql+psycopg2", **config['DBSETTINGS'])
+engine = create_engine(connect_url)
+
 ################################
 #Data Collection
 #----------------
 #
 #This Section grabs and formats the data.
-query = ''' 
+query = '''
 
 WITH sum AS (
 
@@ -67,6 +67,19 @@ LEFT JOIN tot2 a USING (area_name)
 ORDER BY count1 ASC
 '''
 
-district_cond = pandasql.read_sql(query, con)
+with engine.begin() as pg_conn:
+    district_cond = pd.read_sql(query, engine)
 
 fig, ax = rick.charts.stacked_chart(district_cond, xlab = 'Trips', lab1 = '2016', lab2 = '2018', percent = True)
+fig.tight_layout()
+plt.show()
+
+
+################################
+#Data Collection
+#----------------
+#
+#This Section uses the rewritten horizontal grouped bar chart function.
+fig, ax = rick.charts.horizontal_grouped_bar_chart(district_cond.set_index('area_name'), xlab = 'Trips', legend=['2016', '2018'], percent = True)
+fig.tight_layout()
+plt.show()

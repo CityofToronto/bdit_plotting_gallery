@@ -675,6 +675,7 @@ class charts:
         additional_annotations : Dictionary with keys of type (int, int) and values
                                     of type (str), indicating the coordinates and
                                     annotation to be added.
+        legend : A list of string objects to be used for the legend.
 
         Returns
         --------
@@ -720,6 +721,7 @@ class charts:
         additional_annotations : Dictionary with keys of type (int, int) and values
                                     of type (str), indicating the coordinates and
                                     annotation to be added.
+        legend : A list of string objects to be used for the legend.
 
         Returns
         --------
@@ -735,7 +737,6 @@ class charts:
             grid_x=False,
             **kwargs
             )
-
 
     def bar_chart(data_in, xlab,**kwargs):
         """Creates a bar chart
@@ -1245,9 +1246,10 @@ def plot_line_data(df:pd.DataFrame, axis:plt.axes) -> (plt.figure, plt.axes):
         
     return fig, ax
 
-def plot_grouped_bar_data(df:pd.DataFrame, ax:plt.axes, horizontal:bool) -> (plt.figure, plt.axes):
+def plot_grouped_bar_data(df:pd.DataFrame, ax:plt.axes, legend:list[str], horizontal:bool) -> (plt.figure, plt.axes):
     '''
     Plots all columns in the input dataframe as bars in a grouped bar graph.
+    Also adds a legend if a list of strings is provided.
     '''
 
     fig, ax = init_fig(ax)
@@ -1255,12 +1257,21 @@ def plot_grouped_bar_data(df:pd.DataFrame, ax:plt.axes, horizontal:bool) -> (plt
     adjustment = 0
     colour_instance = colour()
     ind = np.arange(len(df))
-    
+    bars = []
+
     for i, col in enumerate((reversed(df.columns)) if horizontal else (df.columns)):
         hex_code = colour_instance.get_colour_from_index(i+1)
-        getattr(ax, 'barh' if horizontal else 'bar')(ind+adjustment, df[col], bar_width, align='center', color = hex_code)
+        bars.append(getattr(ax, 'barh' if horizontal else 'bar')(ind+adjustment, df[col], bar_width, align='center', color = hex_code))
         adjustment += bar_width
 
+    if legend != None:
+        ax.legend(handles=bars[::-1] if horizontal else bars,
+                  labels=legend , 
+                  loc=4, 
+                  frameon=False, 
+                  prop=font.leg_font
+        )
+        
     return fig, ax 
 
 def init_fig(axis:plt.axes) -> (plt.figure, plt.axes):
@@ -1323,7 +1334,7 @@ def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, in
              Used for grouped bar charts to center labels. 
     '''
     NUM_SLICES = int(len(df)/8) # makes it so that there is 8 date labels along x axis
-
+    
     # Checking if data being plotted is indexed by date 
     # Assumption: dates are plotted on x axis 
     if type(df.index) == pd.core.indexes.datetimes.DatetimeIndex:
@@ -1340,12 +1351,13 @@ def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, in
     getattr(ax, 'yaxis' if index_axis == 'y' else 'xaxis').set_major_locator(mpl.ticker.FixedLocator(locs))
     getattr(ax, 'set_xticks' if index_axis == 'y' else 'set_yticks')(range(min_value, max_value + inc, inc), 
                                                                     labels=range(min_value, max_value + inc, inc), 
-                                                                    fontsize = 9, fontname = font.normal)
+                                                                    fontsize = 10, 
+                                                                    fontname = font.normal)
     # Set the formatting of the labels
     getattr(ax, 'xaxis' if index_axis == 'y' else 'yaxis').set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
     getattr(ax, 'set_yticklabels' if index_axis == 'y' else 'set_xticklabels')(labels=index_labels, 
                                                                                rotation=label_rotation,
-                                                                               fontsize = 9)
+                                                                               fontsize=10)
 
 
 def set_labels(ax:plt.axes, xlab:str, ylab:str) -> None:
@@ -1472,6 +1484,13 @@ def vertical_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, uppe
                     )
                 j += 1
 
+def add_legend(ax:plt.axes, legend:list[str]) -> None: 
+    '''
+    Adds a legend to the plot. 
+    '''
+    ax.legend(labels=legend, loc=4, frameon=False, prop=font.leg_font)
+
+
 def general_grouped_bar_chart(data:pd.DataFrame, param_axis:str, index_axis:str, standard_plot_size:(int, int), horizontal:bool, grid_x:bool=True, grid_y:bool=True, **kwargs:dict) -> (plt.figure, plt.axes):
         '''
         Creates a horizontal or vertical grouped bar chart. Number of
@@ -1507,12 +1526,14 @@ def general_grouped_bar_chart(data:pd.DataFrame, param_axis:str, index_axis:str,
         additional_annotations : Dictionary with keys of type (int, int) and values 
                                     of type (str), indicating the coordinates and 
                                     annotation to be added. 
+        legend : A list of string objects to be used for the legend.
 
         Returns
         --------
         fig : Matplotlib fig object
         ax : Matplotlib ax object
         '''
+
         BAR_WIDTH = 1/(len(data.columns)+1)
         TICK_OFFSET = (len(data.columns)-1) * BAR_WIDTH/2
 
@@ -1521,11 +1542,13 @@ def general_grouped_bar_chart(data:pd.DataFrame, param_axis:str, index_axis:str,
         max_value, min_value, inc, upper = calculate_params(
             df=data,
             param_axis=param_axis,
-            **kwargs)
+            **kwargs
+        )
 
         fig, ax = plot_grouped_bar_data(
             df=data,
             ax=kwargs.get('ax', None), 
+            legend=kwargs.get('legend', None),
             horizontal=horizontal
         )
 
@@ -1565,5 +1588,6 @@ def general_grouped_bar_chart(data:pd.DataFrame, param_axis:str, index_axis:str,
             percent=kwargs.get('percent', False),
             additional_annotations=kwargs.get('annotations', None)
         )
+
 
         return fig, ax

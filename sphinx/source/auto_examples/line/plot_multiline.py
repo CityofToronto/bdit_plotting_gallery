@@ -7,7 +7,7 @@ of lines to be plotted is automatically determined from the columns
 in the input dataframe. Also includes the option to display one or
 more shaded regions with labels.
 """
-
+import rick
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import pandas as pd
@@ -351,14 +351,15 @@ multi_linechart(df_multi, sett_empty)
 
 ################################
 #Example: plot data with new multiline function
-#----------------------------------
+#----------------------------------------------
 #
-#This Section plots dataframe using the rewrite of the multiline function.
-import rick
-df_multi_dt = df_multi.set_index('dt')
-df_multi_dt.index = pd.to_datetime(df_multi.index)
-rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dates', plot_size=(6.1, 4.1))
+#This section plots the `df_multi` dataframe using the rewrite of the multiline function.
 
+df_multi_dt = df_multi.set_index('dt')
+df_multi_dt.index = pd.to_datetime(df_multi_dt.index)
+fig, ax = rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dates')
+fig.tight_layout()
+plt.show()
 
 #####################################
 #Example: one shaded area with legend 

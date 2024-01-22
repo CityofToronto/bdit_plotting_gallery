@@ -30,7 +30,7 @@ more shaded regions with labels.
 
 .. code-block:: Python
 
-
+    import rick
     import matplotlib.pyplot as plt
     import matplotlib as mpl
     import pandas as pd
@@ -432,19 +432,20 @@ This Section plots dataframe using default settings.
 .. GENERATED FROM PYTHON SOURCE LINES 353-357
 
 Example: plot data with new multiline function
-----------------------------------
+----------------------------------------------
 
-This Section plots dataframe using the rewrite of the multiline function.
+This section plots the `df_multi` dataframe using the rewrite of the multiline function.
 
-.. GENERATED FROM PYTHON SOURCE LINES 357-363
+.. GENERATED FROM PYTHON SOURCE LINES 357-364
 
 .. code-block:: Python
 
-    import rick
-    df_multi_dt = df_multi.set_index('dt')
-    df_multi_dt.index = pd.to_datetime(df_multi.index)
-    rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dates', plot_size=(6.1, 4.1))
 
+    df_multi_dt = df_multi.set_index('dt')
+    df_multi_dt.index = pd.to_datetime(df_multi_dt.index)
+    fig, ax = rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dates')
+    fig.tight_layout()
+    plt.show()
 
 
 
@@ -455,23 +456,17 @@ This Section plots dataframe using the rewrite of the multiline function.
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-
-    (<Figure size 610x410 with 1 Axes>, <Axes: xlabel='Dates', ylabel='Values'>)
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 364-368
+.. GENERATED FROM PYTHON SOURCE LINES 365-369
 
 Example: one shaded area with legend 
 ------------------------------------
 
 This Section plots dataframe with legend and one shaded area.
 
-.. GENERATED FROM PYTHON SOURCE LINES 368-452
+.. GENERATED FROM PYTHON SOURCE LINES 369-453
 
 .. code-block:: Python
 
@@ -572,7 +567,7 @@ This Section plots dataframe with legend and one shaded area.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 453-458
+.. GENERATED FROM PYTHON SOURCE LINES 454-459
 
 Example: two shaded area blocks  
 ------------------------------------
@@ -580,7 +575,7 @@ Example: two shaded area blocks
 This Section plots dataframe with legend, one shaded 
 block, and shaded blocks for weekends.
 
-.. GENERATED FROM PYTHON SOURCE LINES 458-556
+.. GENERATED FROM PYTHON SOURCE LINES 459-557
 
 .. code-block:: Python
 
@@ -698,7 +693,7 @@ block, and shaded blocks for weekends.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.226 seconds)
+   **Total running time of the script:** (0 minutes 1.653 seconds)
 
 
 .. _sphx_glr_download_auto_examples_line_plot_multiline.py:

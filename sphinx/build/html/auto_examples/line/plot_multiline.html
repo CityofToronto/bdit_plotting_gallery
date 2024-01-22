@@ -47,7 +47,8 @@ to download the full example code</p>
 of lines to be plotted is automatically determined from the columns
 in the input dataframe. Also includes the option to display one or
 more shaded regions with labels.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rick</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -390,17 +391,15 @@ more shaded regions with labels.</p>
 </section>
 <section id="example-plot-data-with-new-multiline-function">
 <h2>Example: plot data with new multiline function<a class="headerlink" href="#example-plot-data-with-new-multiline-function" title="Link to this heading">¶</a></h2>
-<p>This Section plots dataframe using the rewrite of the multiline function.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rick</span>
-<span class="n">df_multi_dt</span> <span class="o">=</span> <span class="n">df_multi</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;dt&#39;</span><span class="p">)</span>
-<span class="n">df_multi_dt</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_multi</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-<span class="n">rick</span><span class="o">.</span><span class="n">charts</span><span class="o">.</span><span class="n">multi_linechart_test</span><span class="p">(</span><span class="n">df_multi_dt</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s1">&#39;Dates&#39;</span><span class="p">,</span> <span class="n">plot_size</span><span class="o">=</span><span class="p">(</span><span class="mf">6.1</span><span class="p">,</span> <span class="mf">4.1</span><span class="p">))</span>
+<p>This section plots the <cite>df_multi</cite> dataframe using the rewrite of the multiline function.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">df_multi_dt</span> <span class="o">=</span> <span class="n">df_multi</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;dt&#39;</span><span class="p">)</span>
+<span class="n">df_multi_dt</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_multi_dt</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">rick</span><span class="o">.</span><span class="n">charts</span><span class="o">.</span><span class="n">multi_linechart_test</span><span class="p">(</span><span class="n">df_multi_dt</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s1">&#39;Dates&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_multiline_002.png" srcset="../../_images/sphx_glr_plot_multiline_002.png" alt="plot multiline" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(&lt;Figure size 610x410 with 1 Axes&gt;, &lt;Axes: xlabel=&#39;Dates&#39;, ylabel=&#39;Values&#39;&gt;)
-</pre></div>
-</div>
-</section>
+<img src="../../_images/sphx_glr_plot_multiline_002.png" srcset="../../_images/sphx_glr_plot_multiline_002.png" alt="plot multiline" class = "sphx-glr-single-img"/></section>
 <section id="example-one-shaded-area-with-legend">
 <h2>Example: one shaded area with legend<a class="headerlink" href="#example-one-shaded-area-with-legend" title="Link to this heading">¶</a></h2>
 <p>This Section plots dataframe with legend and one shaded area.</p>
@@ -598,7 +597,7 @@ block, and shaded blocks for weekends.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;sans-serif&#39;]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.226 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.653 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-line-plot-multiline-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/50a31221caa2b1c1966f0c63d53f2332/plot_multiline.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_multiline.ipynb</span></code></a></p>
