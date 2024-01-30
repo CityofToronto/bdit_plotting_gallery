@@ -153,7 +153,7 @@ class charts:
     def chloro_map(con, df, lower, upper, title, **kwargs):
         """Creates a chloropleth map
 
-        Parameters
+        Parameters 
         -----------
         con : SQL connection object
             Connection object needed to connect to the RDS
@@ -657,30 +657,44 @@ class charts:
         -----------
 
         Required:
-        data : Data for the grouped bar chart.
+        data : pd.DataFrame
+            Data for the grouped bar chart.
 
         Optional:
-        ylab : Label for the y axis.
-        xlab : Label for the x axis.
-        xmax : The max value of the x axis.
-        xmin : The minimum value of the x axis
-                Should include this if minimum < 0.
-        xinc : The increment of ticks on the x axis.
-        ax : The axis that the plot will be located on.
-        plot_size : Custom plot dimensions.
-        precision : Decimal points in the annotations.
-        percent : Flag determining whether to show percentage change between
-                    baseline column (assumed to be the first column) and
-                    remaining columns.
-        additional_annotations : Dictionary with keys of type (int, int) and values
-                                    of type (str), indicating the coordinates and
-                                    annotation to be added.
-        legend : A list of string objects to be used for the legend.
+        ylab : str
+            Label for the y axis.
+        xlab : str
+            Label for the x axis.
+        xmax : float 
+            The max value of the x axis.
+        xmin : float
+            The minimum value of the x axis
+            Should include this if minimum < 0.
+        xinc : float
+            The increment of ticks on the x axis.
+        ax : plt.axes
+            The axis that the plot will be located on.
+        plot_size : (int, int)
+            Custom plot dimensions.
+        precision : int
+            Decimal points in the annotations.
+        percent : bool 
+            Flag determining whether to show percentage change between
+            baseline column (assumed to be the first column) and
+            remaining columns.
+        additional_annotations : dict
+            Dictionary with keys of type (int, int) and values
+            of type (str), indicating the coordinates and
+            annotation to be added.
+        legend : list[str]
+            A list of labels to be used for the legend.
 
         Returns
         --------
-        fig : Matplotlib fig object
-        ax : Matplotlib ax object
+        fig 
+            Matplotlib fig object
+        ax
+            Matplotlib ax object
         '''
         return general_grouped_bar_chart(
             data=data,
@@ -703,30 +717,44 @@ class charts:
         -----------
 
         Required:
-        data : Data for the grouped bar chart.
+        data : pd.DataFrame
+            Data for the grouped bar chart.
 
         Optional:
-        ylab : Label for the y axis.
-        xlab : Label for the x axis.
-        ymax : The max value of the y axis.
-        ymin : The minimum value of the y axis
-                Should include this if minimum < 0.
-        yinc : The increment of ticks on the y axis.
-        ax : The axis that the plot will be located on.
-        plot_size : Custom plot dimensions.
-        precision : Decimal points in the annotations.
-        percent : Flag determining whether to show percentage change between
-                    baseline column (assumed to be the first column) and
-                    remaining columns.
-        additional_annotations : Dictionary with keys of type (int, int) and values
-                                    of type (str), indicating the coordinates and
-                                    annotation to be added.
-        legend : A list of string objects to be used for the legend.
+        ylab : str 
+            Label for the y axis.
+        xlab : str 
+            Label for the x axis.
+        ymax : float 
+            The max value of the y axis.
+        ymin : float  
+            The minimum value of the y axis
+            Should include this if minimum < 0.
+        yinc : float 
+            The increment of ticks on the y axis.
+        ax : plt.axes 
+            The axis that the plot will be located on.
+        plot_size : (int, int)
+            Custom plot dimensions.
+        precision : int
+            Decimal points in the annotations.
+        percent : int
+            Flag determining whether to show percentage change between
+            baseline column (assumed to be the first column) and
+            remaining columns.
+        additional_annotations : dict
+            Dictionary with keys of type (int, int) and values
+            of type (str), indicating the coordinates and
+            annotation to be added.
+        legend : list[str]
+            A list of string objects to be used for the legend.
 
         Returns
         --------
-        fig : Matplotlib fig object
-        ax : Matplotlib ax object
+        fig
+            Matplotlib fig object
+        ax
+            Matplotlib ax object
         '''
         return general_grouped_bar_chart(
             data=data,
@@ -1107,23 +1135,29 @@ class charts:
         
         Parameters
         ----------
-
-        Required: 
-        data : Data for the line chart.
-        ylab : Label for the y axis.
-        xlab : Label for the x axis.
-
-        Optional:
-        ymax : The max value of the y axis.
-        ymin : The min value of the y axis. Should include this if ymin < 0.
-        yinc : The increment of ticks on the y axis.
-        ax : The axis that the plot will be located on. 
-        plot_size : The dimensions of the plot if given a custom size.
+        data : pd.DataFrame
+            Data for the line chart.
+        ylab : str
+            Label for the y axis.
+        xlab : str
+            Label for the x axis.
+        ymax : float, optional
+            The max value of the y axis.
+        ymin : float, optional
+            The min value of the y axis. Should include this if ymin < 0.
+        yinc : float, optional
+            The increment of ticks on the y axis.
+        ax : plt.axes, optional
+            The axis that the plot will be located on. 
+        plot_size : (int, int), optional
+            The dimensions of the plot if given a custom size.
 
         Returns 
         --------
-        fig : Matplotlib fig object
-        ax  : Matplotlib ax object
+        fig 
+            Matplotlib fig object
+        ax
+            Matplotlib ax object
         ''' 
         
         func() 
@@ -1173,30 +1207,36 @@ def calculate_params(df:pd.DataFrame, param_axis:str, **kwargs:dict) -> (float, 
 
     Parameters
     ----------
-
-    Required: 
-    data :  Data for the line chart.
-    param_axis : Axis along which max, min, upper, inc values should be calculated. 
-
-    Optional: 
-    xmin : Minimum value of x axis. 
-    xmax : Maximum value of x axis.
-    xinc : The increment of ticks on the x axis.
-    ymin : Minimum value of y axis
-    ymax : Maximum value of y axis.
-    yinc : The increment of ticks on the y axis.
+    df :  pd.DataFrame
+        Data for the line chart.
+    param_axis : str
+        Axis along which max, min, upper, inc values should be calculated. 
+    xmin : float, optional
+        Minimum value of x axis. 
+    xmax : float, optional
+        Maximum value of x axis.
+    xinc : float, optional
+        The increment of ticks on the x axis.
+    ymin : float, optional
+        Minimum value of y axis
+    ymax : float, optional
+        Maximum value of y axis.
+    yinc : float, optional
+        The increment of ticks on the y axis.
 
     Returns 
     -------
-
-    max_value : Maximum value along param_axis 
-    min_value  : Minimum value along param_axis 
-    inc : Increment of ticks along param_axis
-    upper : Value used for placing of annotations. 
-
-    TODO: check whether the calculation of inc can be improved, at what value does it fail,
-    maybe print a warning if the user should specify it.
+        max_value : float
+            Maximum value along param_axis 
+        min_value : float
+            Minimum value along param_axis 
+        inc : float
+            Increment of ticks along param_axis
+        upper : float
+            Value used for placing of annotations. 
     '''
+    # TODO: check whether the calculation of inc can be improved, at what value does it fail,
+    # maybe print a warning if the user should specify it.
 
     max_value = kwargs.get(f'{param_axis}max', int(df.max(axis=1).max(axis=0)))
     min_value = kwargs.get(f'{param_axis}min', 0)
@@ -1229,13 +1269,17 @@ def plot_line_data(df:pd.DataFrame, axis:plt.axes) -> (plt.figure, plt.axes):
 
     Parameters 
     ---------- 
-    df : Data to be plotted 
-    axis : Prespecified axis to be used for the plot. 
+    df : pd.DataFrame
+        Data to be plotted.
+    axis : plt.axes
+        Prespecified axis to be used for the plot. 
 
     Returns 
     ------- 
-    fig : Matplotlib fig object
-    ax  : Matplotlib ax object
+    fig 
+        Matplotlib fig object
+    ax
+        Matplotlib ax object
     '''
 
     fig, ax = init_fig(axis)
@@ -1250,6 +1294,24 @@ def plot_grouped_bar_data(df:pd.DataFrame, ax:plt.axes, legend:list[str], horizo
     '''
     Plots all columns in the input dataframe as bars in a grouped bar graph.
     Also adds a legend if a list of strings is provided.
+
+    Parameters 
+    ----------
+    df : pd.DataFrame 
+        Input dataframe being plotted.
+    ax : plt.axes 
+        Axis object to be used for the plot if specified by user.
+    legend : list[str]
+        List of labels to be used for the legend.
+    horizontal : bool 
+        Flag indicating whether this is a horizontal plot.
+
+    Returns
+    -------
+    fig 
+        Matplotlib figure object.
+    ax
+        Matplotlib axis object.
     '''
 
     fig, ax = init_fig(ax)
@@ -1267,7 +1329,7 @@ def plot_grouped_bar_data(df:pd.DataFrame, ax:plt.axes, legend:list[str], horizo
     if legend != None:
         ax.legend(handles=bars[::-1] if horizontal else bars,
                   labels=legend , 
-                  loc=4, 
+                  loc='best', 
                   frameon=False, 
                   prop=font.leg_font
         )
@@ -1278,6 +1340,18 @@ def init_fig(axis:plt.axes) -> (plt.figure, plt.axes):
     '''
     Sets the plot fig and axes objects to be the ones specified by the user or 
     creates new ones.
+
+    Parameters
+    ----------
+    axis : plt.axes 
+        Axis object for the plot prespecified by the user.
+
+    Returns
+    -------
+    fig 
+        Matplotlib figure object.
+    ax 
+        Matplotlib axis object.
     '''
 
     if axis != None:
@@ -1294,14 +1368,22 @@ def set_plot_style(fig:plt.figure, ax:plt.axes, plot_size:(int, int), grid_x:boo
 
     Parameters 
     ---------- 
-    fig : Matplotlib fig object.
-    ax  : Matplotlib ax object.
-    plot_size : The dimensions of the plot in inches. 
-    grid_x : Whether there is a grid parallel to x ticks. 
-    grid_y : Whether there is a grid parallel to y ticks. 
-    min_value : Minimum value of param_axis.
-    max_value : Maximum value of param_axis.
-    param_axis : Axis opposite to index axis. 
+    fig : plt.figure
+        Figure object corresponding to plot.
+    ax : plt.axes
+        Axis object corresponding to plot.
+    plot_size : (int, int)
+        The dimensions of the plot in inches. 
+    grid_x : bool 
+        Whether there is a grid parallel to x ticks. 
+    grid_y : bool
+        Whether there is a grid parallel to y ticks. 
+    min_value : float
+        Minimum value of param_axis.
+    max_value : float
+        Maximum value of param_axis.
+    param_axis : str
+        Axis opposite to index axis. 
     '''
 
     fig.set_size_inches(plot_size)
@@ -1312,6 +1394,15 @@ def set_plot_style(fig:plt.figure, ax:plt.axes, plot_size:(int, int), grid_x:boo
 def set_grid(ax:plt.axes, grid_x:bool, grid_y:bool) -> None:
     '''
     Sets the grid for plot. 
+
+    Parameters
+    ----------
+    ax : plt.axes 
+        Axis object corresponding to plot.
+    grid_x : bool
+        Flag indicating whether to add a grid along the x axis. 
+    grid_y : bool
+        Flag indicating whether to add a grid along the y axis.
     '''
     ax.grid(color='k', linestyle='-', linewidth=0.2)
     ax.xaxis.grid(grid_x)
@@ -1323,15 +1414,24 @@ def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, in
     
     Parameters 
     ----------
-    ax : Matplotlib axes object.
-    df : Dataset being plotted.
-    min_value : Minimum value along non index axis.
-    max_value : Maximum value along non index axis. 
-    inc : Incrementation of ticks along non index axis. 
-    index_axis : The index of the DataFrame object, 
-                 e.g. the x axis for a line chart. 
-    offset : Offset in the placement of ticks. 
-             Used for grouped bar charts to center labels. 
+    ax : plt.axes 
+        Matplotlib axes object.
+    df : pd.DataFrame 
+        Dataset being plotted.
+    min_value : float 
+        Minimum value along non index axis.
+    max_value : float 
+        Maximum value along non index axis. 
+    inc : float  
+        Incrementation of ticks along non index axis. 
+    index_axis : str 
+        The index of the DataFrame object, 
+        e.g. the x axis for a line chart. 
+        Defaults to 'x'.
+    offset : float 
+        Offset in the placement of ticks. 
+        Used for grouped bar charts to center labels. 
+        Defaults to 0.0. 
     '''
     NUM_SLICES = int(len(df)/8) # makes it so that there is 8 date labels along x axis
     
@@ -1359,16 +1459,18 @@ def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, in
                                                                                rotation=label_rotation,
                                                                                fontsize=10)
 
-
 def set_labels(ax:plt.axes, xlab:str, ylab:str) -> None:
     '''
     Set the labels of the y and x axes.
 
     Parameters
     ----------
-    ax : Matplotlib axes object. 
-    xlab : Label of x axis. 
-    ylab : Label of y axis. 
+    ax : plt.axes
+        Matplotlib axes object. 
+    xlab : str
+        Label of x axis. 
+    ylab : str
+        Label of y axis. 
     '''
 
     if xlab != None:
@@ -1387,17 +1489,24 @@ def add_bar_annotations(ax:plt.axes, df:pd.DataFrame, upper:float, precision:int
 
     Parameters 
     ----------
-    ax : Matplotlib axes object. 
-    df : Dataset being plotted.
-    upper : Bar value used for determining placement of annotation. 
-    precision : Decimal points in the annotations. 
-    percent : Flag determining whether to show percentage change between 
-                baseline column (assumed to be the first column) and 
-                remaining columns.
-    horizontal : Flag to indicate if this is a horizontal bar graph.
-    additional_annotations : Dictionary with keys of type (int, int) and values 
-                                of type (str), indicating the coordinates and 
-                                annotation to be added. 
+    ax : plt.axes
+        Matplotlib axes object corresponding to plot. 
+    df : pd.DataFrame 
+        Dataset being plotted.
+    upper : float
+        Bar value used for determining placement of annotation. 
+    precision : int 
+        Decimal points in the annotations. 
+    percent : bool
+        Flag determining whether to show percentage change between 
+        baseline column (assumed to be the first column) and 
+        remaining columns.
+    horizontal : bool  
+        Flag to indicate if this is a horizontal bar graph.
+    additional_annotations : dict
+        Dictionary with keys of type (int, int) and values 
+        of type (str), indicating the coordinates and 
+        annotation to be added. 
     '''
     bar_width = 1/(len(df.columns)+1)
 
@@ -1417,6 +1526,23 @@ def add_bar_annotations(ax:plt.axes, df:pd.DataFrame, upper:float, precision:int
 def horizontal_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, upper:float, precision:int, percent:bool) -> None:
     '''
     Adds value annotations to horizontal grouped or regular bar charts. 
+
+    Parameters 
+    ----------
+    df : pd.DataFrame 
+        Input dataframe being plotted. 
+    ax : plt.axes 
+        Axis object corresponding to the plot.
+    bar_width : float 
+        The width of each bar. 
+    upper : float 
+        Bar value used for determining placement of annotation. 
+    precision : int 
+        Decimal points in the annotations. 
+    percent : bool
+        Flag determining whether to show percentage change between 
+        baseline column (assumed to be the first column) and 
+        remaining columns.
     '''
     HORIZONTAL_CUTOFF = 0.15 * upper
     ANNOTATION_OFFSET = 0.015 * upper
@@ -1452,6 +1578,24 @@ def horizontal_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, up
 def vertical_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, upper:float, precision:int, percent:bool) -> None:
     '''
     Adds value annotations to vertical grouped or regular bar charts. 
+
+    Parameters 
+    ----------
+
+    df : pd.DataFrame 
+        Input dataframe being plotted. 
+    ax : plt.axes 
+        Axis object corresponding to the plot.
+    bar_width : float 
+        The width of each bar. 
+    upper : float 
+        Bar value used for determining placement of annotation. 
+    precision : int 
+        Decimal points in the annotations. 
+    percent : bool
+        Flag determining whether to show percentage change between 
+        baseline column (assumed to be the first column) and 
+        remaining columns.
     '''
     VERTICAL_CUTOFF = 0.1 * upper
     ANNOTATION_OFFSET = 0.015 * upper
@@ -1484,13 +1628,6 @@ def vertical_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, uppe
                     )
                 j += 1
 
-def add_legend(ax:plt.axes, legend:list[str]) -> None: 
-    '''
-    Adds a legend to the plot. 
-    '''
-    ax.legend(labels=legend, loc=4, frameon=False, prop=font.leg_font)
-
-
 def general_grouped_bar_chart(data:pd.DataFrame, param_axis:str, index_axis:str, standard_plot_size:(int, int), horizontal:bool, grid_x:bool=True, grid_y:bool=True, **kwargs:dict) -> (plt.figure, plt.axes):
         '''
         Creates a horizontal or vertical grouped bar chart. Number of
@@ -1500,38 +1637,50 @@ def general_grouped_bar_chart(data:pd.DataFrame, param_axis:str, index_axis:str,
 
         Parameters
         -----------
-
-        Required: 
-        data : Data for the grouped bar chart.
-        param_axis : Axis along which bars are plotted.
-        index_axis : Axis containing labels for bars. 
-        standard_plot_size : The standard size depending on the type of graph (horizontal or vertical).
-        horizontal : Flag indicating whether plot is horizontal. 
-        
-        
-        Optional: 
-        ylab : Label for the y axis.
-        xlab : Label for the x axis.
-
-        xmax or ymax : The max value of the x or y axis.
-        xmin or ymin : The minimum value of the x or y axis
-                        Should include this if minimum < 0.
-        xinc or yinc : The increment of ticks on the x or y axis.
-        ax : The axis that the plot will be located on.
-        plot_size : Custom plot dimensions. 
-        precision : Decimal points in the annotations. 
-        percent : Flag determining whether to show percentage change between 
-                    baseline column (assumed to be the first column) and 
-                    remaining columns.
-        additional_annotations : Dictionary with keys of type (int, int) and values 
-                                    of type (str), indicating the coordinates and 
-                                    annotation to be added. 
-        legend : A list of string objects to be used for the legend.
+        data : pd.DataFrame
+            Data for the grouped bar chart.
+        param_axis : str
+            Axis along which bars are plotted.
+        index_axis : str
+            Axis containing labels for bars. 
+        standard_plot_size :  (int, int) 
+            The standard size depending on the type of graph (horizontal or vertical).
+        horizontal : bool
+            Flag indicating whether plot is horizontal. 
+        ylab : str, optional
+            Label for the y axis.
+        xlab : str, optional
+            Label for the x axis.
+        xmax or ymax : float, optional
+            The max value of the x or y axis.
+        xmin or ymin : float, optional
+            The minimum value of the x or y axis
+            Should include this if minimum < 0.
+        xinc or yinc : float, optional
+            The increment of ticks on the x or y axis.
+        ax : plt.axes, optional
+            The axis that the plot will be located on.
+        plot_size : (int, int), optional
+            Custom plot dimensions. 
+        precision : int, optional
+            Decimal points in the annotations. 
+        percent : bool, optional
+            Flag determining whether to show percentage change between 
+            baseline column (assumed to be the first column) and 
+            remaining columns.
+        additional_annotations : dict, optional
+            Dictionary with keys of type (int, int) and values 
+            of type (str), indicating the coordinates and 
+            annotation to be added. 
+        legend : list[str], optional
+            A list of labels to be used for the legend.
 
         Returns
         --------
-        fig : Matplotlib fig object
-        ax : Matplotlib ax object
+        fig
+            Matplotlib fig object
+        ax
+            Matplotlib ax object
         '''
 
         BAR_WIDTH = 1/(len(data.columns)+1)

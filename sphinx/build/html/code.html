@@ -46,24 +46,20 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ax</strong> (<em>Matplotlib axes object.</em>) – </p></li>
-<li><p><strong>df</strong> (<em>Dataset being plotted.</em>) – </p></li>
-<li><p><strong>upper</strong> (<em>Bar value used for determining placement</em><em> of </em><em>annotation.</em>) – </p></li>
-<li><p><strong>precision</strong> (<em>Decimal points in the annotations.</em>) – </p></li>
-<li><p><strong>percent</strong> (<em>Flag determining whether to show percentage change between</em>) – baseline column (assumed to be the first column) and
+<li><p><strong>ax</strong> (<em>plt.axes</em>) – Matplotlib axes object corresponding to plot.</p></li>
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – Dataset being plotted.</p></li>
+<li><p><strong>upper</strong> (<em>float</em>) – Bar value used for determining placement of annotation.</p></li>
+<li><p><strong>precision</strong> (<em>int</em>) – Decimal points in the annotations.</p></li>
+<li><p><strong>percent</strong> (<em>bool</em>) – Flag determining whether to show percentage change between
+baseline column (assumed to be the first column) and
 remaining columns.</p></li>
-<li><p><strong>horizontal</strong> (<em>Flag to indicate if this is a horizontal bar graph.</em>) – </p></li>
-<li><p><strong>additional_annotations</strong> (<em>Dictionary with keys</em><em> of </em><em>type</em><em> (</em><em>int</em><em>, </em><em>int</em><em>) </em><em>and values</em>) – of type (str), indicating the coordinates and
+<li><p><strong>horizontal</strong> (<em>bool</em>) – Flag to indicate if this is a horizontal bar graph.</p></li>
+<li><p><strong>additional_annotations</strong> (<em>dict</em>) – Dictionary with keys of type (int, int) and values
+of type (str), indicating the coordinates and
 annotation to be added.</p></li>
 </ul>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="rick.add_legend">
-<span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">add_legend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legend</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/rick.html#add_legend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.add_legend" title="Link to this definition">¶</a></dt>
-<dd><p>Adds a legend to the plot.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -80,26 +76,22 @@ for the specified axis, and returns these. Otherwise, calculates them.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Required</strong> – </p></li>
-<li><p><strong>data</strong> (<em>Data for the line chart.</em>) – </p></li>
-<li><p><strong>param_axis</strong> (<em>Axis along which max</em><em>, </em><em>min</em><em>, </em><em>upper</em><em>, </em><em>inc values should be calculated.</em>) – </p></li>
-<li><p><strong>Optional</strong> – </p></li>
-<li><p><strong>xmin</strong> (<em>Minimum value</em><em> of </em><em>x axis.</em>) – </p></li>
-<li><p><strong>xmax</strong> (<em>Maximum value</em><em> of </em><em>x axis.</em>) – </p></li>
-<li><p><strong>xinc</strong> (<em>The increment</em><em> of </em><em>ticks on the x axis.</em>) – </p></li>
-<li><p><strong>ymin</strong> (<em>Minimum value</em><em> of </em><em>y axis</em>) – </p></li>
-<li><p><strong>ymax</strong> (<em>Maximum value</em><em> of </em><em>y axis.</em>) – </p></li>
-<li><p><strong>yinc</strong> (<em>The increment</em><em> of </em><em>ticks on the y axis.</em>) – </p></li>
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – Data for the line chart.</p></li>
+<li><p><strong>param_axis</strong> (<em>str</em>) – Axis along which max, min, upper, inc values should be calculated.</p></li>
+<li><p><strong>xmin</strong> (<em>float</em><em>, </em><em>optional</em>) – Minimum value of x axis.</p></li>
+<li><p><strong>xmax</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum value of x axis.</p></li>
+<li><p><strong>xinc</strong> (<em>float</em><em>, </em><em>optional</em>) – The increment of ticks on the x axis.</p></li>
+<li><p><strong>ymin</strong> (<em>float</em><em>, </em><em>optional</em>) – Minimum value of y axis</p></li>
+<li><p><strong>ymax</strong> (<em>float</em><em>, </em><em>optional</em>) – Maximum value of y axis.</p></li>
+<li><p><strong>yinc</strong> (<em>float</em><em>, </em><em>optional</em>) – The increment of ticks on the y axis.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>max_value</strong> (<em>Maximum value along param_axis</em>)</p></li>
-<li><p><strong>min_value</strong> (<em>Minimum value along param_axis</em>)</p></li>
-<li><p><strong>inc</strong> (<em>Increment of ticks along param_axis</em>)</p></li>
-<li><p><strong>upper</strong> (<em>Value used for placing of annotations.</em>)</p></li>
-<li><p><strong>TODO</strong> (<em>check whether the calculation of inc can be improved, at what value does it fail,</em>)</p></li>
-<li><p><em>maybe print a warning if the user should specify it.</em></p></li>
+<li><p><strong>max_value</strong> (<em>float</em>) – Maximum value along param_axis</p></li>
+<li><p><strong>min_value</strong> (<em>float</em>) – Minimum value along param_axis</p></li>
+<li><p><strong>inc</strong> (<em>float</em>) – Increment of ticks along param_axis</p></li>
+<li><p><strong>upper</strong> (<em>float</em>) – Value used for placing of annotations.</p></li>
 </ul>
 </p>
 </dd>
@@ -166,7 +158,7 @@ for the specified axis, and returns these. Otherwise, calculates them.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rick.charts.horizontal_grouped_bar_chart">
-<span class="sig-name descname"><span class="pre">horizontal_grouped_bar_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">**kwargs:</span> <span class="pre">dict)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff972dd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff972ddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#charts.horizontal_grouped_bar_chart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.charts.horizontal_grouped_bar_chart" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">horizontal_grouped_bar_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">**kwargs:</span> <span class="pre">dict)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff96fdd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff96fddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#charts.horizontal_grouped_bar_chart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.charts.horizontal_grouped_bar_chart" title="Link to this definition">¶</a></dt>
 <dd><p>Creates a horizontal grouped bar chart. Number of bars in
 each group to plot is determined from the number of
 columns in input dataframe, while the number of groups is
@@ -175,27 +167,30 @@ determined by the number of rows.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>Required</strong> – </p></li>
-<li><p><strong>data</strong> (<em>Data for the grouped bar chart.</em>) – </p></li>
+<li><p><strong>data</strong> (<em>pd.DataFrame</em>) – Data for the grouped bar chart.</p></li>
 <li><p><strong>Optional</strong> – </p></li>
-<li><p><strong>ylab</strong> (<em>Label for the y axis.</em>) – </p></li>
-<li><p><strong>xlab</strong> (<em>Label for the x axis.</em>) – </p></li>
-<li><p><strong>xmax</strong> (<em>The max value</em><em> of </em><em>the x axis.</em>) – </p></li>
-<li><p><strong>xmin</strong> (<em>The minimum value</em><em> of </em><em>the x axis</em>) – Should include this if minimum &lt; 0.</p></li>
-<li><p><strong>xinc</strong> (<em>The increment</em><em> of </em><em>ticks on the x axis.</em>) – </p></li>
-<li><p><strong>ax</strong> (<em>The axis that the plot will be located on.</em>) – </p></li>
-<li><p><strong>plot_size</strong> (<em>Custom plot dimensions.</em>) – </p></li>
-<li><p><strong>precision</strong> (<em>Decimal points in the annotations.</em>) – </p></li>
-<li><p><strong>percent</strong> (<em>Flag determining whether to show percentage change between</em>) – baseline column (assumed to be the first column) and
+<li><p><strong>ylab</strong> (<em>str</em>) – Label for the y axis.</p></li>
+<li><p><strong>xlab</strong> (<em>str</em>) – Label for the x axis.</p></li>
+<li><p><strong>xmax</strong> (<em>float</em>) – The max value of the x axis.</p></li>
+<li><p><strong>xmin</strong> (<em>float</em>) – The minimum value of the x axis
+Should include this if minimum &lt; 0.</p></li>
+<li><p><strong>xinc</strong> (<em>float</em>) – The increment of ticks on the x axis.</p></li>
+<li><p><strong>ax</strong> (<em>plt.axes</em>) – The axis that the plot will be located on.</p></li>
+<li><p><strong>plot_size</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em>) – Custom plot dimensions.</p></li>
+<li><p><strong>precision</strong> (<em>int</em>) – Decimal points in the annotations.</p></li>
+<li><p><strong>percent</strong> (<em>bool</em>) – Flag determining whether to show percentage change between
+baseline column (assumed to be the first column) and
 remaining columns.</p></li>
-<li><p><strong>additional_annotations</strong> (<em>Dictionary with keys</em><em> of </em><em>type</em><em> (</em><em>int</em><em>, </em><em>int</em><em>) </em><em>and values</em>) – of type (str), indicating the coordinates and
+<li><p><strong>additional_annotations</strong> (<em>dict</em>) – Dictionary with keys of type (int, int) and values
+of type (str), indicating the coordinates and
 annotation to be added.</p></li>
-<li><p><strong>legend</strong> (<em>A list</em><em> of </em><em>string objects to be used for the legend.</em>) – </p></li>
+<li><p><strong>legend</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – A list of labels to be used for the legend.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>fig</strong> (<em>Matplotlib fig object</em>)</p></li>
-<li><p><strong>ax</strong> (<em>Matplotlib ax object</em>)</p></li>
+<li><p><em>fig</em> – Matplotlib fig object</p></li>
+<li><p><em>ax</em> – Matplotlib ax object</p></li>
 </ul>
 </p>
 </dd>
@@ -238,28 +233,26 @@ annotation to be added.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rick.charts.multi_linechart_test">
-<span class="sig-name descname"><span class="pre">multi_linechart_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ylab:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlab:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs:</span> <span class="pre">dict)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff972dd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff972ddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#charts.multi_linechart_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.charts.multi_linechart_test" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">multi_linechart_test</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ylab:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlab:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs:</span> <span class="pre">dict)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff96fdd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff96fddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#charts.multi_linechart_test"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.charts.multi_linechart_test" title="Link to this definition">¶</a></dt>
 <dd><p>Creates a line chart of one or more lines.
 Number of lines to plot determined from columns in input dataframe.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Required</strong> – </p></li>
-<li><p><strong>data</strong> (<em>Data for the line chart.</em>) – </p></li>
-<li><p><strong>ylab</strong> (<em>Label for the y axis.</em>) – </p></li>
-<li><p><strong>xlab</strong> (<em>Label for the x axis.</em>) – </p></li>
-<li><p><strong>Optional</strong> – </p></li>
-<li><p><strong>ymax</strong> (<em>The max value</em><em> of </em><em>the y axis.</em>) – </p></li>
-<li><p><strong>ymin</strong> (<em>The min value</em><em> of </em><em>the y axis. Should include this if ymin &lt; 0.</em>) – </p></li>
-<li><p><strong>yinc</strong> (<em>The increment</em><em> of </em><em>ticks on the y axis.</em>) – </p></li>
-<li><p><strong>ax</strong> (<em>The axis that the plot will be located on.</em>) – </p></li>
-<li><p><strong>plot_size</strong> (<em>The dimensions</em><em> of </em><em>the plot if given a custom size.</em>) – </p></li>
+<li><p><strong>data</strong> (<em>pd.DataFrame</em>) – Data for the line chart.</p></li>
+<li><p><strong>ylab</strong> (<em>str</em>) – Label for the y axis.</p></li>
+<li><p><strong>xlab</strong> (<em>str</em>) – Label for the x axis.</p></li>
+<li><p><strong>ymax</strong> (<em>float</em><em>, </em><em>optional</em>) – The max value of the y axis.</p></li>
+<li><p><strong>ymin</strong> (<em>float</em><em>, </em><em>optional</em>) – The min value of the y axis. Should include this if ymin &lt; 0.</p></li>
+<li><p><strong>yinc</strong> (<em>float</em><em>, </em><em>optional</em>) – The increment of ticks on the y axis.</p></li>
+<li><p><strong>ax</strong> (<em>plt.axes</em><em>, </em><em>optional</em>) – The axis that the plot will be located on.</p></li>
+<li><p><strong>plot_size</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>optional</em>) – The dimensions of the plot if given a custom size.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>fig</strong> (<em>Matplotlib fig object</em>)</p></li>
-<li><p><strong>ax</strong> (<em>Matplotlib ax object</em>)</p></li>
+<li><p><em>fig</em> – Matplotlib fig object</p></li>
+<li><p><em>ax</em> – Matplotlib ax object</p></li>
 </ul>
 </p>
 </dd>
@@ -349,7 +342,7 @@ Number of lines to plot determined from columns in input dataframe.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rick.charts.vertical_grouped_bar_chart">
-<span class="sig-name descname"><span class="pre">vertical_grouped_bar_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">**kwargs:</span> <span class="pre">dict)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff972dd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff972ddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#charts.vertical_grouped_bar_chart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.charts.vertical_grouped_bar_chart" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">vertical_grouped_bar_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">**kwargs:</span> <span class="pre">dict)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff96fdd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff96fddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#charts.vertical_grouped_bar_chart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.charts.vertical_grouped_bar_chart" title="Link to this definition">¶</a></dt>
 <dd><p>Creates a vertical grouped bar chart. Number of bars in
 each group to plot is determined from the number of
 columns in input dataframe, while the number of groups is
@@ -358,27 +351,30 @@ determined by the number of rows.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>Required</strong> – </p></li>
-<li><p><strong>data</strong> (<em>Data for the grouped bar chart.</em>) – </p></li>
+<li><p><strong>data</strong> (<em>pd.DataFrame</em>) – Data for the grouped bar chart.</p></li>
 <li><p><strong>Optional</strong> – </p></li>
-<li><p><strong>ylab</strong> (<em>Label for the y axis.</em>) – </p></li>
-<li><p><strong>xlab</strong> (<em>Label for the x axis.</em>) – </p></li>
-<li><p><strong>ymax</strong> (<em>The max value</em><em> of </em><em>the y axis.</em>) – </p></li>
-<li><p><strong>ymin</strong> (<em>The minimum value</em><em> of </em><em>the y axis</em>) – Should include this if minimum &lt; 0.</p></li>
-<li><p><strong>yinc</strong> (<em>The increment</em><em> of </em><em>ticks on the y axis.</em>) – </p></li>
-<li><p><strong>ax</strong> (<em>The axis that the plot will be located on.</em>) – </p></li>
-<li><p><strong>plot_size</strong> (<em>Custom plot dimensions.</em>) – </p></li>
-<li><p><strong>precision</strong> (<em>Decimal points in the annotations.</em>) – </p></li>
-<li><p><strong>percent</strong> (<em>Flag determining whether to show percentage change between</em>) – baseline column (assumed to be the first column) and
+<li><p><strong>ylab</strong> (<em>str</em>) – Label for the y axis.</p></li>
+<li><p><strong>xlab</strong> (<em>str</em>) – Label for the x axis.</p></li>
+<li><p><strong>ymax</strong> (<em>float</em>) – The max value of the y axis.</p></li>
+<li><p><strong>ymin</strong> (<em>float</em>) – The minimum value of the y axis
+Should include this if minimum &lt; 0.</p></li>
+<li><p><strong>yinc</strong> (<em>float</em>) – The increment of ticks on the y axis.</p></li>
+<li><p><strong>ax</strong> (<em>plt.axes</em>) – The axis that the plot will be located on.</p></li>
+<li><p><strong>plot_size</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em>) – Custom plot dimensions.</p></li>
+<li><p><strong>precision</strong> (<em>int</em>) – Decimal points in the annotations.</p></li>
+<li><p><strong>percent</strong> (<em>int</em>) – Flag determining whether to show percentage change between
+baseline column (assumed to be the first column) and
 remaining columns.</p></li>
-<li><p><strong>additional_annotations</strong> (<em>Dictionary with keys</em><em> of </em><em>type</em><em> (</em><em>int</em><em>, </em><em>int</em><em>) </em><em>and values</em>) – of type (str), indicating the coordinates and
+<li><p><strong>additional_annotations</strong> (<em>dict</em>) – Dictionary with keys of type (int, int) and values
+of type (str), indicating the coordinates and
 annotation to be added.</p></li>
-<li><p><strong>legend</strong> (<em>A list</em><em> of </em><em>string objects to be used for the legend.</em>) – </p></li>
+<li><p><strong>legend</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – A list of string objects to be used for the legend.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>fig</strong> (<em>Matplotlib fig object</em>)</p></li>
-<li><p><strong>ax</strong> (<em>Matplotlib ax object</em>)</p></li>
+<li><p><em>fig</em> – Matplotlib fig object</p></li>
+<li><p><em>ax</em> – Matplotlib ax object</p></li>
 </ul>
 </p>
 </dd>
@@ -407,7 +403,7 @@ annotation to be added.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rick.general_grouped_bar_chart">
-<span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">general_grouped_bar_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_axis:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_axis:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_plot_size:</span> <span class="pre">(&lt;class</span> <span class="pre">'int'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'int'&gt;)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">horizontal:</span> <span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_x:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_y:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs:</span> <span class="pre">dict)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff972dd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff972ddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#general_grouped_bar_chart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.general_grouped_bar_chart" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">general_grouped_bar_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data:</span> <span class="pre">~pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_axis:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">index_axis:</span> <span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_plot_size:</span> <span class="pre">(&lt;class</span> <span class="pre">'int'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;class</span> <span class="pre">'int'&gt;)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">horizontal:</span> <span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_x:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_y:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs:</span> <span class="pre">dict)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff96fdd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff96fddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#general_grouped_bar_chart"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.general_grouped_bar_chart" title="Link to this definition">¶</a></dt>
 <dd><p>Creates a horizontal or vertical grouped bar chart. Number of
 bars in each group to plot is determined from the number of
 columns in input dataframe, while the number of groups is
@@ -415,43 +411,33 @@ determined by the number of rows.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>Required</strong> – </p></li>
-<li><p><strong>data</strong> (<em>Data for the grouped bar chart.</em>) – </p></li>
-<li><p><strong>param_axis</strong> (<em>Axis along which bars are plotted.</em>) – </p></li>
-<li><p><strong>index_axis</strong> (<em>Axis containing labels for bars.</em>) – </p></li>
-<li><p><strong>standard_plot_size</strong> (<em>The standard size depending on the type</em><em> of </em><em>graph</em><em> (</em><em>horizontal</em><em> or </em><em>vertical</em><em>)</em><em>.</em>) – </p></li>
-<li><p><strong>horizontal</strong> (<em>Flag indicating whether plot is horizontal.</em>) – </p></li>
+<li><p><strong>data</strong> (<em>pd.DataFrame</em>) – Data for the grouped bar chart.</p></li>
+<li><p><strong>param_axis</strong> (<em>str</em>) – Axis along which bars are plotted.</p></li>
+<li><p><strong>index_axis</strong> (<em>str</em>) – Axis containing labels for bars.</p></li>
+<li><p><strong>standard_plot_size</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em>) – The standard size depending on the type of graph (horizontal or vertical).</p></li>
+<li><p><strong>horizontal</strong> (<em>bool</em>) – Flag indicating whether plot is horizontal.</p></li>
+<li><p><strong>ylab</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for the y axis.</p></li>
+<li><p><strong>xlab</strong> (<em>str</em><em>, </em><em>optional</em>) – Label for the x axis.</p></li>
+<li><p><strong>ymax</strong> (<em>xmax or</em>) – The max value of the x or y axis.</p></li>
+<li><p><strong>ymin</strong> (<em>xmin or</em>) – The minimum value of the x or y axis
+Should include this if minimum &lt; 0.</p></li>
+<li><p><strong>yinc</strong> (<em>xinc or</em>) – The increment of ticks on the x or y axis.</p></li>
+<li><p><strong>ax</strong> (<em>plt.axes</em><em>, </em><em>optional</em>) – The axis that the plot will be located on.</p></li>
+<li><p><strong>plot_size</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em><em>, </em><em>optional</em>) – Custom plot dimensions.</p></li>
+<li><p><strong>precision</strong> (<em>int</em><em>, </em><em>optional</em>) – Decimal points in the annotations.</p></li>
+<li><p><strong>percent</strong> (<em>bool</em><em>, </em><em>optional</em>) – Flag determining whether to show percentage change between
+baseline column (assumed to be the first column) and
+remaining columns.</p></li>
+<li><p><strong>additional_annotations</strong> (<em>dict</em><em>, </em><em>optional</em>) – Dictionary with keys of type (int, int) and values
+of type (str), indicating the coordinates and
+annotation to be added.</p></li>
+<li><p><strong>legend</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – A list of labels to be used for the legend.</p></li>
 </ul>
 </dd>
-</dl>
-<p>Optional:
-ylab : Label for the y axis.
-xlab : Label for the x axis.</p>
-<p>xmax or ymax : The max value of the x or y axis.
-xmin or ymin : The minimum value of the x or y axis</p>
-<blockquote>
-<div><p>Should include this if minimum &lt; 0.</p>
-</div></blockquote>
-<p>xinc or yinc : The increment of ticks on the x or y axis.
-ax : The axis that the plot will be located on.
-plot_size : Custom plot dimensions.
-precision : Decimal points in the annotations.
-percent : Flag determining whether to show percentage change between</p>
-<blockquote>
-<div><p>baseline column (assumed to be the first column) and
-remaining columns.</p>
-</div></blockquote>
-<dl class="simple">
-<dt>additional_annotations<span class="classifier">Dictionary with keys of type (int, int) and values</span></dt><dd><p>of type (str), indicating the coordinates and
-annotation to be added.</p>
-</dd>
-</dl>
-<p>legend : A list of string objects to be used for the legend.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><ul class="simple">
-<li><p><strong>fig</strong> (<em>Matplotlib fig object</em>)</p></li>
-<li><p><strong>ax</strong> (<em>Matplotlib ax object</em>)</p></li>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>fig</em> – Matplotlib fig object</p></li>
+<li><p><em>ax</em> – Matplotlib ax object</p></li>
 </ul>
 </p>
 </dd>
@@ -502,38 +488,81 @@ annotation to be added.</p>
 <dt class="sig sig-object py" id="rick.horizontal_bar_annotations">
 <span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">horizontal_bar_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/rick.html#horizontal_bar_annotations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.horizontal_bar_annotations" title="Link to this definition">¶</a></dt>
 <dd><p>Adds value annotations to horizontal grouped or regular bar charts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – Input dataframe being plotted.</p></li>
+<li><p><strong>ax</strong> (<em>plt.axes</em>) – Axis object corresponding to the plot.</p></li>
+<li><p><strong>bar_width</strong> (<em>float</em>) – The width of each bar.</p></li>
+<li><p><strong>upper</strong> (<em>float</em>) – Bar value used for determining placement of annotation.</p></li>
+<li><p><strong>precision</strong> (<em>int</em>) – Decimal points in the annotations.</p></li>
+<li><p><strong>percent</strong> (<em>bool</em>) – Flag determining whether to show percentage change between
+baseline column (assumed to be the first column) and
+remaining columns.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rick.init_fig">
-<span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">init_fig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis:</span> <span class="pre">~matplotlib.pyplot.axes)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff972dd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff972ddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#init_fig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.init_fig" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">init_fig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis:</span> <span class="pre">~matplotlib.pyplot.axes)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff96fdd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff96fddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#init_fig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.init_fig" title="Link to this definition">¶</a></dt>
 <dd><p>Sets the plot fig and axes objects to be the ones specified by the user or
 creates new ones.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>axis</strong> (<em>plt.axes</em>) – Axis object for the plot prespecified by the user.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>fig</em> – Matplotlib figure object.</p></li>
+<li><p><em>ax</em> – Matplotlib axis object.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rick.plot_grouped_bar_data">
-<span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">plot_grouped_bar_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">df:</span> <span class="pre">~pandas.core.frame.DataFrame,</span> <span class="pre">ax:</span> <span class="pre">~matplotlib.pyplot.axes,</span> <span class="pre">legend:</span> <span class="pre">list[str],</span> <span class="pre">horizontal:</span> <span class="pre">bool)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff972dd2d0&gt;,</span> <span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff972ddab0&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#plot_grouped_bar_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.plot_grouped_bar_data" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">plot_grouped_bar_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">df:</span> <span class="pre">~pandas.core.frame.DataFrame,</span> <span class="pre">ax:</span> <span class="pre">~matplotlib.pyplot.axes,</span> <span class="pre">legend:</span> <span class="pre">list[str],</span> <span class="pre">horizontal:</span> <span class="pre">bool)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff96fdd2d0&gt;,</span> <span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff96fddab0&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#plot_grouped_bar_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.plot_grouped_bar_data" title="Link to this definition">¶</a></dt>
 <dd><p>Plots all columns in the input dataframe as bars in a grouped bar graph.
 Also adds a legend if a list of strings is provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – Input dataframe being plotted.</p></li>
+<li><p><strong>ax</strong> (<em>plt.axes</em>) – Axis object to be used for the plot if specified by user.</p></li>
+<li><p><strong>legend</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – List of labels to be used for the legend.</p></li>
+<li><p><strong>horizontal</strong> (<em>bool</em>) – Flag indicating whether this is a horizontal plot.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>fig</em> – Matplotlib figure object.</p></li>
+<li><p><em>ax</em> – Matplotlib axis object.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rick.plot_line_data">
-<span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">plot_line_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df:</span> <span class="pre">~pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis:</span> <span class="pre">~matplotlib.pyplot.axes)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff972dd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff972ddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#plot_line_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.plot_line_data" title="Link to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">plot_line_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df:</span> <span class="pre">~pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis:</span> <span class="pre">~matplotlib.pyplot.axes)</span> <span class="pre">-&gt;</span> <span class="pre">(&lt;function</span> <span class="pre">figure</span> <span class="pre">at</span> <span class="pre">0xffff96fdd2d0&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">&lt;function</span> <span class="pre">axes</span> <span class="pre">at</span> <span class="pre">0xffff96fddab0&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rick.html#plot_line_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.plot_line_data" title="Link to this definition">¶</a></dt>
 <dd><p>Plots all columns in the input dataframe as lines in one graph
 on the specified axis object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>df</strong> (<em>Data to be plotted</em>) – </p></li>
-<li><p><strong>axis</strong> (<em>Prespecified axis to be used for the plot.</em>) – </p></li>
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – Data to be plotted.</p></li>
+<li><p><strong>axis</strong> (<em>plt.axes</em>) – Prespecified axis to be used for the plot.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>fig</strong> (<em>Matplotlib fig object</em>)</p></li>
-<li><p><strong>ax</strong> (<em>Matplotlib ax object</em>)</p></li>
+<li><p><em>fig</em> – Matplotlib fig object</p></li>
+<li><p><em>ax</em> – Matplotlib ax object</p></li>
 </ul>
 </p>
 </dd>
@@ -544,6 +573,15 @@ on the specified axis object.</p>
 <dt class="sig sig-object py" id="rick.set_grid">
 <span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">set_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/rick.html#set_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.set_grid" title="Link to this definition">¶</a></dt>
 <dd><p>Sets the grid for plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>plt.axes</em>) – Axis object corresponding to plot.</p></li>
+<li><p><strong>grid_x</strong> (<em>bool</em>) – Flag indicating whether to add a grid along the x axis.</p></li>
+<li><p><strong>grid_y</strong> (<em>bool</em>) – Flag indicating whether to add a grid along the y axis.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -553,9 +591,9 @@ on the specified axis object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ax</strong> (<em>Matplotlib axes object.</em>) – </p></li>
-<li><p><strong>xlab</strong> (<em>Label</em><em> of </em><em>x axis.</em>) – </p></li>
-<li><p><strong>ylab</strong> (<em>Label</em><em> of </em><em>y axis.</em>) – </p></li>
+<li><p><strong>ax</strong> (<em>plt.axes</em>) – Matplotlib axes object.</p></li>
+<li><p><strong>xlab</strong> (<em>str</em>) – Label of x axis.</p></li>
+<li><p><strong>ylab</strong> (<em>str</em>) – Label of y axis.</p></li>
 </ul>
 </dd>
 </dl>
@@ -568,14 +606,14 @@ on the specified axis object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fig</strong> (<em>Matplotlib fig object.</em>) – </p></li>
-<li><p><strong>ax</strong> (<em>Matplotlib ax object.</em>) – </p></li>
-<li><p><strong>plot_size</strong> (<em>The dimensions</em><em> of </em><em>the plot in inches.</em>) – </p></li>
-<li><p><strong>grid_x</strong> (<em>Whether there is a grid parallel to x ticks.</em>) – </p></li>
-<li><p><strong>grid_y</strong> (<em>Whether there is a grid parallel to y ticks.</em>) – </p></li>
-<li><p><strong>min_value</strong> (<em>Minimum value</em><em> of </em><em>param_axis.</em>) – </p></li>
-<li><p><strong>max_value</strong> (<em>Maximum value</em><em> of </em><em>param_axis.</em>) – </p></li>
-<li><p><strong>param_axis</strong> (<em>Axis opposite to index axis.</em>) – </p></li>
+<li><p><strong>fig</strong> (<em>plt.figure</em>) – Figure object corresponding to plot.</p></li>
+<li><p><strong>ax</strong> (<em>plt.axes</em>) – Axis object corresponding to plot.</p></li>
+<li><p><strong>plot_size</strong> (<em>(</em><em>int</em><em>, </em><em>int</em><em>)</em>) – The dimensions of the plot in inches.</p></li>
+<li><p><strong>grid_x</strong> (<em>bool</em>) – Whether there is a grid parallel to x ticks.</p></li>
+<li><p><strong>grid_y</strong> (<em>bool</em>) – Whether there is a grid parallel to y ticks.</p></li>
+<li><p><strong>min_value</strong> (<em>float</em>) – Minimum value of param_axis.</p></li>
+<li><p><strong>max_value</strong> (<em>float</em>) – Maximum value of param_axis.</p></li>
+<li><p><strong>param_axis</strong> (<em>str</em>) – Axis opposite to index axis.</p></li>
 </ul>
 </dd>
 </dl>
@@ -588,13 +626,17 @@ on the specified axis object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ax</strong> (<em>Matplotlib axes object.</em>) – </p></li>
-<li><p><strong>df</strong> (<em>Dataset being plotted.</em>) – </p></li>
-<li><p><strong>min_value</strong> (<em>Minimum value along non index axis.</em>) – </p></li>
-<li><p><strong>max_value</strong> (<em>Maximum value along non index axis.</em>) – </p></li>
-<li><p><strong>inc</strong> (<em>Incrementation</em><em> of </em><em>ticks along non index axis.</em>) – </p></li>
-<li><p><strong>index_axis</strong> (<em>The index</em><em> of </em><em>the DataFrame object</em><em>,</em>) – e.g. the x axis for a line chart.</p></li>
-<li><p><strong>offset</strong> (<em>Offset in the placement</em><em> of </em><em>ticks.</em>) – Used for grouped bar charts to center labels.</p></li>
+<li><p><strong>ax</strong> (<em>plt.axes</em>) – Matplotlib axes object.</p></li>
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – Dataset being plotted.</p></li>
+<li><p><strong>min_value</strong> (<em>float</em>) – Minimum value along non index axis.</p></li>
+<li><p><strong>max_value</strong> (<em>float</em>) – Maximum value along non index axis.</p></li>
+<li><p><strong>inc</strong> (<em>float</em>) – Incrementation of ticks along non index axis.</p></li>
+<li><p><strong>index_axis</strong> (<em>str</em>) – The index of the DataFrame object,
+e.g. the x axis for a line chart.
+Defaults to ‘x’.</p></li>
+<li><p><strong>offset</strong> (<em>float</em>) – Offset in the placement of ticks.
+Used for grouped bar charts to center labels.
+Defaults to 0.0.</p></li>
 </ul>
 </dd>
 </dl>
@@ -604,6 +646,20 @@ on the specified axis object.</p>
 <dt class="sig sig-object py" id="rick.vertical_bar_annotations">
 <span class="sig-prename descclassname"><span class="pre">rick.</span></span><span class="sig-name descname"><span class="pre">vertical_bar_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">upper</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precision</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/rick.html#vertical_bar_annotations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rick.vertical_bar_annotations" title="Link to this definition">¶</a></dt>
 <dd><p>Adds value annotations to vertical grouped or regular bar charts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – Input dataframe being plotted.</p></li>
+<li><p><strong>ax</strong> (<em>plt.axes</em>) – Axis object corresponding to the plot.</p></li>
+<li><p><strong>bar_width</strong> (<em>float</em>) – The width of each bar.</p></li>
+<li><p><strong>upper</strong> (<em>float</em>) – Bar value used for determining placement of annotation.</p></li>
+<li><p><strong>precision</strong> (<em>int</em>) – Decimal points in the annotations.</p></li>
+<li><p><strong>percent</strong> (<em>bool</em>) – Flag determining whether to show percentage change between
+baseline column (assumed to be the first column) and
+remaining columns.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <p id="module-gallery_lines">Version 0.8.0</p>

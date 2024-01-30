@@ -125,18 +125,19 @@ This Section grabs and formats the data.
 
 .. GENERATED FROM PYTHON SOURCE LINES 79-83
 
-Data Collection
-----------------
+Horizontal Grouped Bar Chart
+----------------------------
 
 This Section uses the rewritten horizontal grouped bar chart function.
 
-.. GENERATED FROM PYTHON SOURCE LINES 83-86
+.. GENERATED FROM PYTHON SOURCE LINES 83-87
 
 .. code-block:: Python
 
     fig, ax = rick.charts.horizontal_grouped_bar_chart(district_cond.set_index('area_name'), xlab = 'Trips', legend=['2016', '2018'], percent = True)
     fig.tight_layout()
     plt.show()
+
 
 
 
@@ -149,10 +150,46 @@ This Section uses the rewritten horizontal grouped bar chart function.
 
 
 
+.. GENERATED FROM PYTHON SOURCE LINES 88-92
+
+Vertical Grouped Bar Chart
+--------------------------
+
+This Section uses the new vertical grouped bar chart function with a dummy dataframe.
+
+.. GENERATED FROM PYTHON SOURCE LINES 92-105
+
+.. code-block:: Python
+
+
+    np.random.seed(42)
+    data = {
+        'Category': ['A', 'B', 'C', 'D'],
+        'Group1': np.random.randint(10, 50, 4),
+        'Group2': np.random.randint(20, 60, 4)
+    }
+    df = pd.DataFrame(data)
+    df = df.set_index('Category')
+
+    fig, ax = rick.charts.vertical_grouped_bar_chart(data=df, precision=1, xlab='Group', ylab='Category', percent=True, legend=['Group1', 'Group2'])
+    fig.tight_layout()
+    plt.show()
+
+
+
+.. image-sg:: /auto_examples/grouped_bar/images/sphx_glr_plot_grouped_bar_rick_003.png
+   :alt: plot grouped bar rick
+   :srcset: /auto_examples/grouped_bar/images/sphx_glr_plot_grouped_bar_rick_003.png
+   :class: sphx-glr-single-img
+
+
+
+
+
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.451 seconds)
+   **Total running time of the script:** (0 minutes 2.314 seconds)
 
 
 .. _sphx_glr_download_auto_examples_grouped_bar_plot_grouped_bar_rick.py:

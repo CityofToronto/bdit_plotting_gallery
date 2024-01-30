@@ -76,10 +76,29 @@ plt.show()
 
 
 ################################
-#Data Collection
-#----------------
+#Horizontal Grouped Bar Chart
+#----------------------------
 #
 #This Section uses the rewritten horizontal grouped bar chart function.
 fig, ax = rick.charts.horizontal_grouped_bar_chart(district_cond.set_index('area_name'), xlab = 'Trips', legend=['2016', '2018'], percent = True)
+fig.tight_layout()
+plt.show()
+
+################################
+#Vertical Grouped Bar Chart
+#--------------------------
+#
+#This Section uses the new vertical grouped bar chart function with a dummy dataframe.
+
+np.random.seed(42)
+data = {
+    'Category': ['A', 'B', 'C', 'D'],
+    'Group1': np.random.randint(10, 50, 4),
+    'Group2': np.random.randint(20, 60, 4)
+}
+df = pd.DataFrame(data)
+df = df.set_index('Category')
+
+fig, ax = rick.charts.vertical_grouped_bar_chart(data=df, precision=1, xlab='Group', ylab='Category', percent=True, legend=['Group1', 'Group2'])
 fig.tight_layout()
 plt.show()

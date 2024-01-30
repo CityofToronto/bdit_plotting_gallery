@@ -114,15 +114,33 @@ to download the full example code</p>
 </pre></div>
 </div>
 <img src="../../_images/sphx_glr_plot_grouped_bar_rick_001.png" srcset="../../_images/sphx_glr_plot_grouped_bar_rick_001.png" alt="plot grouped bar rick" class = "sphx-glr-single-img"/></section>
-<section id="id1">
-<h2>Data Collection<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<section id="horizontal-grouped-bar-chart">
+<h2>Horizontal Grouped Bar Chart<a class="headerlink" href="#horizontal-grouped-bar-chart" title="Link to this heading">¶</a></h2>
 <p>This Section uses the rewritten horizontal grouped bar chart function.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">rick</span><span class="o">.</span><span class="n">charts</span><span class="o">.</span><span class="n">horizontal_grouped_bar_chart</span><span class="p">(</span><span class="n">district_cond</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;area_name&#39;</span><span class="p">),</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s1">&#39;Trips&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;2016&#39;</span><span class="p">,</span> <span class="s1">&#39;2018&#39;</span><span class="p">],</span> <span class="n">percent</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<img src="../../_images/sphx_glr_plot_grouped_bar_rick_002.png" srcset="../../_images/sphx_glr_plot_grouped_bar_rick_002.png" alt="plot grouped bar rick" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.451 seconds)</p>
+<img src="../../_images/sphx_glr_plot_grouped_bar_rick_002.png" srcset="../../_images/sphx_glr_plot_grouped_bar_rick_002.png" alt="plot grouped bar rick" class = "sphx-glr-single-img"/></section>
+<section id="vertical-grouped-bar-chart">
+<h2>Vertical Grouped Bar Chart<a class="headerlink" href="#vertical-grouped-bar-chart" title="Link to this heading">¶</a></h2>
+<p>This Section uses the new vertical grouped bar chart function with a dummy dataframe.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Category&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;Group1&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="s1">&#39;Group2&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;Category&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">rick</span><span class="o">.</span><span class="n">charts</span><span class="o">.</span><span class="n">vertical_grouped_bar_chart</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s1">&#39;Group&#39;</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s1">&#39;Category&#39;</span><span class="p">,</span> <span class="n">percent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Group1&#39;</span><span class="p">,</span> <span class="s1">&#39;Group2&#39;</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="../../_images/sphx_glr_plot_grouped_bar_rick_003.png" srcset="../../_images/sphx_glr_plot_grouped_bar_rick_003.png" alt="plot grouped bar rick" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 2.314 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-grouped-bar-plot-grouped-bar-rick-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/3a807fd942b12b2113f427b590c50f6f/plot_grouped_bar_rick.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_grouped_bar_rick.ipynb</span></code></a></p>

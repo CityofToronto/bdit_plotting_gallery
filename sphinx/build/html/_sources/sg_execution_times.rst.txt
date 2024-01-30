@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:02.451** total execution time for 6 files **from all galleries**:
+**00:02.314** total execution time for 6 files **from all galleries**:
 
 .. container::
 
@@ -33,7 +33,7 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_grouped_bar_plot_grouped_bar_rick.py` (``examples/grouped_bar/plot_grouped_bar_rick.py``)
-     - 00:02.451
+     - 00:02.314
      - 0.0
    * - :ref:`sphx_glr_auto_examples_bar_plot_bar_rick.py` (``examples/bar/plot_bar_rick.py``)
      - 00:00.000
