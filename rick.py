@@ -1529,5 +1529,3 @@ def set_labels(fig, ax, xlab, ylab):
                 labelpad=10, fontname = font.normal)
 
     return fig, ax
-
-    ####test if I'm on EC2####
