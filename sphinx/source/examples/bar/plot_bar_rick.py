@@ -4,6 +4,10 @@ RICK Bar Chart
 
 Example bar chart from the RICK module.
 """
+import os
+import os.path as osp
+import sys
+sys.path.append(osp.dirname(osp.dirname(osp.dirname(osp.dirname(osp.dirname(osp.abspath(__file__)))))))
 
 from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
@@ -21,7 +25,7 @@ import geopandas as gpd
 import os
 import shapely
 from shapely.geometry import Point
-os.environ["PROJ_LIB"]=r"C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share"
+####os.environ["PROJ_LIB"]=r"C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share"
 import importlib
 import matplotlib.ticker as ticker
 import matplotlib.font_manager as font_manager
@@ -38,4 +42,5 @@ pass_data = {'cat': ['PTC','Taxi',  'Trip Making Population'],
 transit_pass = pd.DataFrame(pass_data,columns= ['cat', 'TTC Pass'])
 transit_pass  = transit_pass .reindex(index=transit_pass .index[::-1])
 
-fig, ax = rick.charts.bar_chart(transit_pass, xlab='Trips')
+fig, ax = rick.charts.bar_chart(transit_pass, xlab='Trips', ylab= "ylabel")
+plt.savefig("sphinx/source/examples/bar/YZtest_bar.png")
