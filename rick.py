@@ -257,7 +257,7 @@ class charts:
         
         return fig, ax
 
-        def histogram_chart(data, ylab, xlab, nbin, **kwargs):
+    def histogram_chart(data, ylab, xlab, nbin, **kwargs):
         """Creates a histogram chart with specified nbin (nbin data)
         
         Parameters
