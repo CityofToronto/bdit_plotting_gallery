@@ -357,12 +357,12 @@ multi_linechart(df_multi, sett_empty)
 
 df_multi_dt = df_multi.set_index('dt')
 df_multi_dt.index = pd.to_datetime(df_multi_dt.index)
-fig, ax = rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dates')
+fig, ax = rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dates', legend=['Vol 1', 'Vol 2', 'Vol 3'])
 fig.tight_layout()
 plt.show()
 
 #####################################
-#Example: one shaded area with legend 
+#Example: one shaded area with legend
 #------------------------------------
 #
 #This Section plots dataframe with legend and one shaded area.

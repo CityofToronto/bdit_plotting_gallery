@@ -76,7 +76,7 @@ plt.show()
 
 
 ################################
-#Horizontal Grouped Bar Chart
+#Horizontal Grouped Bar Chart 
 #----------------------------
 #
 #This Section uses the rewritten horizontal grouped bar chart function.

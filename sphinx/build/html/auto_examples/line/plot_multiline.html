@@ -394,7 +394,7 @@ more shaded regions with labels.</p>
 <p>This section plots the <cite>df_multi</cite> dataframe using the rewrite of the multiline function.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">df_multi_dt</span> <span class="o">=</span> <span class="n">df_multi</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;dt&#39;</span><span class="p">)</span>
 <span class="n">df_multi_dt</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_multi_dt</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">rick</span><span class="o">.</span><span class="n">charts</span><span class="o">.</span><span class="n">multi_linechart_test</span><span class="p">(</span><span class="n">df_multi_dt</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s1">&#39;Dates&#39;</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">rick</span><span class="o">.</span><span class="n">charts</span><span class="o">.</span><span class="n">multi_linechart_test</span><span class="p">(</span><span class="n">df_multi_dt</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s1">&#39;Values&#39;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s1">&#39;Dates&#39;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Vol 1&#39;</span><span class="p">,</span> <span class="s1">&#39;Vol 2&#39;</span><span class="p">,</span> <span class="s1">&#39;Vol 3&#39;</span><span class="p">])</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -597,7 +597,7 @@ block, and shaded blocks for weekends.</p>
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;sans-serif&#39;]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.653 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 1.297 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-line-plot-multiline-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/50a31221caa2b1c1966f0c63d53f2332/plot_multiline.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_multiline.ipynb</span></code></a></p>

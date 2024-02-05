@@ -443,7 +443,7 @@ This section plots the `df_multi` dataframe using the rewrite of the multiline f
 
     df_multi_dt = df_multi.set_index('dt')
     df_multi_dt.index = pd.to_datetime(df_multi_dt.index)
-    fig, ax = rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dates')
+    fig, ax = rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dates', legend=['Vol 1', 'Vol 2', 'Vol 3'])
     fig.tight_layout()
     plt.show()
 
@@ -461,7 +461,7 @@ This section plots the `df_multi` dataframe using the rewrite of the multiline f
 
 .. GENERATED FROM PYTHON SOURCE LINES 365-369
 
-Example: one shaded area with legend 
+Example: one shaded area with legend
 ------------------------------------
 
 This Section plots dataframe with legend and one shaded area.
@@ -693,7 +693,7 @@ block, and shaded blocks for weekends.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.653 seconds)
+   **Total running time of the script:** (0 minutes 1.297 seconds)
 
 
 .. _sphx_glr_download_auto_examples_line_plot_multiline.py:

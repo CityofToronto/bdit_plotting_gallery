@@ -1170,7 +1170,8 @@ class charts:
 
         fig, ax = plot_line_data(
             df=data,
-            axis=kwargs.get('ax',None)
+            axis=kwargs.get('ax',None),
+            legend=kwargs.get('legend',None)
             )
         
         set_plot_style(
@@ -1262,7 +1263,7 @@ def calculate_delta(max_value:float, min_value:float) -> (float, float):
             break
     return delta, i
 
-def plot_line_data(df:pd.DataFrame, axis:plt.axes) -> (plt.figure, plt.axes):
+def plot_line_data(df:pd.DataFrame, axis:plt.axes, legend:list[str]) -> (plt.figure, plt.axes):
     '''
     Plots all columns in the input dataframe as lines in one graph 
     on the specified axis object.
@@ -1273,7 +1274,8 @@ def plot_line_data(df:pd.DataFrame, axis:plt.axes) -> (plt.figure, plt.axes):
         Data to be plotted.
     axis : plt.axes
         Prespecified axis to be used for the plot. 
-
+    legend : list[str]
+        List of labels to be used for the legend.
     Returns 
     ------- 
     fig 
@@ -1284,10 +1286,20 @@ def plot_line_data(df:pd.DataFrame, axis:plt.axes) -> (plt.figure, plt.axes):
 
     fig, ax = init_fig(axis)
     colour_instance = colour()
+    lines = []
+
     for i, col in enumerate(df.columns):
         hex_code = colour_instance.get_colour_from_index(i+1)
-        ax.plot(df[col], linewidth=3, color=hex_code)
-        
+        lines.extend(ax.plot(df[col], linewidth=3, color=hex_code))
+
+    if legend != None:
+        ax.legend(handles=lines,
+                  labels=legend, 
+                  loc='best', 
+                  frameon=False, 
+                  prop=font.leg_font,
+                  borderpad=0
+        )
     return fig, ax
 
 def plot_grouped_bar_data(df:pd.DataFrame, ax:plt.axes, legend:list[str], horizontal:bool) -> (plt.figure, plt.axes):
@@ -1327,7 +1339,7 @@ def plot_grouped_bar_data(df:pd.DataFrame, ax:plt.axes, legend:list[str], horizo
         adjustment += bar_width
 
     if legend != None:
-        legend_object = ax.legend(handles=bars[::-1] if horizontal else bars,
+        ax.legend(handles=bars[::-1] if horizontal else bars,
                   labels=legend , 
                   loc='best', 
                   frameon=False, 
