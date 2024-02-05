@@ -1327,11 +1327,12 @@ def plot_grouped_bar_data(df:pd.DataFrame, ax:plt.axes, legend:list[str], horizo
         adjustment += bar_width
 
     if legend != None:
-        ax.legend(handles=bars[::-1] if horizontal else bars,
+        legend_object = ax.legend(handles=bars[::-1] if horizontal else bars,
                   labels=legend , 
                   loc='best', 
                   frameon=False, 
-                  prop=font.leg_font
+                  prop=font.leg_font,
+                  borderpad=2
         )
         
     return fig, ax 

@@ -189,7 +189,7 @@ This Section uses the new vertical grouped bar chart function with a dummy dataf
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.314 seconds)
+   **Total running time of the script:** (0 minutes 2.372 seconds)
 
 
 .. _sphx_glr_download_auto_examples_grouped_bar_plot_grouped_bar_rick.py:
