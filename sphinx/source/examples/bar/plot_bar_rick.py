@@ -43,4 +43,6 @@ transit_pass = pd.DataFrame(pass_data,columns= ['cat', 'TTC Pass'])
 transit_pass  = transit_pass .reindex(index=transit_pass .index[::-1])
 
 fig, ax = rick.charts.bar_chart(transit_pass, xlab='Trips', ylab= "ylabel")
+fig.tight_layout()
+plt.show()
 plt.savefig("sphinx/source/examples/bar/YZtest_bar.png")
