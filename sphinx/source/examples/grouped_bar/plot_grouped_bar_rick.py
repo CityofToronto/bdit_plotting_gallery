@@ -4,6 +4,10 @@ RICK Grouped Bar Chart
 
 Example of a horizontal grouped bar chart.
 """
+import os
+import os.path as osp
+import sys
+sys.path.append(osp.dirname(osp.dirname(osp.dirname(osp.dirname(osp.dirname(osp.abspath(__file__)))))))
 
 from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
@@ -21,52 +25,28 @@ import geopandas as gpd
 import os
 import shapely
 from shapely.geometry import Point
-os.environ["PROJ_LIB"]=r"C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share"
+####os.environ["PROJ_LIB"]=r"C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share"
 import importlib
 import matplotlib.ticker as ticker
 import matplotlib.font_manager as font_manager
 
 
-CONFIG = configparser.ConfigParser()
-# CONFIG.read(r'C:\Users\rliu4\Documents\Python\config.cfg')
-CONFIG.read(r'/home/cnangini/db.cfg')
-dbset = CONFIG['DBSETTINGS']
-con = connect(**dbset)
 ################################
-#Data Collection
-#----------------
+#stacked_chart
+#--------------------------
 #
-#This Section grabs and formats the data.
-query = ''' 
+#This Section uses the revised stacked_chart function with a customized dataframe.
 
-WITH sum AS (
+np.random.seed(42)
+data = {
+    'Year': [2015, 2016, 2017, 2018],
+    'Group1': np.random.randint(10, 50, 4),
+    'Group2': np.random.randint(20, 60, 4)
+}
+df = pd.DataFrame(data)
+##df = df.set_index('Category')
 
-SELECT pickup_datetime, sum(count) as count, extract(month from pickup_datetime) as mon, extract(year from pickup_datetime) as yr, area_name FROM ptc.trip_data_agg_ward_25
-LEFT JOIN gis.ward_community_lookup ON pickup_ward2018 = area_short
-
-WHERE pickup_datetime > '2016-09-30'
-GROUP BY pickup_datetime, area_name
-), collect AS (
-SELECT area_name, avg(count) as count, mon, yr from sum
-group by area_name,  mon, yr)
-
-,tot1 AS (
-
-SELECT area_name, avg(count) as count FROM collect
-WHERE (yr =2016 AND mon IN (10))
-GROUP BY area_name
-), tot2 AS (
-
-SELECT area_name, avg(count) as count FROM collect
-WHERE (yr =2018 AND mon IN (9)) 
-GROUP BY area_name
-)
-SELECT SPLIT_PART(area_name, 'Community', 1) as area_name,
-b.count as count1, a.count as count2 FROM tot1 b
-LEFT JOIN tot2 a USING (area_name)
-ORDER BY count1 ASC
-'''
-
-district_cond = pandasql.read_sql(query, con)
-
-fig, ax = rick.charts.stacked_chart(district_cond, xlab = 'Trips', lab1 = '2016', lab2 = '2018', percent = True)
+fig, ax = rick.charts.stacked_chart(df, xlab = 'Numbers', lab1 = 'Group1', lab2 = 'Group2',  percent = False)
+fig.tight_layout()
+plt.show()
+plt.savefig("sphinx/source/examples/grouped_bar/YZtest_stacked_chart.png")
