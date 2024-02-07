@@ -4,6 +4,10 @@ RICK Time-of-Week Line Chart
 
 Example time-of-week line chart.
 """
+import os
+import os.path as osp
+import sys
+sys.path.append(osp.dirname(osp.dirname(osp.dirname(osp.dirname(osp.dirname(osp.abspath(__file__)))))))
 
 from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
@@ -21,46 +25,32 @@ import geopandas as gpd
 import os
 import shapely
 from shapely.geometry import Point
-os.environ["PROJ_LIB"]=r"C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share"
+####os.environ["PROJ_LIB"]=r"C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share"
 import importlib
 import matplotlib.ticker as ticker
 import matplotlib.font_manager as font_manager
 
 
-CONFIG = configparser.ConfigParser()
-# CONFIG.read(r'C:\Users\rliu4\Documents\Python\config.cfg')
-CONFIG.read(r'/home/cnangini/db.cfg')
-dbset = CONFIG['DBSETTINGS']
-con = connect(**dbset)
 ################################
 #Data Collection
 #----------------
 #
-#This Section grabs and formats the data.
-query = '''
+#This Section creates example data.
 
-WITH sum AS (
+# x-axis
+dt= list(range(168))
 
-SELECT pickup_datetime, hr, sum(count) as count, extract(month from pickup_datetime) as mon, extract(year from pickup_datetime) as yr,
-extract(dow from pickup_datetime) as dow FROM ptc.trip_data_agg_ward_25
+# y-axis
+# line 1
+y1= [np.cos(d/10)*50+np.random.randint(60, 200)+d/2 for d in dt]
 
+# Create dataframe to be plotted
+data = {'dt':dt, 'y1':y1}
+df_multi = pd.DataFrame(data) 
 
-WHERE pickup_datetime > '2018-08-31'
-GROUP BY pickup_datetime, hr
+df_multi_dt = df_multi.set_index('dt')
 
-)
-, collect AS (
-SELECT  avg(count) as count, hr, dow from sum
-group by hr, dow)
-
-SELECT period_name, period_uid, count, hr, CASE WHEN dow = 0 THEN 7 ELSE dow END AS dow, 
-CASE WHEN swatch IS NULL THEN '#999999' ELSE swatch END AS swatch
-FROM collect
-LEFT JOIN ptc.period_lookup_simple ON dow=period_dow AND hr=period_hr
-LEFT JOIN ptc.periods_simple USING (period_uid)
-ORDER BY dow, hr
-
-'''
-count_18 = pandasql.read_sql(query,con)
-
-fig, ax, prop = rick.charts.tow_chart(data = count_18['count'], ylab='Trips', ymax = 14000, yinc= 3500)
+fig, ax, props = rick.charts.tow_chart(df_multi_dt , ylab='Trips', ymax = 350)
+fig.tight_layout()
+plt.show()
+plt.savefig("sphinx/source/examples/line/YZtest_tow_line.png")
