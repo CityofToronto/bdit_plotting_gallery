@@ -404,12 +404,6 @@ class charts:
             ax.xaxis.set_major_formatter(ticker.FixedFormatter(list_major_labels))
             #ax.tick_params(axis='x', which='major', colors = colour.light_grey, labelsize=7, rotation=0)
         
-        if (xticker_labels is None):
-            list_major_labels = xticker_labels
-            list_major_ticks  = np.arange(0, len(list_major_labels), 1)
-            ax.xaxis.set_major_locator(ticker.FixedLocator(list_major_ticks))
-            ax.xaxis.set_major_formatter(ticker.FixedFormatter(list_major_labels))
-
         # Set text - min & max
         props = dict(boxstyle='round, pad=0.4',edgecolor=colour.purple,
                      linewidth = 2, facecolor = 'w', alpha=1)
