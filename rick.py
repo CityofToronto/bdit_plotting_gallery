@@ -514,7 +514,6 @@ class charts:
         ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
         plt.yticks(range(ymin,upper+int(0.1*yinc), yinc), fontsize =9, fontname = font.normal)
 
-        ax.set_xticks(range(0,180,12))
         ax.set_xticklabels(['0','12','0','12',
                                                             '0','12','0','12',
                                          '0','12','0','12','0','12'], fontname = font.normal, fontsize = 7, color = colour.light_grey)
