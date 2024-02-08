@@ -1399,51 +1399,76 @@ class charts:
     
         return fig, ax
 
-    def multi_linechart_test(data, ylab, xlab, **kwargs):
+    def multi_linechart_test(data:pd.DataFrame, ylab:str, xlab:str, **kwargs:dict) -> (plt.figure, plt.axes):
         '''
         Creates a line chart of one or more lines.
         Number of lines to plot determined from columns in input dataframe.
+        
         Parameters
-        -----------
-        data : array like or scalar
+        ----------
+        data : pd.DataFrame
             Data for the line chart.
         ylab : str
             Label for the y axis.
         xlab : str
             Label for the x axis.
-        ymax : int, optional, default is the max y value
+        ymax : float, optional
             The max value of the y axis.
-        ymin : int, optional, default is 0
-            The minimum value of the y axis
-            Should include this if ymin < 0.
-        yinc : int, optional
+        ymin : float, optional
+            The min value of the y axis. Should include this if ymin < 0.
+        yinc : float, optional
             The increment of ticks on the y axis.
-        axis : Axes object, optional 
+        ax : plt.axes, optional
             The axis that the plot will be located on. 
-        plot_size : tuple, optional 
-        set_plot_size : bool, optional
-             
+        plot_size : (int, int), optional
+            The dimensions of the plot if given a custom size.
+
         Returns 
         --------
-        fig
+        fig 
             Matplotlib fig object
-        ax 
+        ax
             Matplotlib ax object
         ''' 
-
+        
         func() 
 
-        ymin, ymax, yinc = calculate_y_params(data, **kwargs)
+        ymax, ymin, yinc, upper = calculate_params(
+            df=data,
+            param_axis ='y',
+            **kwargs
+            )
 
-        fig, ax = plot_line_data(data, kwargs.get('ax',None))
+        fig, ax = plot_line_data(
+            df=data,
+            axis=kwargs.get('ax',None),
+            legend=kwargs.get('legend',None)
+            )
+        
+        set_plot_style(
+            fig=fig,
+            ax=ax,
+            plot_size=kwargs.get('plot_size', (6.1, 4.1)), 
+            grid_x=True,
+            grid_y=True,
+            min_value=ymin,
+            max_value=ymax, 
+            param_axis='y'
+            )
 
-        fig, ax = set_plot_style(fig, ax, ymin, ymax, 
-                                 plot_size=kwargs.get('plot_size', (6.1, 4.1)), 
-                                 set_plot_size=kwargs.get('set_plot_size', True))
+        set_ticks(
+            ax=ax,
+            df=data,
+            min_value=ymin, 
+            max_value=ymax, 
+            inc=yinc
+            )
 
-        fig, ax = set_ticks(fig, ax, ymin, ymax, yinc)
-
-        fig, ax = set_labels(fig, ax, xlab, ylab)
+        set_labels(
+            ax=ax,
+            xlab=xlab,
+            ylab=ylab
+            )
 
         return fig, ax
 
