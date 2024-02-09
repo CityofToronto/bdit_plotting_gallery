@@ -40,8 +40,8 @@ import matplotlib.font_manager as font_manager
 np.random.seed(42)
 data = {
     'Year': [2015, 2016, 2017, 2018],
-    'Group1': np.random.randint(10, 50, 4),
-    'Group2': np.random.randint(20, 60, 4)
+    'Group1': [135, 120, 115, 150],
+    'Group2': [100, 110, 145, 120]
 }
 df = pd.DataFrame(data)
 ##df = df.set_index('Category')
