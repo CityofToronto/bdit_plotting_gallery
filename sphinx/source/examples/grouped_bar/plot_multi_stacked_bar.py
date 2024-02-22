@@ -38,13 +38,6 @@ import matplotlib.font_manager as font_manager
 #This Section uses the revised multi_stacked_bar_chart function with a customized dataframe.
 
 np.random.seed(42)
-data = {
-    'Year': [2015, 2016, 2017, 2018],
-    'Group1': np.random.randint(10, 50, 4),
-    'Group2': np.random.randint(20, 60, 4),
-    'Group3': np.random.randint(30, 80, 4)
-}
-
 data1 = {
     'Location': ['Scarborough', 'Etobicoke York', 'North York', 'East York'],
     '2016': [58640, 57210, 59490, 63090],
