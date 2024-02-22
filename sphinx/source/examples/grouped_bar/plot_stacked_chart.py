@@ -39,9 +39,9 @@ import matplotlib.font_manager as font_manager
 
 np.random.seed(42)
 data = {
-    'Year': ['Scarborough', 'Etobicoke York', 'North York', 'East York'],
-    'Group1': [4640, 7210, 9490, 43090],
-    'Group2': [13810, 20690, 24720, 93550]
+    'Location': ['Scarborough', 'Etobicoke York', 'North York', 'East York'],
+    '2016': [4640, 7210, 9490, 43090],
+    '2018': [13810, 20690, 24720, 93550]
 }
 df = pd.DataFrame(data)
 ##df = df.set_index('Category')
