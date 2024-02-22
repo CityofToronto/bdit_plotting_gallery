@@ -39,14 +39,14 @@ import matplotlib.font_manager as font_manager
 
 np.random.seed(42)
 data = {
-    'Year': [2015, 2016, 2017, 2018],
-    'Group1': [135, 120, 115, 150],
-    'Group2': [100, 110, 145, 120]
+    'Year': ['Scarborough', 'Etobicoke York', 'North York', 'East York'],
+    'Group1': [4640, 7210, 9490, 43090],
+    'Group2': [13810, 20690, 24720, 93550]
 }
 df = pd.DataFrame(data)
 ##df = df.set_index('Category')
 
-fig, ax = rick.charts.stacked_chart(df, xlab = 'Numbers', lab1 = 'Group1', lab2 = 'Group2',  percent = False)
+fig, ax = rick.charts.stacked_chart(df, xlab = 'Trips', lab1 = '2016', lab2 = '2018',  percent = True)
 fig.tight_layout()
 plt.show()
 plt.savefig("sphinx/source/examples/grouped_bar/YZtest_stacked_chart.png")
