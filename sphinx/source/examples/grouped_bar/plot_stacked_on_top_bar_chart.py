@@ -39,14 +39,15 @@ import matplotlib.font_manager as font_manager
 
 np.random.seed(42)
 data = {
-    'Year': [2015, 2016, 2017, 2018],
-    'Group1': np.random.randint(10, 50, 4),
-    'Group2': np.random.randint(20, 60, 4)
+    'Location': ['Scarborough', 'Etobicoke York', 'North York', 'East York'],
+    '2016': [58640, 57210, 59490, 63090],
+    '2018': [93810, 90690, 84720, 93550]
 }
+
 df = pd.DataFrame(data)
 ##df = df.set_index('Category')
 
-fig, ax = rick.charts.bar_chart_stacked_on_top(df, xlab = 'Numbers', lab1 = 'Group1', lab2 = 'Group2')
+fig, ax = rick.charts.bar_chart_stacked_on_top(df, xlab = 'Trips', lab1 = '2016', lab2 = '2018')
 fig.tight_layout()
 plt.show()
 plt.savefig("sphinx/source/examples/grouped_bar/YZtest_bar_chart_stacked_on_top.png")
