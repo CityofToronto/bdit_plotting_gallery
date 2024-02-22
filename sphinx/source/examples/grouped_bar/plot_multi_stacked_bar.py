@@ -44,10 +44,18 @@ data = {
     'Group2': np.random.randint(20, 60, 4),
     'Group3': np.random.randint(30, 80, 4)
 }
-df = pd.DataFrame(data)
+
+data1 = {
+    'Location': ['Scarborough', 'Etobicoke York', 'North York', 'East York'],
+    '2016': [58640, 57210, 59490, 63090],
+    '2018': [93810, 90690, 84720, 93550],
+    '2020': [81538, 77456, 80235, 73692]
+}
+
+df = pd.DataFrame(data1)
 ##df = df.set_index('Category')
 
-fig, ax = rick.charts.multi_stacked_bar_chart(df, xlab = 'Numbers', lab1 = 'Group1', lab2 = 'Group2',  lab3 = 'Group3')
+fig, ax = rick.charts.multi_stacked_bar_chart(df, xlab = 'Trips', lab1 = '2016', lab2 = '2018', lab3 = '2020', xmax= 250000)
 fig.tight_layout()
 plt.show()
 plt.savefig("sphinx/source/examples/grouped_bar/YZtest_multi_stacked_bar_chart.png")
