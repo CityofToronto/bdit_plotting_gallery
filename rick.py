@@ -18,6 +18,7 @@ import matplotlib.font_manager as font_manager
 import numpy as np
 import pandas as pd
 import copy
+import datetime
 
 class font:
     """
@@ -1199,6 +1200,12 @@ class charts:
             ylab=ylab
             )
 
+        add_shaded_areas(
+            ax=ax,
+            df=data,
+            shaded_areas=kwargs.get('shaded_areas', None)
+            )
+
         return fig, ax
 
 def calculate_params(df:pd.DataFrame, param_axis:str, **kwargs:dict) -> (float, float, float, float): 
@@ -1252,6 +1259,20 @@ def calculate_params(df:pd.DataFrame, param_axis:str, **kwargs:dict) -> (float, 
 def calculate_delta(max_value:float, min_value:float) -> (float, float):
     '''
     Returns parameters used to find the size of the y or x axis increments.
+
+    Parameters
+    ----------
+    max_value : float 
+        Maximum value of data being plotted in non-index axis. 
+    min_value : float 
+        Minimum value of data being plotted in non-index axis. 
+
+    Returns
+    -------
+    float 
+        The spacing between ticks in non-index axis.
+    float 
+        Order of magnitude of spacing. 
     '''
 
     delta = (max_value - min_value)/4
@@ -1295,7 +1316,8 @@ def plot_line_data(df:pd.DataFrame, axis:plt.axes, legend:list[str]) -> (plt.fig
     if legend != None:
         ax.legend(handles=lines,
                   labels=legend, 
-                  loc='best', 
+                  loc='upper left',
+                  bbox_to_anchor=(1.04, 1),
                   frameon=False, 
                   prop=font.leg_font,
                   borderpad=0
@@ -1341,7 +1363,8 @@ def plot_grouped_bar_data(df:pd.DataFrame, ax:plt.axes, legend:list[str], horizo
     if legend != None:
         ax.legend(handles=bars[::-1] if horizontal else bars,
                   labels=legend , 
-                  loc='best', 
+                  loc='upper left',
+                  bbox_to_anchor=(1.04, 1),
                   frameon=False, 
                   prop=font.leg_font,
                   borderpad=2
@@ -1640,7 +1663,47 @@ def vertical_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, uppe
                     fontsize=10
                     )
                 j += 1
+                
+def add_shaded_areas(ax:plt.axes, df:pd.DataFrame, shaded_areas: dict) -> None:
+    '''
+    Adds shaded areas to plot if specified by user. 
 
+    Paramaters 
+    ----------
+    df : pd.DataFrame
+        Data for the grouped bar chart.
+    ax : plt.axes 
+        Axis object being used. 
+    shaded_areas : dict 
+        Dictionary with the following format:
+        {(label, colour): (x_start, x_end)}. 
+        Start and end x coordinates indicate range of shaded region
+        and must be specified.
+        Label can be specified or left as None. 
+        Colour can be specified or left as None in which case light 
+        grey is used by default.
+    '''
+    if shaded_areas==None:
+        return 
+    colour_instance = colour()
+    for (label, color), location in shaded_areas.items():
+        color=colour_instance.light_grey if color==None else color
+        ax.axvspan(location[0], 
+                   location[1], 
+                   alpha=0.2, 
+                   color=color)
+        # Show the label if it is not empty 
+        if label != None:
+            ax.text(s=label,
+                    x=location[0],
+                    y=ax.get_ylim()[1],
+                    ha='left',
+                    va='top',
+                    rotation=90,
+                    fontname=font.normal,
+                    fontsize=9
+                   )
+        
 def general_grouped_bar_chart(data:pd.DataFrame, param_axis:str, index_axis:str, standard_plot_size:(int, int), horizontal:bool, grid_x:bool=True, grid_y:bool=True, **kwargs:dict) -> (plt.figure, plt.axes):
         '''
         Creates a horizontal or vertical grouped bar chart. Number of
