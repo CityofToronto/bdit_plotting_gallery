@@ -1152,7 +1152,21 @@ class charts:
             The axis that the plot will be located on. 
         plot_size : (int, int), optional
             The dimensions of the plot if given a custom size.
-
+        minor_x : bool, optional 
+            When set to True, a minor grid is added to the plot along x axis. 
+        minor_y : bool, optional 
+            When set to True, a minor grid is added to the plot along y axis. 
+        num_minor_x: int, optional
+            The number of minor ticks between major ticks along the x axis. 
+        num_minor_y: int, optional
+            The number of minor ticks between major ticks along the y axis. 
+        shaded_areas : dict[(str, str): (Any, Any)], optional 
+            Start and end x coordinates indicate range of shaded region
+            and must be specified.
+            Label can be specified or left as None. 
+            Colour can be specified or left as None in which case light 
+            grey is used by default.
+            
         Returns 
         --------
         fig 
@@ -1181,6 +1195,8 @@ class charts:
             plot_size=kwargs.get('plot_size', (6.1, 4.1)), 
             grid_x=True,
             grid_y=True,
+            grid_minor_x=kwargs.get('minor_x',False),
+            grid_minor_y=kwargs.get('minor_y',False),
             min_value=ymin,
             max_value=ymax, 
             param_axis='y'
@@ -1191,7 +1207,11 @@ class charts:
             df=data,
             min_value=ymin, 
             max_value=ymax, 
-            inc=yinc
+            inc=yinc,
+            minor_x=kwargs.get('minor_x',False),
+            minor_y=kwargs.get('minor_y',False),
+            num_minor_x=kwargs.get('num_minor_x',None),
+            num_minor_y=kwargs.get('num_minor_y',None)
             )
 
         set_labels(
@@ -1398,7 +1418,17 @@ def init_fig(axis:plt.axes) -> (plt.figure, plt.axes):
 
     return fig, ax
 
-def set_plot_style(fig:plt.figure, ax:plt.axes, plot_size:(int, int), grid_x:bool, grid_y:bool, min_value:float, max_value:float, param_axis:str) -> None:
+def set_plot_style(fig:plt.figure, 
+                   ax:plt.axes, 
+                   plot_size:(int, int), 
+                   grid_x:bool, 
+                   grid_y:bool, 
+                   min_value:float, 
+                   max_value:float, 
+                   param_axis:str,
+                   grid_minor_x:bool = False,
+                   grid_minor_y:bool = False
+                   )-> None:
     '''
     Sets size, background and grid for plot.
 
@@ -1419,15 +1449,23 @@ def set_plot_style(fig:plt.figure, ax:plt.axes, plot_size:(int, int), grid_x:boo
     max_value : float
         Maximum value of param_axis.
     param_axis : str
-        Axis opposite to index axis. 
+        Axis opposite to index axis.
+    grid_minor_x : bool, optional 
+        When set to True, a minor grid is added to the plot along x axis. 
+    grid_minor_y : bool, optional 
+        When set to True, a minor grid is added to the plot along y axis. 
     '''
 
     fig.set_size_inches(plot_size)
     getattr(ax, 'set_ylim' if param_axis == 'y' else 'set_xlim')([min_value, max_value])
     ax.set_facecolor('xkcd:white')
-    set_grid(ax, grid_x, grid_y)
+    set_grid(ax, grid_x, grid_y, grid_minor_x, grid_minor_y)
 
-def set_grid(ax:plt.axes, grid_x:bool, grid_y:bool) -> None:
+def set_grid(ax:plt.axes,
+             grid_x:bool,
+             grid_y:bool, 
+             grid_minor_x:bool, 
+             grid_minor_y:bool)-> None:
     '''
     Sets the grid for plot. 
 
@@ -1439,12 +1477,50 @@ def set_grid(ax:plt.axes, grid_x:bool, grid_y:bool) -> None:
         Flag indicating whether to add a grid along the x axis. 
     grid_y : bool
         Flag indicating whether to add a grid along the y axis.
+    grid_minor_x : bool, optional 
+        When set to True, a minor grid is added to the plot along x axis. 
+    grid_minor_y : bool, optional 
+        When set to True, a minor grid is added to the plot along y axis. 
     '''
-    ax.grid(color='k', linestyle='-', linewidth=0.2)
-    ax.xaxis.grid(grid_x)
-    ax.yaxis.grid(grid_y)
+    # Minor ticks 
+    if grid_minor_x: 
+        ax.xaxis.grid(grid_minor_x,
+                      which='minor',
+                      color='k',
+                      linestyle='-',
+                      linewidth=0.05)
+    if grid_minor_y:
+        ax.yaxis.grid(grid_minor_y,
+                      which='minor',
+                      color='k',
+                      linestyle='-',
+                      linewidth=0.05)
+    # Major ticks
+    if grid_x: 
+        ax.xaxis.grid(grid_x,
+                      which='major',
+                      color='k',
+                      linestyle='-',
+                      linewidth=0.2)
+    if grid_y: 
+        ax.yaxis.grid(grid_y,
+                      which='major',
+                      color='k',
+                      linestyle='-',
+                      linewidth=0.2)
 
-def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, inc:float, index_axis:str='x', offset:float=0.0) -> None: 
+
+def set_ticks(ax:plt.axes,
+              df:pd.DataFrame,
+              min_value:float,
+              max_value:float,
+              inc:float,
+              index_axis:str='x',
+              offset:float=0.0,
+              minor_x:bool=False,
+              minor_y:bool=False,
+              num_minor_x:int=None, 
+              num_minor_y:int=None) -> None: 
     '''
     Sets x and y axis tick locations and tick labels.
     
@@ -1468,6 +1544,14 @@ def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, in
         Offset in the placement of ticks. 
         Used for grouped bar charts to center labels. 
         Defaults to 0.0. 
+    minor_x : bool, optional 
+        When set to True, a minor grid is added to the plot along x axis. 
+    minor_y : bool, optional 
+        When set to True, a minor grid is added to the plot along y axis. 
+    num_minor_x: int, optional
+        The number of minor ticks between major ticks along the x axis. 
+    num_minor_y: int, optional
+        The number of minor ticks between major ticks along the y axis. 
     '''
     NUM_SLICES = int(len(df)/8) # makes it so that there is 8 date labels along x axis
     
@@ -1481,16 +1565,31 @@ def set_ticks(ax:plt.axes, df:pd.DataFrame, min_value:float, max_value:float, in
     else: 
         locs = [x+offset for x in np.arange(len(df.index))]
         label_rotation = 0
-        index_labels = df.index 
+        index_labels = df.index
+        
+    ####################### Minor ticks #########################
+    if minor_x:
+        if num_minor_x!=None:
+            ax.xaxis.set_minor_locator(mpl.ticker.AutoMinorLocator(num_minor_x))
+        else: 
+            ax.xaxis.set_minor_locator(mpl.ticker.AutoMinorLocator())
+            
+    if minor_y: 
+        if num_minor_y!=None:
+            ax.yaxis.set_minor_locator(mpl.ticker.AutoMinorLocator(num_minor_y))
+        else: 
+            ax.yaxis.set_minor_locator(mpl.ticker.AutoMinorLocator())
 
+    ####################### Major ticks ######################### 
     # Set the locations for the ticks of the two axes 
     getattr(ax, 'yaxis' if index_axis == 'y' else 'xaxis').set_major_locator(mpl.ticker.FixedLocator(locs))
+    getattr(ax, 'xaxis' if index_axis == 'y' else 'yaxis').set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
+
+    # Set the formatting of the labels
     getattr(ax, 'set_xticks' if index_axis == 'y' else 'set_yticks')(range(min_value, max_value + inc, inc), 
                                                                     labels=range(min_value, max_value + inc, inc), 
                                                                     fontsize = 10, 
                                                                     fontname = font.normal)
-    # Set the formatting of the labels
-    getattr(ax, 'xaxis' if index_axis == 'y' else 'yaxis').set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
     getattr(ax, 'set_yticklabels' if index_axis == 'y' else 'set_xticklabels')(labels=index_labels, 
                                                                                rotation=label_rotation,
                                                                                fontsize=10)
