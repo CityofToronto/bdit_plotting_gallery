@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:01.297** total execution time for 3 files **from auto_examples/line**:
+**00:04.365** total execution time for 3 files **from auto_examples/line**:
 
 .. container::
 
@@ -33,7 +33,7 @@ Computation times
      - Time
      - Mem (MB)
    * - :ref:`sphx_glr_auto_examples_line_plot_multiline.py` (``plot_multiline.py``)
-     - 00:01.297
+     - 00:04.365
      - 0.0
    * - :ref:`sphx_glr_auto_examples_line_plot_line_rick.py` (``plot_line_rick.py``)
      - 00:00.000

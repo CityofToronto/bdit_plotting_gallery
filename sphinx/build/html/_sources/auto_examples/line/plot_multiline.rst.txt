@@ -436,7 +436,7 @@ Example: plot data with new multiline function
 
 This section plots the `df_multi` dataframe using the rewrite of the multiline function.
 
-.. GENERATED FROM PYTHON SOURCE LINES 357-364
+.. GENERATED FROM PYTHON SOURCE LINES 357-365
 
 .. code-block:: Python
 
@@ -450,6 +450,7 @@ This section plots the `df_multi` dataframe using the rewrite of the multiline f
 
 
 
+
 .. image-sg:: /auto_examples/line/images/sphx_glr_plot_multiline_002.png
    :alt: plot multiline
    :srcset: /auto_examples/line/images/sphx_glr_plot_multiline_002.png
@@ -459,14 +460,79 @@ This section plots the `df_multi` dataframe using the rewrite of the multiline f
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 365-369
+.. GENERATED FROM PYTHON SOURCE LINES 366-370
+
+Example: new multiline function with shaded areas 
+-------------------------------------------------
+
+This section adds two example shaded areas.
+
+.. GENERATED FROM PYTHON SOURCE LINES 370-379
+
+.. code-block:: Python
+
+    fig, ax = rick.charts.multi_linechart_test(df_multi_dt, 
+                                               ylab='y values', 
+                                               xlab='x values', 
+                                               legend=['Vol 1', 'Vol 2', 'Vol 3'], 
+                                               shaded_areas={('Area 1',None): (datetime.date(2020,10,29),datetime.date(2020,11,10)),
+                                                             ('Area 2',None): (datetime.date(2020,11,14),datetime.date(2020,11,21))})
+    fig.tight_layout()
+    plt.show()
+
+
+
+
+.. image-sg:: /auto_examples/line/images/sphx_glr_plot_multiline_003.png
+   :alt: plot multiline
+   :srcset: /auto_examples/line/images/sphx_glr_plot_multiline_003.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 380-384
+
+Example: new multiline function with minor ticks 
+------------------------------------------------
+
+This section shows the addition of custom minor ticks.
+
+.. GENERATED FROM PYTHON SOURCE LINES 384-394
+
+.. code-block:: Python
+
+    fig, ax = rick.charts.multi_linechart_test(df_multi_dt,
+                                               ylab='y values',
+                                               xlab='x values',
+                                               minor_x = True,
+                                               minor_y = True,
+                                               num_minor_x=10)
+
+    fig.tight_layout()
+    plt.show()
+
+
+
+
+.. image-sg:: /auto_examples/line/images/sphx_glr_plot_multiline_004.png
+   :alt: plot multiline
+   :srcset: /auto_examples/line/images/sphx_glr_plot_multiline_004.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 395-399
 
 Example: one shaded area with legend
 ------------------------------------
 
 This Section plots dataframe with legend and one shaded area.
 
-.. GENERATED FROM PYTHON SOURCE LINES 369-453
+.. GENERATED FROM PYTHON SOURCE LINES 399-483
 
 .. code-block:: Python
 
@@ -567,7 +633,7 @@ This Section plots dataframe with legend and one shaded area.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 454-459
+.. GENERATED FROM PYTHON SOURCE LINES 484-489
 
 Example: two shaded area blocks  
 ------------------------------------
@@ -575,7 +641,7 @@ Example: two shaded area blocks
 This Section plots dataframe with legend, one shaded 
 block, and shaded blocks for weekends.
 
-.. GENERATED FROM PYTHON SOURCE LINES 459-557
+.. GENERATED FROM PYTHON SOURCE LINES 489-587
 
 .. code-block:: Python
 
@@ -693,7 +759,7 @@ block, and shaded blocks for weekends.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 1.297 seconds)
+   **Total running time of the script:** (0 minutes 4.365 seconds)
 
 
 .. _sphx_glr_download_auto_examples_line_plot_multiline.py:

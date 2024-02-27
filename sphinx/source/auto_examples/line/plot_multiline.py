@@ -361,6 +361,36 @@ fig, ax = rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dat
 fig.tight_layout()
 plt.show()
 
+
+################################
+#Example: new multiline function with shaded areas 
+#-------------------------------------------------
+#
+#This section adds two example shaded areas.
+fig, ax = rick.charts.multi_linechart_test(df_multi_dt, 
+                                           ylab='y values', 
+                                           xlab='x values', 
+                                           legend=['Vol 1', 'Vol 2', 'Vol 3'], 
+                                           shaded_areas={('Area 1',None): (datetime.date(2020,10,29),datetime.date(2020,11,10)),
+                                                         ('Area 2',None): (datetime.date(2020,11,14),datetime.date(2020,11,21))})
+fig.tight_layout()
+plt.show()
+
+################################
+#Example: new multiline function with minor ticks 
+#------------------------------------------------
+#
+#This section shows the addition of custom minor ticks.
+fig, ax = rick.charts.multi_linechart_test(df_multi_dt,
+                                           ylab='y values',
+                                           xlab='x values',
+                                           minor_x = True,
+                                           minor_y = True,
+                                           num_minor_x=10)
+
+fig.tight_layout()
+plt.show()
+
 #####################################
 #Example: one shaded area with legend
 #------------------------------------
