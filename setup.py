@@ -2,9 +2,9 @@ from setuptools import setup, find_packages
 
 setup(
     name='rick',
-    version='0.2',
+    version='0.8',
     description='Standardized matplotlib charts and graphs',
-    packages=find_packages(),
+    packages=['rick'],
     install_requires=[
         'matplotlib',
         'psycopg2',
