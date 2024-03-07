@@ -9,294 +9,9 @@ more shaded regions with labels.
 """
 import rick
 import matplotlib.pyplot as plt
-import matplotlib as mpl
 import pandas as pd
 import numpy as np
 import datetime
-import matplotlib.ticker as ticker
-import matplotlib.font_manager as font_manager
-import matplotlib.dates as mdates
-from matplotlib.lines import Line2D # for legend
-
-from pandas.plotting import register_matplotlib_converters
-register_matplotlib_converters()
-
-################################
-#Source Code
-#-----------
-#
-#Source code for multi-line function.
-
-def multi_linechart(df_line, sett):
-    '''Creates a line chart of one or more lines.
-
-    Number of lines to plot determined from columns in input dataframe.
-
- 
-    ''' 
-    df=df_line.copy()
-    
-    # ----------------------------------------------
-    # Setup the figure
-    fig, ax =plt.subplots(1)
-    fig.set_size_inches(18, 5)
-    ax = plt.gca()
-
-    # ----------------------------------------------
-    # Default styling params if not defined in sett
-    if 'body' in sett:
-        dflt={
-            'font-size':(12 if 'font-size' not in sett['body']
-                         else sett['body']['font-size']),
-            'font-family':('sans-serif' if 'font-family' not in sett['body']
-                         else sett['body']['font-family']),
-            'fontfamily-list':(['Libre Franklin', 'DejaVu Sans'] if 'fontfamily-list' 
-                          not in sett['body']
-                          else sett['body']['fontfamily-list']),
-            'stroke':('#000000' if 'stroke' not in sett['body']
-                         else sett['body']['stroke']),
-            'stroke-width':(2 if 'stroke-width' not in sett['body']
-                         else sett['body']['stroke-width']),
-            'border':('solid' if 'border' not in sett['body']
-                         else sett['body']['border'])
-        }
-    else:
-        dflt={
-            'font-size':12, 'font-family':'sans-serif',
-            'fontfamily-list':['Libre Franklin', 'DejaVu Sans'],
-            'stroke':'#000000', 'stroke-width':2, 'border':'solid'
-        }
-
-    mpl.rcParams['font.family'] = dflt['font-family']
-    if dflt['font-family']=='sans-serif':
-        mpl.rcParams['font.sans-serif']=dflt['fontfamily-list']
-    
-#     mpl.rcParams.update({
-#         'font.size': dflt['font-size'],
-#         'font.family': dflt['font-family']
-#     })
-    # ----------------------------------------------------------------
-    # WEIRD HACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    # For some reason, mpl.rcParams needs to be run TWICE before it 
-    # actually gets set. So just before calling the function, 
-    # make sure you set it again...
-    # ----------------------------------------------------------------
-
-    # ----------------------------------------------
-    # Define line-number-dependent params
-    num_lines=df.shape[1] - 1
-    
-    col_names=['xcol']
-    ymax_array=[]
-    for n in range(num_lines):
-        col_names.append('ycol_' + str(n))
-        ymax_array.append(df.iloc[:,n+1].max())
-        
-    df.columns=col_names
-
-    # ----------------------------------------------
-    # title
-    if 'title' in sett:
-        if 'title_params' in sett:
-            title_size=(
-                dflt['font-size'] if 'font-size' not in 
-                sett['title_params']
-                else sett['title_params']['font-size'])
-            loc=('center' if 'loc' not in sett['title_params']
-                 else sett['title_params']['loc'])
-        ax.set_title(sett['title'], fontsize=title_size,  loc=loc)
-
-    # ----------------------------------------------
-    # grid
-    if 'major_grid_on' in sett and sett['major_grid_on']==True:      
-        if 'major_grid' in sett:
-            c=('gray' if 'stroke' not in sett['major_grid']
-               else sett['major_grid']['stroke'])
-            b=('-' if 'border' not in sett['major_grid']
-               else sett['major_grid']['border'])
-        else: 
-            c='gray'
-            b='-'
-        plt.grid(b=True, which='major', color=c, linestyle=b)
-    if 'minor_grid_on' in sett and sett['minor_grid_on']==True:      
-        if 'minor_grid' in sett:
-            c=('gray' if 'stroke' not in sett['minor_grid']
-               else sett['minor_grid']['stroke'])
-            b=('-' if 'border' not in sett['minor_grid']
-               else sett['minor_grid']['border'])
-        else: 
-            c='gray'
-            b='-'
-        plt.grid(b=True, which='minor', color=c, linestyle=b)
-
-    # ----------------------------------------------
-    # axes (both)
-    mpl.rcParams['axes.linewidth'] = 0.3
-    ticklength=2 if 'ticklength' not in sett else sett['ticklength']
-    tickwidth=1 if 'tickwidth' not in sett else sett['tickwidth']
-    ax.tick_params(width=tickwidth, length=ticklength)
-
-    # y-axis
-    if 'yaxis' in sett:
-        ymin=(0 if 'ymin' not in sett['yaxis']
-              else sett['yaxis']['ymin'])
-        ymax=(np.max(ymax_array)*(1 + 0.1) if 'ymax'
-              not in sett['yaxis']
-              else sett['yaxis']['ymax'])
-        
-        # y-axis label
-        label=('' if 'label' not in sett['yaxis']
-               else sett['yaxis']['label'])
-        labelsize=(dflt['font-size'] if 'labelsize'
-                   not in sett['yaxis']
-                   else sett['yaxis']['labelsize'])
-        plt.ylabel(label, fontsize=labelsize)
-        
-        # Format y-axis tick labels
-        ticklabelsize=(dflt['font-size'] if 'ticklabelsize'
-                  not in sett['yaxis']
-                  else sett['yaxis']['ticklabelsize'])
-        ax.tick_params(axis='y', labelsize=ticklabelsize)
-        
-        # comma format
-        precision=('.0f' if 'precision'
-                   not in sett['yaxis']
-                   else sett['yaxis']['precision'])
-        ax.yaxis.set_major_formatter(
-            mpl.ticker.StrMethodFormatter('{x:,' + precision + '}')
-        )
-    else:
-        ymin=0
-        ymax=np.max(ymax_array)*(1 + 0.1)
-
-    delta = (ymax - ymin)/4
-    i = 0
-    while True:
-        delta /= 10
-        i += 1
-        if delta < 10:
-            break
-    if 'yinc' in sett:
-        yinc=sett['yinc']
-    else:
-        yinc = int(round(delta+1)*pow(10,i))
-                   
-    plt.ylim(top=ymax, bottom=ymin)
-
-    # ----------------------------------------------
-    # x-axis
-    if 'xaxis' in sett:
-        # x-axis label
-        label=('' if 'label' not in sett['xaxis']
-               else sett['xaxis']['label'])
-        labelsize=(dflt['font-size'] if 'labelsize'
-                   not in sett['xaxis']
-                   else sett['xaxis']['labelsize'])
-        plt.xlabel(label, fontsize=labelsize)
-        
-        # x-axis tick labels
-        if 'major_loc' in sett['xaxis']: # x-values are dates  
-            date_form_mjr = sett['xaxis']['major_loc']['date_form']
-            ax.xaxis.set_major_formatter(date_form_mjr)
-        if 'minor_loc' in sett['xaxis']:
-            date_form_mnr = sett['xaxis']['minor_loc']['date_form']
-            ax.xaxis.set_minor_locator(date_form_mnr)
-        
-        # x-axis tick label size
-        ticklabelsize=(dflt['font-size'] if 'ticklabelsize'
-                  not in sett['xaxis']
-                  else sett['xaxis']['ticklabelsize'])
-        ax.tick_params(axis='x', labelsize=ticklabelsize, 
-                       labelbottom=True)
-    else:
-        # Default x-axis tick lines
-        ax.tick_params(axis='x', labelsize=dflt['font-size'],
-                       labelbottom=True)
-    
-    # ----------------------------------------------
-    # Plot data and legend
-    if 'legend' in sett:
-        legend_loc=('upper left' if 'loc' not in sett['legend']
-                    else sett['legend']['loc'])
-        leg_array=[]
-        custom_lines=[]
-        
-    for n in range(num_lines):
-        if 'lines' in sett:
-            line_colour=(dflt['stroke'] if 'stroke' not in 
-                         sett['lines'][n] 
-                         else sett['lines'][n]['stroke'])
-            line_width=(dflt['stroke-width'] if 'stroke-width' 
-                        not in sett['lines'][n] 
-                        else sett['lines'][n]['stroke-width'])
-            border_style=(dflt['border'] if 'border-style' not in 
-                          sett['lines'][n] 
-                          else sett['lines'][n]['border-style'])
-        else:
-            line_colour=dflt['stroke']
-            line_width=dflt['stroke-width']
-            border_style=dflt['border']
-            
-        ax.plot(df['xcol'], df['ycol_' + str(n)], linewidth=line_width, 
-                color = line_colour, linestyle=border_style)
-        
-        # Legend
-        if 'legend' in sett:
-            leg_array.append(sett['lines'][n]['label'])
-            custom_lines.append(Line2D([0], [0], 
-                                       color=line_colour, 
-                                       lw=line_width,
-                                       linestyle=border_style)
-                               )
-    
-    if 'legend' in sett:
-        ax.legend(custom_lines, leg_array, loc=legend_loc, 
-                  prop={"size": dflt['font-size']},
-                  ncol=len(df.columns))
-
-    # ----------------------------------------------
-    # Plot shaded areas
-    if 'shaded' in sett:
-        num_a=len(sett['shaded'].keys())
-        
-        for area in range(num_a):
-            idx=sett['shaded'][area]['lims']
-            facecolour=sett['shaded'][area]['fill']
-            zorder=(0 if 'zorder' not in sett['shaded'][area] 
-                    else sett['shaded'][area]['zorder'])
-            alpha=(1 if 'alpha' not in sett['shaded'][area]
-                   else sett['shaded'][area]['alpha'])
-            
-            # Shaded area left and right bds
-            for i in range(len(idx)):
-                bd1=idx[i][0]
-                bd2=idx[i][1]
-                
-                ax.axvspan(bd1, bd2, facecolor=facecolour, 
-                           edgecolor='none', alpha=alpha,
-                           zorder=zorder)
-            
-            # Shaded area label
-            if 'label' in sett['shaded'][area]:
-                rot=(0 if 'rotation' not in 
-                     sett['shaded'][area]['label'] 
-                     else sett['shaded'][area]['label']['rotation'])
-                label_colour=(dflt['stroke'] if 'colour' not in 
-                              sett['shaded'][area]['label'] 
-                              else sett['shaded'][area]['label']['colour'])
-                label_size=(dflt['font-size'] if 'font-size' not in 
-                            sett['shaded'][area]['label'] 
-                            else sett['shaded'][area]['label']['font-size'])
-                plt.text(                    
-                    sett['shaded'][area]['label']['x'], # x posn of label
-                    sett['shaded'][area]['label']['y'], # y posn of label
-                    sett['shaded'][area]['label']['text'], 
-                    rotation=rot, 
-                    color=label_colour, 
-                    fontsize=label_size
-                )
-
-    return fig, ax
 
 ################################
 #Data Collection
@@ -335,252 +50,49 @@ y3=[21713.0, 23644.0, 22949.0, 24473.0, 21201.0, 16189.0, 21592.0, 21946.0, 2320
 # Create dataframe to be plotted
 data = {'dt':dt, 'y1':y1, 'y2':y2, 'y3':y3}
 df_multi = pd.DataFrame(data) 
-
-
-################################
-#Example: plot data with no options
-#----------------------------------
-#
-#This Section plots dataframe using default settings.
-
-sett_empty={
-    
-}
-
-multi_linechart(df_multi, sett_empty)
+df_multi_dt = df_multi.set_index('dt')
+df_multi_dt.index = pd.to_datetime(df_multi_dt.index)
 
 ################################
-#Example: plot data with new multiline function
+#Example: plot data with multiline function
 #----------------------------------------------
 #
 #This section plots the `df_multi` dataframe using the rewrite of the multiline function.
-
-df_multi_dt = df_multi.set_index('dt')
-df_multi_dt.index = pd.to_datetime(df_multi_dt.index)
-fig, ax = rick.charts.multi_linechart_test(df_multi_dt, ylab='Values', xlab='Dates', legend=['Vol 1', 'Vol 2', 'Vol 3'])
+fig, ax = rick.charts.multi_linechart(
+    data=df_multi_dt,
+    ylab='Values',
+    xlab='Dates',
+    legend=['Vol 1', 'Vol 2', 'Vol 3'])
 fig.tight_layout()
 plt.show()
 
 
 ################################
-#Example: new multiline function with shaded areas 
+#Example: multiline function with shaded areas 
 #-------------------------------------------------
 #
-#This section adds two example shaded areas.
-fig, ax = rick.charts.multi_linechart_test(df_multi_dt, 
+#This section adds two example shaded areas. For the first area, the colour is left as None, so it defaults to grey. For the second area it is set to purple.
+fig, ax = rick.charts.multi_linechart(df_multi_dt, 
                                            ylab='y values', 
                                            xlab='x values', 
                                            legend=['Vol 1', 'Vol 2', 'Vol 3'], 
                                            shaded_areas={('Area 1',None): (datetime.date(2020,10,29),datetime.date(2020,11,10)),
-                                                         ('Area 2',None): (datetime.date(2020,11,14),datetime.date(2020,11,21))})
+                                                         ('Area 2','#660159'): (datetime.date(2020,11,14),datetime.date(2020,11,21))})
 fig.tight_layout()
 plt.show()
 
 ################################
-#Example: new multiline function with minor ticks 
+#Example: multiline function with custom minor ticks 
 #------------------------------------------------
 #
-#This section shows the addition of custom minor ticks.
-fig, ax = rick.charts.multi_linechart_test(df_multi_dt,
-                                           ylab='y values',
-                                           xlab='x values',
-                                           minor_x = True,
-                                           minor_y = True,
-                                           num_minor_x=10)
+#The function `multi_linechart` has the option of adding custom minor ticks. To do so, set the corresponding bool flag (`minor_x` or `minor_y`) to True, and optionally set the frequency of minor ticks with `num_minor_x` or `num_minor_y`. 
+fig, ax = rick.charts.multi_linechart(
+    df_multi_dt,
+    ylab='y values',
+    xlab='x values',
+    minor_x = True,
+    minor_y = True,
+    num_minor_x=10)
 
 fig.tight_layout()
 plt.show()
-
-#####################################
-#Example: one shaded area with legend
-#------------------------------------
-#
-#This Section plots dataframe with legend and one shaded area.
-
-sett = {
-    'body': {
-        'font-size': 16,
-        'font-family': 'sans-serif'
-    },
-    
-    # Axes labels and limits
-    'yaxis': {
-        'label': 'Daily Volume',
-        'labelsize': 18
-    },
-    'xaxis': {
-        'major_loc': {
-            'loc': mdates.DayLocator(),
-            'date_form': mdates.DateFormatter('%Y-%m-%d')
-        },
-        'minor_loc': {
-            'date_form': mdates.DayLocator(interval=1),  # every other day
-        }
-    },
-    
-    # grid
-    'major_grid_on': True,
-    'minor_grid_on': True,
-    'minor_grid': {
-        'stroke': '#D3D3D3',
-        'border': '--'
-    },
-    
-    # legend
-    'legend': {
-        'loc': 'lower left'
-    },
-
-    'lines': {
-        0: {
-            'stroke': '#1A75B5',
-            'border-style': 'solid',
-            'label': 'Vol 1'
-            },
-        1: {
-            'stroke': '#FF7F00',
-            'border-style': 'solid',
-            'label': 'Vol 2'
-            },
-        2: {
-            'stroke': '#28A026',
-            'border-style': 'dashed',
-            'label': 'Vol 3'
-            }
-    },
-    
-    'shaded': {
-        0: {
-            'lims':[[pd.to_datetime('2020-11-23'), pd.to_datetime('2020-12-22')]],
-            'fill': 'magenta',
-            'zorder':-100,
-            'alpha': 0.3,
-            'label': {
-                'x': pd.to_datetime('2020-11-23') + datetime.timedelta(days=.5),
-                'y': 51000,
-                'text': 'Lockdown 2',
-                'font-size': 14, 
-                'colour': 'k',
-                'rotation': 0
-            }
-        }
-    }
-}
-
-# ----------------------------------------------------------------
-# WEIRD HACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-# For some reason, you need to run mpl.rcParams TWICE before it 
-# actually gets set. The mpl.rcParams is already specified in 
-# multi_linechart() but here we run it for the second time otherwise
-# the font.family will not be updated
-if 'body' in sett:
-    if 'font-family' in sett['body']:
-        mpl.rcParams['font.family'] = sett['body']['font-family']
-        print(mpl.rcParams['font.family'])
-
-#multi_linechart(df_multi, sett)
-
-#####################################
-#Example: two shaded area blocks  
-#------------------------------------
-#
-#This Section plots dataframe with legend, one shaded 
-#block, and shaded blocks for weekends.
-
-def find_weekend_indices(df):
-    '''Outputs a 2D list of weekend date pairs given date column
-    in df. Assumes first column of df is the date column. 
-    Datetime pairs output in `datetime.date()` format.
-    '''
-    xcol=list(df)[0]
-    datetime_array=df[xcol]
-    
-    s = []
-    for i in range(len(datetime_array) - 1):
-        if datetime_array[i].weekday() >= 5:
-            s.append([df[xcol][i], df[xcol][i + 1]])
-
-    return s
-
-sett = {
-    'body': {
-        'font-size': 16,
-        'font-family': 'sans-serif'
-#         'font-family': 'monospace'
-#         'fontfamily-list': ['Libre Franklin', 'DejaVu Sans'],
-    },
-    
-    # Axes labels and limits
-    'yaxis': {
-        'label': 'Daily Volume'
-    },
-   'xaxis': {
-        'major_loc': {
-            'loc': mdates.DayLocator(),
-            'date_form': mdates.DateFormatter('%Y-%m-%d')
-        },
-        'minor_loc': {
-            'date_form': mdates.DayLocator(interval=1),  # every other day
-        }
-   },
-    
-    # grid
-    'major_grid_on': True,
-    'minor_grid_on': True,
-    'minor_grid': {
-        'stroke': '#D3D3D3',
-        'border': '--'
-    },
-    
-    # legend
-    'legend': {
-        'loc': 'lower left'
-    },
-
-    'lines': {
-        0: {
-            'stroke': '#1A75B5',
-            'border-style': 'solid',
-            'label': 'Vol 1'
-            },
-        1: {
-            'stroke': '#FF7F00',
-            'border-style': 'solid',
-            'label': 'Vol 2'
-            },
-        2: {
-            'stroke': '#28A026',
-            'border-style': 'dashed',
-            'label': 'Vol 3'
-            }
-    },
-    
-    'shaded': {
-        0: {
-            'lims':[[pd.to_datetime('2020-11-23'), pd.to_datetime('2020-12-22')]],
-            'fill': 'magenta',
-            'zorder':-100,
-            'alpha': 0.3,
-            'label': {
-                'x': pd.to_datetime('2020-11-23') + datetime.timedelta(days=.5),
-                'y': 51000,
-                'text': 'Lockdown 2',
-                'font-size': 12, 
-                'colour': 'k',
-                'rotation': 0
-            }
-        },
-        1:{
-            'lims':find_weekend_indices(df_multi),
-            'fill': '#ccffff',
-            'alpha': 0.9 
-        }
-    }
-}
-
-if 'body' in sett:
-    if 'font-family' in sett['body']:
-        mpl.rcParams['font.family'] = sett['body']['font-family']
-        print(mpl.rcParams['font.family'])
-
-#multi_linechart(df_multi, sett)
