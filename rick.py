@@ -302,7 +302,7 @@ class charts:
         ax.set_xlabel(xlab)
         ax.set_ylabel(ylab)
         ax.set_xlim(xmin, xmax)
-        ax.legend(loc='upper right')
+        ax.get_legend().remove()
 
         return fig, ax
     
