@@ -317,26 +317,14 @@ class charts:
             Label for the y axis.
         xlab : str
             Label for the x axis.
-        xticker_labels : array, optional, with ticker identifications
-            Tickers for the x axis.
         ymax : int, optional, default is the max y value
             The max value of the y axis
         ymin : int, optional, default is 0
             The minimum value of the y axis
         baseline : array like or scalar, optional, default is None
             Data for another line representing the baseline.
-        addedline1 : array like or scalar, optional, default is None
-            Data for another line representing the addedline1.
-        addedline2 : array like or scalar, optional, default is None
-            Data for another line representing the addedline2.
         yinc : int, optional
             The increment of ticks on the y axis.
-        list_legends: list, optional (when baseline is ON)
-            List of legend names to show on plot
-            
-       min_text : array of min-value text information, default is None
-       max_text : array of max-value text information, default is None
-           
         
         Returns 
         --------
@@ -353,14 +341,7 @@ class charts:
         ymax = kwargs.get('ymax', int(data.max()))
         ymin = kwargs.get('ymin', 0)
         baseline = kwargs.get('baseline', None)
-        addedline1 = kwargs.get('addedline1', None)
-        addedline2 = kwargs.get('addedline2', None)
-        list_legends = kwargs.get('list_legends', None)
-        min_text     = kwargs.get('min_text', None)
-        max_text     = kwargs.get('max_text', None)
-        xticker_labels = kwargs.get('xticker_labels', None)
-        xticker_slots= kwargs.get('xticker_slots', None)
-
+        
         delta = (ymax - ymin)/4
         i = 0
         while True:
@@ -370,16 +351,10 @@ class charts:
                 break
         yinc = kwargs.get('yinc', int(round(delta+1)*pow(10,i)))
         
-        fig, ax = plt.subplots(dpi=450.0)
-        fig.set_size_inches(6.1, 4.2)        
-        line, = ax.plot(data, linewidth=3, color = colour.purple)
+        fig, ax =plt.subplots()
+        ax.plot(data ,linewidth=3, color = colour.purple)
         if baseline is not None:
-            line_baseline, = ax.plot(baseline ,linewidth=3, color = colour.grey)
-
-        if addedline1 is not None:
-            line_addedline1, = ax.plot(addedline1 ,linewidth=3, color = colour.blue)
-        if addedline2 is not None:
-            line_addedline2, = ax.plot(addedline2 ,linewidth=3, color = colour.orange)
+            ax.plot(baseline ,linewidth=3, color = colour.grey)
 
         plt.grid()
         ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
@@ -393,45 +368,12 @@ class charts:
                    horizontalalignment='right', y=1.0, 
                    labelpad=10, fontname = font.normal)
         fig.set_size_inches(6.1, 4.1)
-        plt.xticks(xticker_slots, fontsize=9, fontname = font.normal)
+        plt.xticks(fontsize=9, fontname = font.normal)
         plt.yticks(range(ymin, ymax + yinc, yinc), fontsize =9,
                    fontname = font.normal)
 
-
-        if (xticker_labels is not None):
-            list_major_labels = xticker_labels
-            list_major_ticks  = xticker_slots
-            ax.xaxis.set_major_locator(ticker.FixedLocator(list_major_ticks))
-            ax.xaxis.set_major_formatter(ticker.FixedFormatter(list_major_labels))
-            #ax.tick_params(axis='x', which='major', colors = colour.light_grey, labelsize=7, rotation=0)
-        
-        # Set text - min & max
         props = dict(boxstyle='round, pad=0.4',edgecolor=colour.purple,
                      linewidth = 2, facecolor = 'w', alpha=1)
-
-        if (min_text is not None):
-            plt.text(min_text[0], min_text[1], int(data.min()), size=min_text[2], rotation=min_text[3], 
-                     ha="center", va="center", color='#660159', bbox=props)        
-        if (max_text is not None):
-            plt.text(max_text[0], max_text[1], int(data.max()), size=max_text[2], rotation=max_text[3], 
-                     ha="center", va="center", color='#660159', bbox=props)
-
-
-
-
-        # Set lengends (if multiple lines)
-        if (baseline is not None):
-            ax.legend([line, line_baseline], list_legends, loc = 'best',
-                      fontsize=9, framealpha=1.0, facecolor = 'w', 
-                      edgecolor='black')
-        if (baseline is not None and addedline1 is not None):
-            ax.legend([line, line_baseline, line_addedline1], list_legends, loc = 'best',
-                      fontsize=9, framealpha=1.0, facecolor = 'w', 
-                      edgecolor='black')
-        if (baseline is not None and addedline1 is not None and addedline2 is not None):
-            ax.legend([line, line_baseline, line_addedline1, line_addedline2], list_legends, loc = 'best',
-                      fontsize=9, framealpha=1.0, facecolor = 'w', 
-                      edgecolor='black')
 
         ax.set_ylim([ymin, ymax])
         fig.patch.set_facecolor('w')
