@@ -295,7 +295,7 @@ class charts:
         if (nbin is None):
             nbin = 10
 
-        ##plt.style.use('seaborn-whitegrid')
+        plt.style.use('seaborn-whitegrid')
         fig, ax = plt.subplots(1,1, dpi=450.0)
         fig.set_size_inches(6.1, 4.2)
         ax.hist(data, bins=nbin, alpha=1.0, color=colour.purple)
