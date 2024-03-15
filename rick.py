@@ -952,8 +952,8 @@ class charts:
             Label in the legend for the baseline
         lab2 : str
             Label in the legend fot the next data series
-        xmax : int, optional, default is the max s value
-            The max value of the y axis
+        xmax : int, optional, default is the max x value
+            The max value of the x axis
         xmin : int, optional, default is 0
             The minimum value of the x axis
         precision : int, optional, default is -1
