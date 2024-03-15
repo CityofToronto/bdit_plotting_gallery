@@ -269,19 +269,18 @@ class charts:
             Label for the y axis.
         xlab : str
             Label for the x axis.
-        ymax : int, optional, default is the max y value
-            The max value of the y axis
-        ymin : int, optional, default is 0
-            The minimum value of the y axis
-        
+        xmax : int, optional, default is the max x value
+            The max value of the x axis
+        xmin : int, optional, default is the min x value
+            The minimum value of the x axis
+        nbin : int, optional, default is none
+            The number of bins for the two dimensions
         Returns 
         --------
         fig
             Matplotlib fig object
         ax 
             Matplotlib ax object
-        props
-            Dictionary of the text annotation properties
 
         """
 
