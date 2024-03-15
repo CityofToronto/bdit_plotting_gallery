@@ -20,6 +20,7 @@ import seaborn as sns
 from shapely.geometry import Point
 import numpy as np
 import pandas as pd
+import importlib
 
 class font:
     """
@@ -405,12 +406,6 @@ class charts:
             Dictionary of the text annotation properties
             
         """
-        import matplotlib.pyplot as plt
-        import matplotlib as mpl
-        import importlib
-        import matplotlib.ticker as ticker
-        import matplotlib.font_manager as font_manager
-        import seaborn as sns
 
         func()
         ymax = kwargs.get('ymax', None)
