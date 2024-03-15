@@ -441,8 +441,6 @@ class charts:
         ax.plot(data, linewidth = 2.5, color = colour.purple)
 
         plt.grid()
-        # Commented to view weekday spans 
-        #plt.grid()
         ax.set_xlim(0, 168)
         ax.set_facecolor('xkcd:white')
 
