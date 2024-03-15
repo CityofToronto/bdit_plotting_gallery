@@ -959,7 +959,7 @@ class charts:
         precision : int, optional, default is -1
             Decimal places in the annotations
         percent : boolean, optional, default is False
-            Whether the annotations should be formatted as percentages
+            Whether to add an annotation showing the percentage difference between the two columns of data
             
         xinc : int, optional
             The increment of ticks on the x axis.
