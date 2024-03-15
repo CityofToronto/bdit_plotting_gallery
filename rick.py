@@ -623,7 +623,7 @@ class charts:
         
         xmin = kwargs.get('xmin', 0)
         xmax = kwargs.get('xmax', None)
-        precision = kwargs.get('precision', -1)
+        precision = kwargs.get('precision', 1)
         percent = kwargs.get('percent', False)
         
         xmax_flag = True
