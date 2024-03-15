@@ -601,8 +601,6 @@ class charts:
             The minimum value of the x axis
         precision : int, optional, default is -1
             Decimal places in the annotations
-        [DSIABLED] percent : boolean, optional, default is False
-            Whether the annotations should be formatted as percentages
             
         xinc : int, optional
             The increment of ticks on the x axis.
@@ -698,14 +696,6 @@ class charts:
         plt.xticks(range(xmin,upper+int(0.1*xinc), xinc), fontname = font.normal, fontsize =10)
         plt.yticks( fontname = font.normal, fontsize =10)
         
-        # if percent == True:
-        #     data_yoy = data
-        #     data_yoy['percent'] = (data['values2']-data['values1'])*100/data['values1']
-        #     j=0.15
-        #     for index, row in data_yoy.iterrows():
-        #         ax.annotate(('+' if row['percent'] > 0 else '')+str(format(int(round(row['percent'],0)), ','))+'%', 
-        #                     xy=(max(row[['values1', 'values2']]) + (0.12 if row['values2'] < 0.1*upper else 0.03)*upper, j), color = 'k', fontname = font.normal, fontsize=10)
-        #         j=j+1
         return fig, ax
     
     def stacked_chart_quad(data_in, xlab, lab1, lab2, lab3, lab4, **kwargs):
