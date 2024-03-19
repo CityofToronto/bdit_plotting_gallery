@@ -580,13 +580,13 @@ class charts:
 
         return fig, ax
 
-    def multi_stacked_bar_chart(data_in, xlab, lab1, lab2, lab3, **kwargs):
-        """Creates a stacked bar chart with 3 bar stacks
+    def multi_stacked_bar_chart(data, xlab, lab1, lab2, lab3, **kwargs):
+        """Creates a stacked bar chart
         
         Parameters
         -----------
-        data : dataframe
-            Data for the stacked bar chart. The dataframe must have 3 columns, the first representing the y ticks, the second representing the baseline, and the third representing the next series of data.
+        data : array like or scalar
+            Data for the stacked bar chart.
         xlab : str
             Label for the x axis.
         lab1 : str
@@ -599,7 +599,7 @@ class charts:
             The max value of the y axis
         xmin : int, optional, default is 0
             The minimum value of the x axis
-        precision : int, optional, default is -1
+        precision : int, optional, default is 1
             Decimal places in the annotations
             
         xinc : int, optional
@@ -615,7 +615,7 @@ class charts:
         """
         
         func()
-        data = data_in.copy(deep=True)
+        data = data.copy(deep=True)
         
         data.columns = ['name', 'values1', 'values2', 'values3']
         
@@ -689,10 +689,10 @@ class charts:
                 ax.annotate(str(format(round(i,precision), ',')), xy=((offset+offset-i)/2+horiz_nudge, index+0.3), ha = 'center', color = 'k', fontname = font.normal, fontsize=10)
             else:
                 ax.annotate(str(format(round(i,precision), ',')), xy=((offset+offset-i)/2+horiz_nudge, index-0.07), ha = 'center', color = 'w', fontname = font.normal, fontsize=10)
-
-        # ax.legend((p1[0], p2[0], p3[0]), (lab1, lab2, lab3), bbox_to_anchor=(1.05, 1.0), loc='upper left', frameon=False, prop=font.leg_font)
-        ax.legend((p1[0], p2[0], p3[0]), (lab1, lab2, lab3), bbox_to_anchor=(0.5, 1.15), loc='upper center', ncol=3, frameon=False, prop=font.leg_font)
-        plt.subplots_adjust(bottom=0.2) # Adjust layout to make room for the legend above the plot
+        
+        ax.legend((p1[0], p2[0], p3[0]), (lab1, lab2, lab3), bbox_to_anchor=(1.05, 1.0), loc='upper left', frameon=False, prop=font.leg_font)
+        # ax.legend((p1[0], p2[0], p3[0]), (lab1, lab2, lab3), bbox_to_anchor=(0.5, 1.15), loc='upper center', ncol=3, frameon=False, prop=font.leg_font)
+        # plt.subplots_adjust(bottom=0.2) # Adjust layout to make room for the legend above the plot
         plt.xticks(range(xmin,upper+int(0.1*xinc), xinc), fontname = font.normal, fontsize =10)
         plt.yticks( fontname = font.normal, fontsize =10)
         
