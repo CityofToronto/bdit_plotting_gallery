@@ -1,8 +1,8 @@
 """
-RICK Time-of-Week Line Chart
-============================
+RICK Histogram Chart
+=======================
 
-Example time-of-week line chart.
+Example of a histogram chart.
 """
 import os
 import os.path as osp
@@ -29,28 +29,20 @@ from shapely.geometry import Point
 import importlib
 import matplotlib.ticker as ticker
 import matplotlib.font_manager as font_manager
-
+import numpy as np
 
 ################################
-#Data Collection
-#----------------
+#histogram_chart
+#--------------------------
 #
-#This Section creates example data.
+#This Section uses the histogram_chart function with a customized dataframe.
 
-# x-axis
-dt= list(range(168))
+rng = np.random.default_rng()
+numbers = rng.normal(size=10_000)
 
-# y-axis
-# line 1
-y1= [np.cos(d/10)*50+np.random.randint(60, 200)+d/2 for d in dt]
-
-# Create dataframe to be plotted
-data = {'dt':dt, 'y1':y1}
-df_multi = pd.DataFrame(data) 
-
-df_multi_dt = df_multi.set_index('dt')
-
-fig, ax, props = rick.charts.tow_chart(df_multi_dt , ylab='Trips', ymax = 350)
+##plt.hist(numbers)
+fig, ax = rick.charts.histogram_chart(numbers, ylab = 'hist', xlab = '', xmin=-3, nbin=100)
 fig.tight_layout()
 plt.show()
-plt.savefig("sphinx/source/examples/line/YZtest_tow_line.png")
+plt.savefig("sphinx/source/examples/line/YZtest_histogram_chart.png")
+

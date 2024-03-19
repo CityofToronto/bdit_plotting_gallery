@@ -1,8 +1,8 @@
 """
-RICK Time-of-Week Line Chart
-============================
+RICK Grouped Bar Chart
+=======================
 
-Example time-of-week line chart.
+Example of a horizontal grouped bar chart.
 """
 import os
 import os.path as osp
@@ -32,25 +32,21 @@ import matplotlib.font_manager as font_manager
 
 
 ################################
-#Data Collection
-#----------------
+#stacked_chart
+#--------------------------
 #
-#This Section creates example data.
+#This Section uses the revised stacked_chart function with a customized dataframe.
 
-# x-axis
-dt= list(range(168))
+np.random.seed(42)
+data = {
+    'Location': ['Scarborough', 'Etobicoke York', 'North York', 'East York'],
+    '2016': [4640, 7210, 9490, 43090],
+    '2018': [13810, 20690, 24720, 93550]
+}
+df = pd.DataFrame(data)
+##df = df.set_index('Category')
 
-# y-axis
-# line 1
-y1= [np.cos(d/10)*50+np.random.randint(60, 200)+d/2 for d in dt]
-
-# Create dataframe to be plotted
-data = {'dt':dt, 'y1':y1}
-df_multi = pd.DataFrame(data) 
-
-df_multi_dt = df_multi.set_index('dt')
-
-fig, ax, props = rick.charts.tow_chart(df_multi_dt , ylab='Trips', ymax = 350)
+fig, ax = rick.charts.stacked_chart(df, xlab = 'Trips', lab1 = '2016', lab2 = '2018',  percent = True)
 fig.tight_layout()
 plt.show()
-plt.savefig("sphinx/source/examples/line/YZtest_tow_line.png")
+plt.savefig("sphinx/source/examples/grouped_bar/YZtest_stacked_chart.png")
