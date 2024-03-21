@@ -138,11 +138,11 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Duplicate build folder 
-sphinx/build/
+# Database connections 
+db.cfg
+dbsettings.cfg
+
 
 .vscode/
 email_notifications/client_secret.json
-temp.ipynb
-db.cfg
-dbsettings.cfg
+sphinx/build/doctrees/

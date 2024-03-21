@@ -25,11 +25,12 @@ district_cond = pd.DataFrame(data, columns=['area_name', 'count1', 'count2']).se
 #
 #This Section uses the rewritten horizontal grouped bar chart function.
 
-# Setting a custom plot_size to prevent cropping during sphinx autogeneration.
-plot_size = (6.1*0.9, len(district_cond)*1.5*0.9)
+# Setting a custom plot size to prevent cropping during sphinx autogeneration.
 fig, ax = rick.charts.horizontal_grouped_bar_chart(
     data=district_cond,
-    xlab = 'Trips',
+    xlab='Trips',
     legend=['2016', '2018'],
-    percent = True)
+    percent=True)
+fig.set_size_inches(7, 4.5)
+plt.tight_layout()
 plt.show()

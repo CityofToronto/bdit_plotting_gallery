@@ -30,8 +30,6 @@ df = df.set_index('Category')
 #
 #This Section uses the new vertical grouped bar chart function.
 
-# Setting a custom plot_size to prevent cropping during sphinx autogeneration.
-plot_size = (len(df)*1.5*0.9, 6.1*0.9)
 fig, ax = rick.charts.vertical_grouped_bar_chart(
     data=df,
     precision=1,
@@ -39,4 +37,5 @@ fig, ax = rick.charts.vertical_grouped_bar_chart(
     ylab='Category',
     percent=True,
     legend=['Group1', 'Group2'])
+plt.tight_layout()
 plt.show()
