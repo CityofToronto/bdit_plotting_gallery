@@ -10,7 +10,7 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_grouped_bar_plot_grouped_bar_rick.py>`
+        :ref:`Go to the end <sphx_glr_download_auto_examples_grouped_bar_plot_grouped_bar_rick.py>`
         to download the full example code
 
 .. rst-class:: sphx-glr-example-title
@@ -25,16 +25,12 @@ Example of a horizontal grouped bar chart.
 
 .. GENERATED FROM PYTHON SOURCE LINES 7-35
 
-.. code-block:: default
+.. code-block:: Python
 
 
-    from sqlalchemy import create_engine
     import matplotlib.pyplot as plt
     import matplotlib as mpl
     import pandas as pd 
-    import configparser
-    from psycopg2 import connect
-    import psycopg2.sql as pg
     import pandas.io.sql as pandasql
     import numpy as np 
     import datetime
@@ -44,17 +40,21 @@ Example of a horizontal grouped bar chart.
     import os
     import shapely
     from shapely.geometry import Point
-    os.environ["PROJ_LIB"]=r"C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share"
+    #os.environ["PROJ_LIB"]=r"C:\Users\rliu4\AppData\Local\Continuum\anaconda3\Library\share"
     import importlib
     import matplotlib.ticker as ticker
     import matplotlib.font_manager as font_manager
 
+    import sqlalchemy
+    from sqlalchemy import URL, create_engine
+    import configparser
 
-    CONFIG = configparser.ConfigParser()
-    # CONFIG.read(r'C:\Users\rliu4\Documents\Python\config.cfg')
-    CONFIG.read(r'/home/cnangini/db.cfg')
-    dbset = CONFIG['DBSETTINGS']
-    con = connect(**dbset)
+
+    config = configparser.ConfigParser()
+    config.read('/data/home/mgoula/plotting_gallery/bdit_plotting_gallery/dbsettings.cfg')
+    connect_url = URL.create("postgresql+psycopg2", **config['DBSETTINGS'])
+    engine = create_engine(connect_url)
+
 
 
 
@@ -69,11 +69,11 @@ Data Collection
 
 This Section grabs and formats the data.
 
-.. GENERATED FROM PYTHON SOURCE LINES 40-73
+.. GENERATED FROM PYTHON SOURCE LINES 40-78
 
-.. code-block:: default
+.. code-block:: Python
 
-    query = ''' 
+    query = '''
 
     WITH sum AS (
 
@@ -103,15 +103,84 @@ This Section grabs and formats the data.
     ORDER BY count1 ASC
     '''
 
-    district_cond = pandasql.read_sql(query, con)
+    with engine.begin() as pg_conn:
+        district_cond = pd.read_sql(query, engine)
 
     fig, ax = rick.charts.stacked_chart(district_cond, xlab = 'Trips', lab1 = '2016', lab2 = '2018', percent = True)
+    fig.tight_layout()
+    plt.show()
 
 
 
-.. image:: /auto_examples/grouped_bar/images/sphx_glr_plot_grouped_bar_rick_001.png
-    :alt: plot grouped bar rick
-    :class: sphx-glr-single-img
+
+
+.. image-sg:: /auto_examples/grouped_bar/images/sphx_glr_plot_grouped_bar_rick_001.png
+   :alt: plot grouped bar rick
+   :srcset: /auto_examples/grouped_bar/images/sphx_glr_plot_grouped_bar_rick_001.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 79-83
+
+Horizontal Grouped Bar Chart 
+----------------------------
+
+This Section uses the rewritten horizontal grouped bar chart function.
+
+.. GENERATED FROM PYTHON SOURCE LINES 83-87
+
+.. code-block:: Python
+
+    fig, ax = rick.charts.horizontal_grouped_bar_chart(district_cond.set_index('area_name'), xlab = 'Trips', legend=['2016', '2018'], percent = True)
+    fig.tight_layout()
+    plt.show()
+
+
+
+
+.. image-sg:: /auto_examples/grouped_bar/images/sphx_glr_plot_grouped_bar_rick_002.png
+   :alt: plot grouped bar rick
+   :srcset: /auto_examples/grouped_bar/images/sphx_glr_plot_grouped_bar_rick_002.png
+   :class: sphx-glr-single-img
+
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 88-92
+
+Vertical Grouped Bar Chart
+--------------------------
+
+This Section uses the new vertical grouped bar chart function with a dummy dataframe.
+
+.. GENERATED FROM PYTHON SOURCE LINES 92-105
+
+.. code-block:: Python
+
+
+    np.random.seed(42)
+    data = {
+        'Category': ['A', 'B', 'C', 'D'],
+        'Group1': np.random.randint(10, 50, 4),
+        'Group2': np.random.randint(20, 60, 4)
+    }
+    df = pd.DataFrame(data)
+    df = df.set_index('Category')
+
+    fig, ax = rick.charts.vertical_grouped_bar_chart(data=df, precision=1, xlab='Group', ylab='Category', percent=True, legend=['Group1', 'Group2'])
+    fig.tight_layout()
+    plt.show()
+
+
+
+.. image-sg:: /auto_examples/grouped_bar/images/sphx_glr_plot_grouped_bar_rick_003.png
+   :alt: plot grouped bar rick
+   :srcset: /auto_examples/grouped_bar/images/sphx_glr_plot_grouped_bar_rick_003.png
+   :class: sphx-glr-single-img
 
 
 
@@ -120,28 +189,22 @@ This Section grabs and formats the data.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.672 seconds)
+   **Total running time of the script:** (0 minutes 2.429 seconds)
 
 
 .. _sphx_glr_download_auto_examples_grouped_bar_plot_grouped_bar_rick.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: plot_grouped_bar_rick.ipynb <plot_grouped_bar_rick.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
-
-     :download:`Download Python source code: plot_grouped_bar_rick.py <plot_grouped_bar_rick.py>`
-
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: plot_grouped_bar_rick.ipynb <plot_grouped_bar_rick.ipynb>`
+      :download:`Download Python source code: plot_grouped_bar_rick.py <plot_grouped_bar_rick.py>`
 
 
 .. only:: html
