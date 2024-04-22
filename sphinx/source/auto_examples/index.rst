@@ -1,24 +1,20 @@
 :orphan:
 
-
-
-.. _sphx_glr_auto_examples:
-
 Gallery of Charts
 ==================
 
-Below is a gallery of example charts for different types of charts and maps. Some examples derive from the RICK module (source code `rick.py`) to be used straight out of the box (with some customization possible). 
+Below is a gallery of example charts for different types of charts and maps. Currently, all examples derive from the RICK module (source code `rick.py`) to be used straight out of the box (with some customization possible). 
 
-Other examples are stand-alone with the source code contained directly in the example page. 
 
 
 .. raw:: html
 
-    <div class="sphx-glr-clear"></div>
+    <div class="sphx-glr-thumbnails">
 
 
+.. raw:: html
 
-.. _sphx_glr_auto_examples_bar:
+    </div>
 
 **********
 Bar Charts
@@ -27,8 +23,12 @@ Bar Charts
 Below is a gallery of bar charts. 
 
 - RICK Bar Chart: derives from the RICK package with source code in `rick.py`.
-- activeTO Bar Chart:  developed for activeTO with source code inside the example. 
 
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
 
 
 .. raw:: html
@@ -37,27 +37,20 @@ Below is a gallery of bar charts.
 
 .. only:: html
 
- .. figure:: /auto_examples/bar/images/thumb/sphx_glr_plot_bar_rick_thumb.png
-     :alt: RICK Bar Chart
+  .. image:: /auto_examples/bar/images/thumb/sphx_glr_plot_bar_rick_thumb.png
+    :alt:
 
-     :ref:`sphx_glr_auto_examples_bar_plot_bar_rick.py`
+  :ref:`sphx_glr_auto_examples_bar_plot_bar_rick.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">RICK Bar Chart</div>
+    </div>
+
 
 .. raw:: html
 
     </div>
-
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/bar/plot_bar_rick
-.. raw:: html
-
-    <div class="sphx-glr-clear"></div>
-
-
-
-.. _sphx_glr_auto_examples_grouped_bar:
 
 ******************
 Grouped Bar Charts
@@ -65,9 +58,32 @@ Grouped Bar Charts
 
 Below is a gallery of grouped bar charts. 
 
-- RICK Grouped Bar Chart: derives from the RICK package with source code in `rick.py`.
-- activeTO Grouped Bar Chart:  developed for activeTO with source code inside the example. 
+- RICK Vertical Grouped Bar Chart: derives from the RICK package with source code in `rick.py`.
+- RICK Horizontal Grouped Bar Chart: derives from the RICK package with source code in `rick.py`.
 
+
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Example of a vertical grouped bar chart.">
+
+.. only:: html
+
+  .. image:: /auto_examples/grouped_bar/images/thumb/sphx_glr_plot_vertical_grouped_bar_rick_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_grouped_bar_plot_vertical_grouped_bar_rick.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">RICK Vertical Grouped Bar Chart</div>
+    </div>
 
 
 .. raw:: html
@@ -76,27 +92,20 @@ Below is a gallery of grouped bar charts.
 
 .. only:: html
 
- .. figure:: /auto_examples/grouped_bar/images/thumb/sphx_glr_plot_grouped_bar_rick_thumb.png
-     :alt: RICK Grouped Bar Chart
+  .. image:: /auto_examples/grouped_bar/images/thumb/sphx_glr_plot_horizontal_grouped_bar_rick_thumb.png
+    :alt:
 
-     :ref:`sphx_glr_auto_examples_grouped_bar_plot_grouped_bar_rick.py`
+  :ref:`sphx_glr_auto_examples_grouped_bar_plot_horizontal_grouped_bar_rick.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">RICK Horizontal Grouped Bar Chart</div>
+    </div>
+
 
 .. raw:: html
 
     </div>
-
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/grouped_bar/plot_grouped_bar_rick
-.. raw:: html
-
-    <div class="sphx-glr-clear"></div>
-
-
-
-.. _sphx_glr_auto_examples_line:
 
 ***********
 Line Charts
@@ -106,8 +115,13 @@ Below is a gallery of line charts.
 
 - RICK Time-of-Week Line Chart: derives from the RICK package with source code in `rick.py`.
 - RICK Line Chart: derives from the RICK package with source code in `rick.py`.
-- Mulit-line Chart: developed for activeTO with source code inside the example. 
+- Mulit-line Chart: derives from the RICK package with source code in `rick.py`.
 
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbnails">
 
 
 .. raw:: html
@@ -116,20 +130,16 @@ Below is a gallery of line charts.
 
 .. only:: html
 
- .. figure:: /auto_examples/line/images/thumb/sphx_glr_plot_tow_line_rick_thumb.png
-     :alt: RICK Time-of-Week Line Chart
+  .. image:: /auto_examples/line/images/thumb/sphx_glr_plot_tow_line_rick_thumb.png
+    :alt:
 
-     :ref:`sphx_glr_auto_examples_line_plot_tow_line_rick.py`
+  :ref:`sphx_glr_auto_examples_line_plot_tow_line_rick.py`
 
 .. raw:: html
 
+      <div class="sphx-glr-thumbnail-title">RICK Time-of-Week Line Chart</div>
     </div>
 
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/line/plot_tow_line_rick
 
 .. raw:: html
 
@@ -137,20 +147,16 @@ Below is a gallery of line charts.
 
 .. only:: html
 
- .. figure:: /auto_examples/line/images/thumb/sphx_glr_plot_line_rick_thumb.png
-     :alt: RICK Line Chart
+  .. image:: /auto_examples/line/images/thumb/sphx_glr_plot_line_rick_thumb.png
+    :alt:
 
-     :ref:`sphx_glr_auto_examples_line_plot_line_rick.py`
+  :ref:`sphx_glr_auto_examples_line_plot_line_rick.py`
 
 .. raw:: html
 
+      <div class="sphx-glr-thumbnail-title">RICK Line Chart</div>
     </div>
 
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/line/plot_line_rick
 
 .. raw:: html
 
@@ -158,27 +164,20 @@ Below is a gallery of line charts.
 
 .. only:: html
 
- .. figure:: /auto_examples/line/images/thumb/sphx_glr_plot_multiline_thumb.png
-     :alt: Multi-Line Chart
+  .. image:: /auto_examples/line/images/thumb/sphx_glr_plot_multiline_thumb.png
+    :alt:
 
-     :ref:`sphx_glr_auto_examples_line_plot_multiline.py`
+  :ref:`sphx_glr_auto_examples_line_plot_multiline.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Multi-Line Chart</div>
+    </div>
+
 
 .. raw:: html
 
     </div>
-
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/line/plot_multiline
-.. raw:: html
-
-    <div class="sphx-glr-clear"></div>
-
-
-
-.. _sphx_glr_auto_examples_map:
 
 ****
 Maps
@@ -192,14 +191,25 @@ Below is a gallery of various types of maps.
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbnails">
+
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Example chloropleth map.">
 
 .. only:: html
 
- .. figure:: /auto_examples/map/images/thumb/sphx_glr_plot_choropleth_rick_thumb.png
-     :alt: RICK Choropleth Map
+  .. image:: /auto_examples/map/images/thumb/sphx_glr_plot_choropleth_rick_thumb.png
+    :alt:
 
-     :ref:`sphx_glr_auto_examples_map_plot_choropleth_rick.py`
+  :ref:`sphx_glr_auto_examples_map_plot_choropleth_rick.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">RICK Choropleth Map</div>
+    </div>
+
 
 .. raw:: html
 
@@ -208,29 +218,26 @@ Below is a gallery of various types of maps.
 
 .. toctree::
    :hidden:
-
-   /auto_examples/map/plot_choropleth_rick
-.. raw:: html
-
-    <div class="sphx-glr-clear"></div>
+   :includehidden:
 
 
-
-.. only :: html
-
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-gallery
-
-
-  .. container:: sphx-glr-download sphx-glr-download-python
-
-    :download:`Download all examples in Python source code: auto_examples_python.zip </auto_examples/auto_examples_python.zip>`
+   /auto_examples/bar/index.rst
+   /auto_examples/grouped_bar/index.rst
+   /auto_examples/line/index.rst
+   /auto_examples/map/index.rst
 
 
+.. only:: html
 
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
+  .. container:: sphx-glr-footer sphx-glr-footer-gallery
 
-    :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </auto_examples/auto_examples_jupyter.zip>`
+    .. container:: sphx-glr-download sphx-glr-download-python
+
+      :download:`Download all examples in Python source code: auto_examples_python.zip </auto_examples/auto_examples_python.zip>`
+
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
+
+      :download:`Download all examples in Jupyter notebooks: auto_examples_jupyter.zip </auto_examples/auto_examples_jupyter.zip>`
 
 
 .. only:: html
