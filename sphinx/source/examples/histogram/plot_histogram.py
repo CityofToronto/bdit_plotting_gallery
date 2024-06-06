@@ -44,5 +44,4 @@ numbers = rng.normal(size=10_000)
 fig, ax = rick.charts.histogram_chart(numbers, ylab = 'hist', xlab = '', xmin=-3, nbin=100)
 fig.tight_layout()
 plt.show()
-plt.savefig("sphinx/source/examples/line/YZtest_histogram_chart.png")
 
