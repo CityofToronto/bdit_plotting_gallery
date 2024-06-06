@@ -623,278 +623,7 @@ class charts:
         
         return fig, ax
 
-    def multi_linechart(df_line, sett):
-        '''Creates a line chart of one or more lines.
-    
-        Number of lines to plot determined from columns in input dataframe.
-    
-    
-        '''
-        df=df_line.copy()
-    
-        # ----------------------------------------------
-        # Setup the figure
-        fig, ax =plt.subplots(1)
-        fig.set_size_inches(18, 5)
-        ax = plt.gca()
-    
-        # ----------------------------------------------
-        # Default styling params if not defined in sett
-        if 'body' in sett:
-            dflt={
-                'font-size':(12 if 'font-size' not in sett['body']
-                             else sett['body']['font-size']),
-                'font-family':('sans-serif' if 'font-family' not in sett['body']
-                             else sett['body']['font-family']),
-                'fontfamily-list':(['Libre Franklin', 'DejaVu Sans'] if 'fontfamily-list'
-                              not in sett['body']
-                              else sett['body']['fontfamily-list']),
-                'stroke':('#000000' if 'stroke' not in sett['body']
-                             else sett['body']['stroke']),
-                'stroke-width':(2 if 'stroke-width' not in sett['body']
-                             else sett['body']['stroke-width']),
-                'border':('solid' if 'border' not in sett['body']
-                             else sett['body']['border'])
-            }
-        else:
-            dflt={
-                'font-size':12, 'font-family':'sans-serif',
-                'fontfamily-list':['Libre Franklin', 'DejaVu Sans'],
-                'stroke':'#000000', 'stroke-width':2, 'border':'solid'
-            }
-    
-        mpl.rcParams['font.family'] = dflt['font-family']
-        if dflt['font-family']=='sans-serif':
-            mpl.rcParams['font.sans-serif']=dflt['fontfamily-list']
-    
-    #     mpl.rcParams.update({
-    #         'font.size': dflt['font-size'],
-    #         'font.family': dflt['font-family']
-    #     })
-        # ----------------------------------------------------------------
-        # WEIRD HACK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        # For some reason, mpl.rcParams needs to be run TWICE before it
-        # actually gets set. So just before calling the function,
-        # make sure you set it again...
-        # ----------------------------------------------------------------
-    
-        # ----------------------------------------------
-        # Define line-number-dependent params
-        num_lines=df.shape[1] - 1
-    
-        col_names=['xcol']
-        ymax_array=[]
-        for n in range(num_lines):
-            col_names.append('ycol_' + str(n))
-            ymax_array.append(df.iloc[:,n+1].max())
-    
-        df.columns=col_names
-    
-        # ----------------------------------------------
-        # title
-        if 'title' in sett:
-            if 'title_params' in sett:
-                title_size=(
-                    dflt['font-size'] if 'font-size' not in
-                    sett['title_params']
-                    else sett['title_params']['font-size'])
-                loc=('center' if 'loc' not in sett['title_params']
-                     else sett['title_params']['loc'])
-            ax.set_title(sett['title'], fontsize=title_size,  loc=loc)
-    
-        # ----------------------------------------------
-        # grid
-        if 'major_grid_on' in sett and sett['major_grid_on']==True:
-            if 'major_grid' in sett:
-                c=('gray' if 'stroke' not in sett['major_grid']
-                   else sett['major_grid']['stroke'])
-                b=('-' if 'border' not in sett['major_grid']
-                   else sett['major_grid']['border'])
-            else:
-                c='gray'
-                b='-'
-            plt.grid(b=True, which='major', color=c, linestyle=b)
-        if 'minor_grid_on' in sett and sett['minor_grid_on']==True:
-            if 'minor_grid' in sett:
-                c=('gray' if 'stroke' not in sett['minor_grid']
-                   else sett['minor_grid']['stroke'])
-                b=('-' if 'border' not in sett['minor_grid']
-                   else sett['minor_grid']['border'])
-            else:
-                c='gray'
-                b='-'
-            plt.grid(b=True, which='minor', color=c, linestyle=b)
-    
-        # ----------------------------------------------
-        # axes (both)
-        mpl.rcParams['axes.linewidth'] = 0.3
-        ticklength=2 if 'ticklength' not in sett else sett['ticklength']
-        tickwidth=1 if 'tickwidth' not in sett else sett['tickwidth']
-        ax.tick_params(width=tickwidth, length=ticklength)
-    
-        # y-axis
-        if 'yaxis' in sett:
-            ymin=(0 if 'ymin' not in sett['yaxis']
-                  else sett['yaxis']['ymin'])
-            ymax=(np.max(ymax_array)*(1 + 0.1) if 'ymax'
-                  not in sett['yaxis']
-                  else sett['yaxis']['ymax'])
-    
-            # y-axis label
-            label=('' if 'label' not in sett['yaxis']
-                   else sett['yaxis']['label'])
-            labelsize=(dflt['font-size'] if 'labelsize'
-                       not in sett['yaxis']
-                       else sett['yaxis']['labelsize'])
-            plt.ylabel(label, fontsize=labelsize)
-    
-            # Format y-axis tick labels
-            ticklabelsize=(dflt['font-size'] if 'ticklabelsize'
-                      not in sett['yaxis']
-                      else sett['yaxis']['ticklabelsize'])
-            ax.tick_params(axis='y', labelsize=ticklabelsize)
-    
-            # comma format
-            precision=('.0f' if 'precision'
-                       not in sett['yaxis']
-                       else sett['yaxis']['precision'])
-            ax.yaxis.set_major_formatter(
-                mpl.ticker.StrMethodFormatter('{x:,' + precision + '}')
-            )
-        else:
-            ymin=0
-            ymax=np.max(ymax_array)*(1 + 0.1)
-    
-        delta = (ymax - ymin)/4
-        i = 0
-        while True:
-            delta /= 10
-            i += 1
-            if delta < 10:
-                break
-        if 'yinc' in sett:
-            yinc=sett['yinc']
-        else:
-            yinc = int(round(delta+1)*pow(10,i))
-    
-        plt.ylim(top=ymax, bottom=ymin)
-    
-        # ----------------------------------------------
-        # x-axis
-        if 'xaxis' in sett:
-            # x-axis label
-            label=('' if 'label' not in sett['xaxis']
-                   else sett['xaxis']['label'])
-            labelsize=(dflt['font-size'] if 'labelsize'
-                       not in sett['xaxis']
-                       else sett['xaxis']['labelsize'])
-            plt.xlabel(label, fontsize=labelsize)
-    
-            # x-axis tick labels
-            if 'major_loc' in sett['xaxis']: # x-values are dates
-                date_form_mjr = sett['xaxis']['major_loc']['date_form']
-                ax.xaxis.set_major_formatter(date_form_mjr)
-            if 'minor_loc' in sett['xaxis']:
-                date_form_mnr = sett['xaxis']['minor_loc']['date_form']
-                ax.xaxis.set_minor_locator(date_form_mnr)
-    
-            # x-axis tick label size
-            ticklabelsize=(dflt['font-size'] if 'ticklabelsize'
-                      not in sett['xaxis']
-                      else sett['xaxis']['ticklabelsize'])
-            ax.tick_params(axis='x', labelsize=ticklabelsize,
-                           labelbottom=True)
-        else:
-            # Default x-axis tick lines
-            ax.tick_params(axis='x', labelsize=dflt['font-size'],
-                           labelbottom=True)
-    
-        # ----------------------------------------------
-        # Plot data and legend
-        if 'legend' in sett:
-            legend_loc=('upper left' if 'loc' not in sett['legend']
-                        else sett['legend']['loc'])
-            leg_array=[]
-            custom_lines=[]
-    
-        for n in range(num_lines):
-            if 'lines' in sett:
-                line_colour=(dflt['stroke'] if 'stroke' not in
-                             sett['lines'][n]
-                             else sett['lines'][n]['stroke'])
-                line_width=(dflt['stroke-width'] if 'stroke-width'
-                            not in sett['lines'][n]
-                            else sett['lines'][n]['stroke-width'])
-                border_style=(dflt['border'] if 'border-style' not in
-                              sett['lines'][n]
-                              else sett['lines'][n]['border-style'])
-            else:
-                line_colour=dflt['stroke']
-                line_width=dflt['stroke-width']
-                border_style=dflt['border']
-    
-            ax.plot(df['xcol'], df['ycol_' + str(n)], linewidth=line_width,
-                    color = line_colour, linestyle=border_style)
-    
-            # Legend
-            if 'legend' in sett:
-                leg_array.append(sett['lines'][n]['label'])
-                custom_lines.append(Line2D([0], [0],
-                                           color=line_colour,
-                                           lw=line_width,
-                                           linestyle=border_style)
-                                   )
-    
-        if 'legend' in sett:
-            ax.legend(custom_lines, leg_array, loc=legend_loc,
-                      prop={"size": dflt['font-size']},
-                      ncol=len(df.columns))
-    
-        # ----------------------------------------------
-        # Plot shaded areas
-        if 'shaded' in sett:
-            num_a=len(sett['shaded'].keys())
-    
-            for area in range(num_a):
-                idx=sett['shaded'][area]['lims']
-                facecolour=sett['shaded'][area]['fill']
-                zorder=(0 if 'zorder' not in sett['shaded'][area]
-                        else sett['shaded'][area]['zorder'])
-                alpha=(1 if 'alpha' not in sett['shaded'][area]
-                       else sett['shaded'][area]['alpha'])
-    
-                # Shaded area left and right bds
-                for i in range(len(idx)):
-                    bd1=idx[i][0]
-                    bd2=idx[i][1]
-    
-                    ax.axvspan(bd1, bd2, facecolor=facecolour,
-                               edgecolor='none', alpha=alpha,
-                               zorder=zorder)
-    
-                # Shaded area label
-                if 'label' in sett['shaded'][area]:
-                    rot=(0 if 'rotation' not in
-                         sett['shaded'][area]['label']
-                         else sett['shaded'][area]['label']['rotation'])
-                    label_colour=(dflt['stroke'] if 'colour' not in
-                                  sett['shaded'][area]['label']
-                                  else sett['shaded'][area]['label']['colour'])
-                    label_size=(dflt['font-size'] if 'font-size' not in
-                                sett['shaded'][area]['label']
-                                else sett['shaded'][area]['label']['font-size'])
-                    plt.text(
-                        sett['shaded'][area]['label']['x'], # x posn of label
-                        sett['shaded'][area]['label']['y'], # y posn of label
-                        sett['shaded'][area]['label']['text'],
-                        rotation=rot,
-                        color=label_colour,
-                        fontsize=label_size
-                    )
-    
-        return fig, ax
-
-    def multi_linechart_test(data:pd.DataFrame, ylab:str, xlab:str, **kwargs:dict) -> (plt.figure, plt.axes):
+    def multi_linechart(data:pd.DataFrame, ylab:str, xlab:str, **kwargs:dict) -> (plt.figure, plt.axes):
         '''
         Creates a line chart of one or more lines.
         Number of lines to plot determined from columns in input dataframe.
@@ -917,7 +646,21 @@ class charts:
             The axis that the plot will be located on. 
         plot_size : (int, int), optional
             The dimensions of the plot if given a custom size.
-
+        minor_x : bool, optional 
+            When set to True, a minor grid is added to the plot along x axis. 
+        minor_y : bool, optional 
+            When set to True, a minor grid is added to the plot along y axis. 
+        num_minor_x: int, optional
+            The number of minor ticks between major ticks along the x axis. 
+        num_minor_y: int, optional
+            The number of minor ticks between major ticks along the y axis. 
+        shaded_areas : dict[(str, str): (Any, Any)], optional 
+            Start and end x coordinates indicate range of shaded region
+            and must be specified.
+            Label can be specified or left as None. 
+            Colour can be specified or left as None in which case light 
+            grey is used by default.
+            
         Returns 
         --------
         fig 
@@ -946,6 +689,8 @@ class charts:
             plot_size=kwargs.get('plot_size', (6.1, 4.1)), 
             grid_x=True,
             grid_y=True,
+            grid_minor_x=kwargs.get('minor_x',False),
+            grid_minor_y=kwargs.get('minor_y',False),
             min_value=ymin,
             max_value=ymax, 
             param_axis='y'
@@ -956,13 +701,23 @@ class charts:
             df=data,
             min_value=ymin, 
             max_value=ymax, 
-            inc=yinc
+            inc=yinc,
+            minor_x=kwargs.get('minor_x',False),
+            minor_y=kwargs.get('minor_y',False),
+            num_minor_x=kwargs.get('num_minor_x',None),
+            num_minor_y=kwargs.get('num_minor_y',None)
             )
 
         set_labels(
             ax=ax,
             xlab=xlab,
             ylab=ylab
+            )
+
+        add_shaded_areas(
+            ax=ax,
+            df=data,
+            shaded_areas=kwargs.get('shaded_areas', None)
             )
 
         return fig, ax
