@@ -683,6 +683,66 @@ class charts:
             **kwargs
             )
 
+    def vertical_grouped_bar_chart(data: pd.DataFrame, **kwargs: dict) -> (plt.figure, plt.axes):
+        '''
+        Creates a vertical grouped bar chart. Number of bars in
+        each group to plot is determined from the number of
+        columns in input dataframe, while the number of groups is
+        determined by the number of rows.
+
+        Parameters
+        -----------
+
+        Required:
+        data : pd.DataFrame
+            Data for the grouped bar chart.
+
+        Optional:
+        ylab : str 
+            Label for the y axis.
+        xlab : str 
+            Label for the x axis.
+        ymax : float 
+            The max value of the y axis.
+        ymin : float  
+            The minimum value of the y axis
+            Should include this if minimum < 0.
+        yinc : float 
+            The increment of ticks on the y axis.
+        ax : plt.axes 
+            The axis that the plot will be located on.
+        plot_size : (int, int)
+            Custom plot dimensions.
+        precision : int
+            Decimal points in the annotations.
+        percent : int
+            Flag determining whether to show percentage change between
+            baseline column (assumed to be the first column) and
+            remaining columns.
+        additional_annotations : dict
+            Dictionary with keys of type (int, int) and values
+            of type (str), indicating the coordinates and
+            annotation to be added.
+        legend : list[str]
+            A list of string objects to be used for the legend.
+
+        Returns
+        --------
+        fig
+            Matplotlib fig object
+        ax
+            Matplotlib ax object
+        '''
+        return general_grouped_bar_chart(
+            data=data,
+            param_axis='y',
+            index_axis='x',
+            horizontal=False,
+            standard_plot_size=(len(data)*1.5, 6.1),
+            grid_x=False,
+            **kwargs
+            )
+
     def multi_linechart(data:pd.DataFrame, ylab:str, xlab:str, **kwargs:dict) -> (plt.figure, plt.axes):
         '''
         Creates a line chart of one or more lines.
