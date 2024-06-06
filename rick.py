@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-#!/usr/bin/env python
 """
-Version 0.9.0 
-
-
+Version 0.9.0
 """
 from psycopg2 import connect
 import psycopg2.sql as pg
@@ -12,14 +9,16 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import matplotlib.ticker as ticker
-import matplotlib.font_manager as font_manager
 import geopandas as gpd
 import os
 import shapely
 import seaborn as sns
 from shapely.geometry import Point
+import matplotlib.font_manager as font_manager
 import numpy as np
 import pandas as pd
+import copy
+import datetime
 import importlib
 
 class font:
