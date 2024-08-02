@@ -2,8 +2,8 @@
 """
 Version 0.8.0
 """
-from psycopg2 import connect
-import psycopg2.sql as pg
+from psycopg import connect
+import psycopg.sql as pg
 import pandas.io.sql as pandasql
 import matplotlib as mpl
 import matplotlib.pyplot as plt
