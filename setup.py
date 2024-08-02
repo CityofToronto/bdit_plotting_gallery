@@ -7,7 +7,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'matplotlib',
-        'psycopg2',
+        'psycopg[binary]',
         'geopandas',
         'pandas',
         'shapely',
