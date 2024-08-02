@@ -1,1 +1,1 @@
-from rick import *
+from .rick import *
