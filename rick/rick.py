@@ -120,7 +120,7 @@ class geo:
 
         SELECT 
         geom
-        FROM gis.zones_tts06
+        FROM tts.zones_tts06
         WHERE gta06 = 81
 
         '''
@@ -294,14 +294,13 @@ class charts:
         if (nbin is None):
             nbin = 10
 
-        plt.style.use('seaborn-whitegrid')
+        plt.style.use('seaborn-v0_8-whitegrid')
         fig, ax = plt.subplots(1,1, dpi=450.0)
         fig.set_size_inches(6.1, 4.2)
         ax.hist(data, bins=nbin, alpha=1.0, color=colour.purple)
         ax.set_xlabel(xlab)
         ax.set_ylabel(ylab)
         ax.set_xlim(xmin, xmax)
-        ax.get_legend().remove()
 
         return fig, ax
         
