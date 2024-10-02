@@ -446,7 +446,7 @@ class charts:
 
         ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter('{x:,.0f}'))
         plt.yticks(range(ymin,upper+int(0.1*yinc), yinc), fontsize =9, fontname = font.normal)
-
+        ax.set_xticks(range(0,180,12))
         ax.set_xticklabels(['0','12','0','12',
                                                             '0','12','0','12',
                                          '0','12','0','12','0','12'], fontname = font.normal, fontsize = 7, color = colour.light_grey)
@@ -549,7 +549,7 @@ class charts:
             data[['values1', 'values2']] = data[['values1', 'values2']].astype(int)
         for i in data['values2']:
             if i < 0.1*upper:
-                ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
+                ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'k', fontname = font.normal, fontsize=10)
             else:
                 ax.annotate(str(format(round(i,precision), ',')), xy=(i-0.015*upper, j-0.05), ha = 'right', color = 'w', fontname = font.normal, fontsize=10)
             j=j+1
@@ -571,15 +571,14 @@ class charts:
             data_yoy['percent'] = (data['values2']-data['values1'])*100/data['values1']
             j=0.15
             for index, row in data_yoy.iterrows():
-                ax.annotate('+'+str(format(int(round(row['percent'],0)), ','))+'%',
-                            xy=(max(row[['values1', 'values2']]) + 0.03*upper, j), color = 'k', fontname = font.normal, fontsize=10)
-                j=j+1
-                
+                ax.annotate(('+' if row['percent'] > 0 else '')+str(format(int(round(row['percent'],0)), ','))+'%', 
+                            xy=(max(row[['values1', 'values2']]) + (0.12 if row['values2'] < 0.1*upper else 0.03)*upper, j), color = 'k', fontname = font.normal, fontsize=10)
+                j=j+1              
 
         return fig, ax
     
     def multi_stacked_bar_chart(data, xlab, lab1, lab2, lab3, **kwargs):
-        """Creates a stacked bar chart
+        """Creates a stacked bar chart comparing 3 sets of data
         
         Parameters
         -----------
@@ -599,7 +598,6 @@ class charts:
             The minimum value of the x axis
         precision : int, optional, default is 1
             Decimal places in the annotations
-            
         xinc : int, optional
             The increment of ticks on the x axis.
         
