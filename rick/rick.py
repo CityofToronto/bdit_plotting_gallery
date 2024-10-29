@@ -55,10 +55,12 @@ class colour():
     purple_4 = '#c0abbb'
 
     colours_map = {
-        1: purple_1,
-        2: purple_2,
-        3: purple_3,
-        4: light_grey
+        1: purple,
+        2: orange,
+        3: green,
+        4: grey,
+        5: blue,
+        6: teal
     }
     def get_colour_from_index(self, index):
         return self.colours_map[index]
