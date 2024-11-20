@@ -46,6 +46,9 @@ class colour():
     cmap = 'YlOrRd'
     teal = '#23a87f' 
     blue_grey = '#1b5872'
+    wisteria = '#beaed4'
+    brown ='#a6761d'
+    vivid_pink = '#f0027f'
 
     # Purple shades
     purple_0 = '#440436'
@@ -55,10 +58,14 @@ class colour():
     purple_4 = '#c0abbb'
 
     colours_map = {
-        1: purple_1,
-        2: purple_2,
-        3: purple_3,
-        4: light_grey
+        1: purple,
+        2: orange,
+        3: grey,
+        4: green,
+        5: wisteria,
+        6: brown,
+        7: blue,
+        8: vivid_pink
     }
     def get_colour_from_index(self, index):
         return self.colours_map[index]
