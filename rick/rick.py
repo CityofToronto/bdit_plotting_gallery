@@ -59,8 +59,8 @@ class colour():
 
     colours_map = {
         1: purple,
-        2: orange,
-        3: grey,
+        2: grey,
+        3: orange,
         4: green,
         5: wisteria,
         6: brown,
