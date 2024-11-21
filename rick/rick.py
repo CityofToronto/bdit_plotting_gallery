@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Version 0.9.0
+Version 0.9.2
 """
 from psycopg import connect
 import psycopg.sql as pg
@@ -59,8 +59,8 @@ class colour():
 
     colours_map = {
         1: purple,
-        2: orange,
-        3: grey,
+        2: grey,
+        3: orange,
         4: green,
         5: wisteria,
         6: brown,
@@ -1465,7 +1465,7 @@ def horizontal_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, up
     HORIZONTAL_CUTOFF = 0.2 * upper
     ANNOTATION_OFFSET = 0.015 * upper
     PERCENT_HRZNTL_OFFSET = 0.04
-    PERCENT_VRTCL_OFFSET =  (0.15) if len(df.columns) == 2 else (-0.05) 
+    PERCENT_VRTCL_OFFSET = -0.05
 
     # Adding annotations for values of each bar 
     for k in range(len(df.columns)):
@@ -1485,7 +1485,8 @@ def horizontal_bar_annotations(df:pd.DataFrame, ax:plt.axes, bar_width:float, up
             j = bar_width*k
             for index, row in df_percent.iterrows():
                 ax.annotate(
-                    ('+' if row[f'percent{k}'] > 0 else '') + str(format(int(round(row[f'percent{k}'])), ',')) + '%', # Rounds percentage to closest integer
+                    ('+' if row[f'percent{k}'] > 0 else '') + (str(format(int(round(row[f'percent{k}'])), ',')) if precision < 1 else f"{format(round(row[f'percent{k}'],precision), f',.{precision}f')}") + '%', 
+                    # Rounds percentage to closest integer or round to whatever decimals parameter precision specified
                     xy = (row[col] + (4*PERCENT_HRZNTL_OFFSET if row[col] < HORIZONTAL_CUTOFF else PERCENT_HRZNTL_OFFSET) * upper, j + PERCENT_VRTCL_OFFSET),  # Placement of percentage annotation 
                     color = 'k',
                     fontname = font.normal,
